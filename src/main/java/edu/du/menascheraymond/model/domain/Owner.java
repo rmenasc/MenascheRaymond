@@ -38,11 +38,65 @@ public class Owner {
     }
     
     /**
+     * Builder design pattern constructor.
+     */
+    public static class Builder {
+        private String ownerID;
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+        private int numYears;
+        private Address address;
+        
+        public Builder(String ownerID, String firstName, String lastName) {
+            this.ownerID = ownerID;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        
+        public Builder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            
+            return this;
+        }
+        
+        public Builder withNumYears(int numYears) {
+            this.numYears = numYears;
+            
+            return this;
+        }
+        
+        public Builder withAddress(Address address) {
+            this.address = address;
+            
+            return this;
+        }
+        
+        public Owner build() {
+            Owner owner = new Owner();
+            owner.ownerID = this.ownerID;
+            owner.firstName = this.firstName;
+            owner.lastName = this.lastName;
+            owner.phoneNumber = this.phoneNumber;
+            owner.numYears = this.numYears;
+            owner.address = this.address;
+            
+            return owner;
+        }
+    
+    }
+    
+    /**
      * Methods below.
-     * 0 methods.
+     * 1 methods.
      */
     
-    
+    public boolean isSeniorOwner() {
+        if (numYears >20) {
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Getters below.
@@ -100,12 +154,9 @@ public class Owner {
     }
 
     /**
-     * Overrides below.
+     * Overrides methods below.
      * @return 
      */
-
-    
-
     @Override
     public String toString() {
         return "Owner{" 

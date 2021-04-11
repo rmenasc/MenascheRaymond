@@ -25,7 +25,11 @@ public class Address {
      * 1 Overloaded constructor.
      */
     public Address() {
-        
+        this.street1 = "";
+        this.street2 = "";
+        this.city = "";
+        this.state = "";
+        this.zipCode = "";
     }
     
     public Address(String street1, String street2, String city,
@@ -35,6 +39,62 @@ public class Address {
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+    }
+    
+    /**
+     * Builder design patter constructor.
+     */
+    public static class Builder {
+        private String street1;
+        private String street2;
+        private String city;
+        private String state;
+        private String zipCode;
+        
+        public Builder() {
+           
+        }
+        
+        public Builder withStreet1(String street1) {
+            this.street1 = street1;
+            
+            return this;
+        }
+        
+        public Builder withStreet2(String street2)  {
+            this.street2 = street2;
+            
+            return this;
+        }
+        
+        public Builder withCity(String city) {
+            this.city = city;
+            
+            return this;
+        }
+        
+        public Builder withState(String state) {
+            this.state = state;
+            
+            return this;
+        }
+        
+        public Builder withZip(String zipCode) {
+            this.zipCode = zipCode;
+            
+            return this;
+        }
+        
+        public Address build() {
+            Address address = new Address();
+            address.street1 = this.street1;
+            address.street2 = this.street2;
+            address.city = this.city;
+            address.state = this.state;
+            address.zipCode = this.zipCode;
+            
+            return address;
+        }
     }
 
     /**

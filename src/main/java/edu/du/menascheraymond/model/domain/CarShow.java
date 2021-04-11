@@ -23,7 +23,10 @@ public class CarShow {
      * 1 Overloaded Constructor.
      */
     public CarShow() {
-        
+        this.carShowID = "";
+        this.carShowTitle = "";
+        this.carShowDate = new Date();
+        this.isSanctioned = false;
     }
     
     public CarShow(String carShowID, String carShowTitle, Date carShowDate,
@@ -32,6 +35,48 @@ public class CarShow {
         this.carShowTitle = carShowTitle;
         this.carShowDate = carShowDate;
         this.isSanctioned = isSanctioned;
+    }
+    
+    /**
+     * Builder design pattern constructor.
+     */
+    public static class Builder {
+        private String carShowID;
+        private String carShowTitle;
+        private Date carShowDate;
+        private boolean isSanctioned;
+        
+        public Builder(String carShowID) {
+            this.carShowID = carShowID;
+        }
+        
+        public Builder withCarShowTitle(String carShowTitle) {
+            this.carShowTitle = carShowTitle;
+            
+            return this;
+        }
+        
+        public Builder withCarShowDate(Date carShowDate) {
+            this.carShowDate = carShowDate;
+            
+            return this;
+        }
+        
+        public Builder isSanctioned(boolean isSanctioned) {
+            this.isSanctioned = isSanctioned;
+            
+            return this;
+        }
+        
+        public CarShow build() {
+            CarShow carShow = new CarShow();
+            carShow.carShowID = this.carShowID;
+            carShow.carShowTitle = this.carShowTitle;
+            carShow.carShowDate = this.carShowDate;
+            carShow.isSanctioned = this.isSanctioned;
+            
+            return carShow;
+        }
     }
 
     /**
@@ -77,6 +122,28 @@ public class CarShow {
 
     public void setIsSanctioned(boolean isSanctioned) {
         this.isSanctioned = isSanctioned;
+    }
+    
+    public void setIsSancitoned(String isSanctioned) throws Exception {
+        if(isSanctioned.toUpperCase().equals("Y") || 
+                isSanctioned.toUpperCase().equals("YES")) {
+            this.isSanctioned = true;
+        } else if (isSanctioned.toUpperCase().equals("N") ||
+                isSanctioned.toUpperCase().equals("NO")) {
+            this.isSanctioned = false;
+        } else {
+            throw new Exception("Invalid input string");
+        }
+    }
+    
+    public void setIsSanctioned(int isSanctioned) throws Exception {
+        if(isSanctioned == 1) {
+            this.isSanctioned = true;
+        } else if(isSanctioned == 0) {
+            this.isSanctioned = false;
+        } else {
+            throw new Exception("Invalid input integer");
+        }
     }
 
     /**

@@ -26,7 +26,14 @@ public class Vehicle {
      * 1 Overloaded constructor.
      */
     public Vehicle() {
-        
+        this.vehicleID = "";
+        this.ownerID = "";
+        this.manufacturer = "";
+        this.modelYear = 0;
+        this.model = "";
+        this.subModel = "";
+        this.vehicleClassification = vehicleClassification.MODERN;
+        this.isInsured = false;
     }
     
     public Vehicle(String vehicleID, String ownerID, String manufacturer,
@@ -43,11 +50,115 @@ public class Vehicle {
     }
     
     /**
-     * Methods.
-     * 0 methods.
+     * Builder design pattern constructor.
      */
-
+    public static class Builder {
+        private String vehicleID;
+        private String ownerID;
+        private String manufacturer;
+        private int modelYear;
+        private String model;
+        private String subModel;
+        private VehicleClassification vehicleClassification;
+        private boolean isInsured;
+        
+        public Builder(String vehicleID, String ownerID) {
+            this.vehicleID = vehicleID;
+            this.ownerID = ownerID;
+        }
+        
+        public Builder withManufacturer(String manufacturer) {
+            this.manufacturer = manufacturer;
+            
+            return this;
+        }
+        
+        public Builder withModelYear(int modelYear) {
+            this.modelYear = modelYear;
+            
+            return this;
+        }
+        
+        public Builder withModel(String model) {
+            this.model = model;
+            
+            return this;
+        }
+        
+        public Builder withSubModel(String subModel) {
+            this.subModel = subModel;
+            
+            return this;
+        }
+        
+        public Builder withVehicleClassification(VehicleClassification vehicleClassification) {
+            this.vehicleClassification = vehicleClassification;
+            
+            return this;
+        }
+        
+        public Builder isInsured(boolean isInsured) {
+            this.isInsured = isInsured;
+            
+            return this;
+        }
+        
+        public Vehicle build() {
+            Vehicle vehicle = new Vehicle();
+            vehicle.vehicleID = this.vehicleID;
+            vehicle.ownerID = this.ownerID;
+            vehicle.manufacturer = manufacturer;
+            vehicle.modelYear = this.modelYear;
+            vehicle.model = this.model;
+            vehicle.subModel = this.subModel;
+            vehicle.vehicleClassification = this.vehicleClassification;
+            vehicle.isInsured = this.isInsured;
+            
+            return vehicle;
+        }
+    }
+    /**
+     * Methods Below.
+     * 2 methods.
+     */
     
+    /**
+     * Method that check if user provided vehicleClassification is valid.
+     * returns true if the vehicle classification meets the age requirements.
+     * @return 
+     */
+    public boolean validateVehicleClassification() {
+        if(modelYear < 1951 && vehicleClassification == VehicleClassification.ANTIQUE) {
+            return true;
+        }
+        if(modelYear < 1981 && modelYear > 1950 && 
+                vehicleClassification == VehicleClassification.CLASSIC) {
+            return true;
+        }
+        if(modelYear > 1980 && vehicleClassification == VehicleClassification.MODERN) {
+            return true;
+        }
+                
+        return false;
+    }
+
+    /**
+     * Method returns the corresponding VehicleClassification from the provided
+     * vehicle year.
+     * @param year
+     * @return 
+     */
+    public VehicleClassification findVehicleClassification(int year) {
+        if (this.modelYear < 1951) {
+            return VehicleClassification.ANTIQUE;
+        }
+        if (this.modelYear < 1981 && this.modelYear > 1950) {
+            return VehicleClassification.CLASSIC;
+        }
+        else {
+            return VehicleClassification.MODERN;
+        }
+    }
     
     /**
      * Getters below.
@@ -81,7 +192,7 @@ public class Vehicle {
         return vehicleClassification;
     }
 
-    public boolean isIsInsured() {
+    public boolean isInsured() {
         return isInsured;
     }
     
@@ -119,9 +230,31 @@ public class Vehicle {
     public void setIsInsured(boolean isInsured) {
         this.isInsured = isInsured;
     }
+    
+    public void setIsInsured(String isInsured) throws Exception {
+        if(isInsured.toUpperCase().equals("Y") ||
+                isInsured.toUpperCase().equals("YES")) {
+            this.isInsured = true;
+        } else if (isInsured.toUpperCase().equals("N") ||
+                isInsured.toUpperCase().equals("NO")) {
+            this.isInsured = false;
+        } else {
+            throw new Exception("Invaled string input");
+        }
+    }
+    
+    public void setIsInsured(int isInsured) throws Exception {
+        if(isInsured == 1) {
+            this.isInsured = true;
+        } else if(isInsured == 0) {
+            this.isInsured = false;
+        } else {
+            throw new Exception("Invalid integer input");
+        }
+    }
 
     /**
-     * Overrides below.
+     * Override methods below.
      * @return 
      */
     @Override
