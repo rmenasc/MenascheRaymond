@@ -6,9 +6,12 @@
 package edu.du.raymondmenasche;
 
 import edu.du.menascheraymond.model.domain.Address;
+import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.domain.CarShowOwner;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
+import java.time.LocalDate;
 
 /**
  *
@@ -87,5 +90,49 @@ public class MainMethod {
         vehicle3.setVehicleClassification(vehicle3.findVehicleClassification(
                 vehicle3.getModelYear()));
         System.out.println(vehicle3.toString());
+        
+        CarShow carShow1 = new CarShow("123", "The Great Car Show",
+                LocalDate.of(2021, 12, 12), true);
+        if(carShow1.isSanctioned()) {
+            System.out.println(carShow1.getCarShowTitle() + " is Sanctioned");
+        } else {
+            System.out.println(carShow1.getCarShowTitle() + " is not Sanctioned");
+        }
+        CarShow carShow2 = new CarShow.Builder("124").withCarShowTitle("Next Gen Auto")
+                .withCarShowDate(LocalDate.of(2022, 2, 15)).isSanctioned(false).build();
+        if(carShow2.isSanctioned()) {
+            System.out.println(carShow2.getCarShowTitle() + " is Sanctioned");
+        } else {
+            System.out.println(carShow2.getCarShowTitle() + " is not Sanctioned");
+        }
+        
+        try {
+            carShow2.setIsSanctioned('Y');
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(carShow2.toString());
+        
+        try {
+            carShow2.setIsSanctioned("YES");
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(carShow2.toString());
+        
+        try {
+            carShow2.setIsSanctioned(0);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(carShow2.toString());
+        
+        CarShowOwner carShowOwner1 = new CarShowOwner(carShow1.getCarShowID(),
+                owner2.getOwnerID());
+        System.out.println(carShowOwner1.toString());
+        
+        CarShowOwner carShowOwner2 = new CarShowOwner(carShow2.getCarShowID(),
+                owner1.getOwnerID());
+        System.out.println(carShowOwner2.toString());
     }
 }

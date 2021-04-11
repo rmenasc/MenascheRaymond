@@ -1,21 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * University College, University of Denver student project.
+ * Not intended for production or distribution. 
+ * Java Programming ICT4361-1.
  */
 package edu.du.menascheraymond.model.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
+ * CarShow Domain Class.
  * @author raymond
  */
 public class CarShow {
     private String carShowID;
     private String carShowTitle;
-    private Date carShowDate;
+    private LocalDate carShowDate;
     private boolean isSanctioned;
     
     /**
@@ -25,11 +25,11 @@ public class CarShow {
     public CarShow() {
         this.carShowID = "";
         this.carShowTitle = "";
-        this.carShowDate = new Date();
+        this.carShowDate = LocalDate.now();
         this.isSanctioned = false;
     }
     
-    public CarShow(String carShowID, String carShowTitle, Date carShowDate,
+    public CarShow(String carShowID, String carShowTitle, LocalDate carShowDate,
             boolean isSanctioned) {
         this.carShowID = carShowID;
         this.carShowTitle = carShowTitle;
@@ -43,7 +43,7 @@ public class CarShow {
     public static class Builder {
         private String carShowID;
         private String carShowTitle;
-        private Date carShowDate;
+        private LocalDate carShowDate;
         private boolean isSanctioned;
         
         public Builder(String carShowID) {
@@ -56,7 +56,7 @@ public class CarShow {
             return this;
         }
         
-        public Builder withCarShowDate(Date carShowDate) {
+        public Builder withCarShowDate(LocalDate carShowDate) {
             this.carShowDate = carShowDate;
             
             return this;
@@ -97,11 +97,11 @@ public class CarShow {
         return carShowTitle;
     }
 
-    public Date getCarShowDate() {
+    public LocalDate getCarShowDate() {
         return carShowDate;
     }
 
-    public boolean isIsSanctioned() {
+    public boolean isSanctioned() {
         return isSanctioned;
     }
 
@@ -116,7 +116,7 @@ public class CarShow {
         this.carShowTitle = carShowTitle;
     }
 
-    public void setCarShowDate(Date carShowDate) {
+    public void setCarShowDate(LocalDate carShowDate) {
         this.carShowDate = carShowDate;
     }
 
@@ -124,7 +124,7 @@ public class CarShow {
         this.isSanctioned = isSanctioned;
     }
     
-    public void setIsSancitoned(String isSanctioned) throws Exception {
+    public void setIsSanctioned(String isSanctioned) throws Exception {
         if(isSanctioned.toUpperCase().equals("Y") || 
                 isSanctioned.toUpperCase().equals("YES")) {
             this.isSanctioned = true;
@@ -133,6 +133,16 @@ public class CarShow {
             this.isSanctioned = false;
         } else {
             throw new Exception("Invalid input string");
+        }
+    }
+    
+    public void setIsSanctioned(char isSanctioned) throws Exception {
+        if(isSanctioned == 'y' || isSanctioned == 'Y') {
+            this.isSanctioned = true;
+        } else if(isSanctioned == 'n' || isSanctioned == 'N') {
+            this.isSanctioned = false;
+        } else {
+            throw new Exception("Invalid character input");
         }
     }
     

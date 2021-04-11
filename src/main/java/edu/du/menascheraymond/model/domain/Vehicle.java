@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * University College, University of Denver student project.
+ * Not intended for production or distribution. 
+ * Java Programming ICT4361-1.
  */
 package edu.du.menascheraymond.model.domain;
 
 import java.util.Objects;
 
 /**
- *
+ * Vehicle Domain class.
  * @author raymond
  */
 public class Vehicle {
@@ -50,7 +50,7 @@ public class Vehicle {
     }
     
     /**
-     * Builder design pattern constructor.
+     * Builder design pattern constructor class.
      */
     public static class Builder {
         private String vehicleID;
@@ -62,6 +62,11 @@ public class Vehicle {
         private VehicleClassification vehicleClassification;
         private boolean isInsured;
         
+        /**
+         * Builder constructor.
+         * @param vehicleID
+         * @param ownerID 
+         */
         public Builder(String vehicleID, String ownerID) {
             this.vehicleID = vehicleID;
             this.ownerID = ownerID;
@@ -149,10 +154,10 @@ public class Vehicle {
      * @return 
      */
     public VehicleClassification findVehicleClassification(int year) {
-        if (this.modelYear < 1951) {
+        if (year < 1951) {
             return VehicleClassification.ANTIQUE;
         }
-        if (this.modelYear < 1981 && this.modelYear > 1950) {
+        if (year < 1981 && this.modelYear > 1950) {
             return VehicleClassification.CLASSIC;
         }
         else {
@@ -239,7 +244,17 @@ public class Vehicle {
                 isInsured.toUpperCase().equals("NO")) {
             this.isInsured = false;
         } else {
-            throw new Exception("Invaled string input");
+            throw new Exception("Invalid string input");
+        }
+    }
+    
+    public void setIsInsured(char isInsured) throws Exception {
+        if(isInsured == 'y' || isInsured == 'Y') {
+            this.isInsured = true;
+        } else if(isInsured == 'n' || isInsured == 'N') {
+            this.isInsured = false;
+        } else {
+            throw new Exception("Invalid character input");
         }
     }
     
