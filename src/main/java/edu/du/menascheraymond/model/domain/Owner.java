@@ -91,8 +91,12 @@ public class Owner {
      * 1 methods.
      */
     
+    /**
+     * Check if this object is a senior.
+     * @return true if owner over 20 years.
+     */
     public boolean isSeniorOwner() {
-        if (numYears >20) {
+        if (numYears > 20) {
             return true;
         }
         return false;
