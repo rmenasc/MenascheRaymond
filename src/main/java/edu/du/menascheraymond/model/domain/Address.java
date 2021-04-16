@@ -155,8 +155,6 @@ public class Address {
      * Overrides below.
      */
     
-
-    
     @Override
     public String toString() {
         return "Address{" + "street1=" + street1 +
@@ -168,43 +166,21 @@ public class Address {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.street1);
-        hash = 29 * hash + Objects.hashCode(this.street2);
-        hash = 29 * hash + Objects.hashCode(this.city);
-        hash = 29 * hash + Objects.hashCode(this.state);
-        hash = 29 * hash + Objects.hashCode(this.zipCode);
+        int hash = Objects.hash(street1, street2, city, state, zipCode);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if(obj instanceof Address) {
+            Address a = (Address)obj;
+            if(a.getStreet1().equals(street1) && a.getStreet2().equals(street2)
+                    && a.getCity().equals(city) && a.getState().equals(state)
+                    && a.getZipCode().equals(zipCode)) {
+                return true;
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Address other = (Address) obj;
-        if (!Objects.equals(this.street1, other.street1)) {
-            return false;
-        }
-        if (!Objects.equals(this.street2, other.street2)) {
-            return false;
-        }
-        if (!Objects.equals(this.city, other.city)) {
-            return false;
-        }
-        if (!Objects.equals(this.state, other.state)) {
-            return false;
-        }
-        if (!Objects.equals(this.zipCode, other.zipCode)) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
 

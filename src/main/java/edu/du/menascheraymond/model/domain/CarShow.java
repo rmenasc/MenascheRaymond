@@ -23,10 +23,7 @@ public class CarShow {
      * 1 Overloaded Constructor.
      */
     public CarShow() {
-        this.carShowID = "";
-        this.carShowTitle = "";
-        this.carShowDate = LocalDate.now();
-        this.isSanctioned = false;
+
     }
     
     public CarShow(String carShowID, String carShowTitle, LocalDate carShowDate,
@@ -170,39 +167,22 @@ public class CarShow {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.carShowID);
-        hash = 71 * hash + Objects.hashCode(this.carShowTitle);
-        hash = 71 * hash + Objects.hashCode(this.carShowDate);
-        hash = 71 * hash + (this.isSanctioned ? 1 : 0);
+        int hash = Objects.hash(carShowID, carShowTitle, carShowDate, isSanctioned);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if(obj instanceof CarShow) {
+            CarShow c = (CarShow)obj;
+            if(c.getCarShowID().equals(carShowID) 
+                    && c.getCarShowTitle().equals(carShowTitle)
+                    && c.getCarShowDate().equals(carShowDate)
+                    && c.isSanctioned() == isSanctioned) {
+                return true;
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final CarShow other = (CarShow) obj;
-        if (this.isSanctioned != other.isSanctioned) {
-            return false;
-        }
-        if (!Objects.equals(this.carShowID, other.carShowID)) {
-            return false;
-        }
-        if (!Objects.equals(this.carShowTitle, other.carShowTitle)) {
-            return false;
-        }
-        if (!Objects.equals(this.carShowDate, other.carShowDate)) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
 }

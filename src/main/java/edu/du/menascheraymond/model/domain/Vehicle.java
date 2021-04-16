@@ -2,6 +2,8 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G. Menasche
+ * Vehicle.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -23,19 +25,22 @@ public class Vehicle {
     
     /**
      * Constructors.
-     * 1 Overloaded constructor.
      */
     public Vehicle() {
-        this.vehicleID = "";
-        this.ownerID = "";
-        this.manufacturer = "";
-        this.modelYear = 0;
-        this.model = "";
-        this.subModel = "";
-        this.vehicleClassification = vehicleClassification.MODERN;
-        this.isInsured = false;
+
     }
     
+    /**
+     * Overloaded Constructor.
+     * @param vehicleID
+     * @param ownerID
+     * @param manufacturer
+     * @param modelYear
+     * @param model
+     * @param subModel
+     * @param vehicleClassification
+     * @param isInsured 
+     */
     public Vehicle(String vehicleID, String ownerID, String manufacturer,
             int modelYear, String model, String subModel, 
             VehicleClassification vehicleClassification, boolean isInsured) {
@@ -130,7 +135,7 @@ public class Vehicle {
     /**
      * Method that check if user provided vehicleClassification is valid.
      * returns true if the vehicle classification meets the age requirements.
-     * @return 
+     * @return Returns true if the vehicle classification meets the year requirements.
      */
     public boolean validateVehicleClassification() {
         if(modelYear < 1951 && vehicleClassification == VehicleClassification.ANTIQUE) {
@@ -151,7 +156,7 @@ public class Vehicle {
      * Method returns the corresponding VehicleClassification from the provided
      * vehicle year.
      * @param year
-     * @return 
+     * @return VehicleClassification Enumerator. 
      */
     public VehicleClassification findVehicleClassification(int year) {
         if (year < 1951) {
@@ -286,55 +291,26 @@ public class Vehicle {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.vehicleID);
-        hash = 53 * hash + Objects.hashCode(this.ownerID);
-        hash = 53 * hash + Objects.hashCode(this.manufacturer);
-        hash = 53 * hash + this.modelYear;
-        hash = 53 * hash + Objects.hashCode(this.model);
-        hash = 53 * hash + Objects.hashCode(this.subModel);
-        hash = 53 * hash + Objects.hashCode(this.vehicleClassification);
-        hash = 53 * hash + (this.isInsured ? 1 : 0);
+        int hash = Objects.hash(ownerID, manufacturer, modelYear, model,
+                subModel, vehicleClassification, isInsured);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if(obj instanceof Vehicle) {
+            Vehicle v = (Vehicle)obj;
+            if(v.getVehicleID().equals(vehicleID)
+                    && v.getManufacturer().equals(manufacturer)
+                    && v.getModelYear() == modelYear
+                    && v.getModel().equals(model)
+                    && v.getSubModel().equals(subModel)
+                    && v.getVehicleClassification().equals(vehicleClassification)
+                    && v.isInsured() == isInsured) {
+                return true;
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Vehicle other = (Vehicle) obj;
-        if (this.modelYear != other.modelYear) {
-            return false;
-        }
-        if (this.isInsured != other.isInsured) {
-            return false;
-        }
-        if (!Objects.equals(this.vehicleID, other.vehicleID)) {
-            return false;
-        }
-        if (!Objects.equals(this.ownerID, other.ownerID)) {
-            return false;
-        }
-        if (!Objects.equals(this.manufacturer, other.manufacturer)) {
-            return false;
-        }
-        if (!Objects.equals(this.model, other.model)) {
-            return false;
-        }
-        if (!Objects.equals(this.subModel, other.subModel)) {
-            return false;
-        }
-        if (this.vehicleClassification != other.vehicleClassification) {
-            return false;
-        }
-        return true;
+        return false;
     }
     
     

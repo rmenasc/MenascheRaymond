@@ -20,8 +20,7 @@ public class CarShowOwner {
      * 1 Overloaded constructor.
      */
     public CarShowOwner() {
-        this.carShowID = "";
-        this.ownerID = "";
+
     }
 
     public CarShowOwner(String carShowID, String ownerID) {
@@ -71,31 +70,19 @@ public class CarShowOwner {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.carShowID);
-        hash = 67 * hash + Objects.hashCode(this.ownerID);
+        int hash = Objects.hash(carShowID, ownerID);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if(obj instanceof CarShowOwner) {
+            CarShowOwner c = (CarShowOwner)obj;
+            if(c.getCarShowID().equals(carShowID) && c.getOwnerID().equals(ownerID)) {
+                return true;
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final CarShowOwner other = (CarShowOwner) obj;
-        if (!Objects.equals(this.carShowID, other.carShowID)) {
-            return false;
-        }
-        if (!Objects.equals(this.ownerID, other.ownerID)) {
-            return false;
-        }
-        return true;
+        return false;
     }
     
     

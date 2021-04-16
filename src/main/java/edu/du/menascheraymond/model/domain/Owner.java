@@ -2,10 +2,13 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G. Menasche
+ * Owner.java
  */
 package edu.du.menascheraymond.model.domain;
 
 import java.util.Objects;
+
 
 /**
  * Owner Domain Class.
@@ -174,41 +177,24 @@ public class Owner {
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = Objects.hash(ownerID, firstName, lastName, phoneNumber, numYears,
+                address);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if(obj instanceof Owner) {
+            Owner o = (Owner)obj;
+            if(o.getOwnerID().equals(ownerID) && o.getFirstName().equals(firstName)
+                    && o.getLastName().equals(lastName)
+                    && o.getPhoneNumber().equals(phoneNumber)
+                    && o.getNumYears() == numYears
+                    && o.getAddress().equals(address)) {
+                return true;
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Owner other = (Owner) obj;
-        if (this.numYears != other.numYears) {
-            return false;
-        }
-        if (!Objects.equals(this.ownerID, other.ownerID)) {
-            return false;
-        }
-        if (!Objects.equals(this.firstName, other.firstName)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastName, other.lastName)) {
-            return false;
-        }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this.address, other.address)) {
-            return false;
-        }
-        return true;
+        return false;
     }
     
 }
