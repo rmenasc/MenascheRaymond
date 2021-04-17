@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * ArrayList implementation for Vehicle.
  * @author raymond
  */
 public class VehicleArrayListImpl {
@@ -84,7 +84,7 @@ public class VehicleArrayListImpl {
     /**
      * Checks if Vehicle object exist in ArrayList
      * @param ID
-     * @return true if Vehicle ID match Vehicle object.
+     * @return true if Vehicle ID match a Vehicle object's id.
      */
     public boolean isPresent(String ID) {
         for(Vehicle v: vehicles) {
@@ -98,7 +98,7 @@ public class VehicleArrayListImpl {
     /**
      * Checks if Vehicle object exist in ArrayList
      * @param vehicle
-     * @return Vehicle object
+     * @return Returns true if Vehicle Object exists in ArrayList.
      */
     public boolean isPresent(Vehicle vehicle) {
         for(Vehicle v: vehicles) {
