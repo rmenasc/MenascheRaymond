@@ -3,7 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
- * CarShowOwnerArrayListImpl.java
+ * File: CarShowOwnerArrayListImpl.java
  */
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Array List implementation for CarShowOwner.
+ * ArrayList implementation for CarShowOwner.
  * @author raymond
  */
 public class CarShowOwnerArrayListImpl {
@@ -52,13 +52,13 @@ public class CarShowOwnerArrayListImpl {
     
     /**
      * Checks if CarShowOwner object is present in ArrayList.
-     * @param ownerID
-     * @param carShowID
+     * @param ownerId
+     * @param carShowId
      * @return Returns true if CarShowOwner object exist in ArrayList.
      */
-    public boolean isPresent(String ownerID, String carShowID) {
+    public boolean isPresent(String ownerId, String carShowId) {
         for(CarShowOwner o: carShowOwners) {
-            if(o.getOwnerID().equals(ownerID) && o.getCarShowID().equals(carShowID)) {
+            if(o.getOwnerId().equals(ownerId) && o.getCarShowId().equals(carShowId)) {
                 return true;
             }
         }

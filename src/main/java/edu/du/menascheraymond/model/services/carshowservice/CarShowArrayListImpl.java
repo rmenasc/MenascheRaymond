@@ -3,7 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
- * CarShowArrayListImpl.java
+ * File: CarShowArrayListImpl.java
  */
 package edu.du.menascheraymond.model.services.carshowservice;
 
@@ -58,7 +58,7 @@ public class CarShowArrayListImpl {
     public boolean remove(String carShowID) {
         int inx = 0;
         for(CarShow c: carShows) {
-            if(c.getCarShowID().equals(carShowID)) {
+            if(c.getCarShowId().equals(carShowID)) {
                 carShows.remove(inx);
                 return true;
             }
@@ -74,7 +74,7 @@ public class CarShowArrayListImpl {
      */
     public CarShow find(String ID) {
         for(CarShow c: carShows) {
-            if(c.getCarShowID().equals(ID)) {
+            if(c.getCarShowId().equals(ID)) {
                 return c;
             }
         }
@@ -88,7 +88,7 @@ public class CarShowArrayListImpl {
      */
     public boolean isPresent(String ID) {
         for(CarShow c: carShows) {
-            if(c.getCarShowID().equals(ID)) {
+            if(c.getCarShowId().equals(ID)) {
                 return true;
             }
         }

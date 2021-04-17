@@ -2,6 +2,8 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G Menasche
+ * File: VehicleTest.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -10,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- *
+ * Tests for Vehicle class.
  * @author raymond
  */
 public class VehicleTest {

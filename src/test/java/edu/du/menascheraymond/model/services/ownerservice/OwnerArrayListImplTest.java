@@ -3,6 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
+ * File: OwnerArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.ownerservice;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
- *
+ * Unit Tests for OwnerArrayListImpl class.
  * @author raymond
  */
 public class OwnerArrayListImplTest {
@@ -37,6 +38,14 @@ public class OwnerArrayListImplTest {
         expResult = false;
         result = instance.add(owner1);
         assertEquals(expResult, result);
+        expResult = true;
+        result = instance.add(owner2);
+        assertEquals(expResult, result);
+        result = instance.add(owner3);
+        assertEquals(expResult, result);
+        expResult = false;
+        result = instance.add(owner2);
+        assertEquals(expResult, result);
     }
     
     /**
@@ -48,14 +57,78 @@ public class OwnerArrayListImplTest {
         boolean expResult = false;
         boolean result = instance.remove(owner1);
         assertEquals(expResult, result);
+        result = instance.remove("1234");
+        assertEquals(expResult, result);
         instance.add(owner1);
         instance.add(owner2);
         instance.add(owner3);
         expResult = true;
         result = instance.remove(owner2);
         assertEquals(expResult, result);
+        instance.add(owner2);
+        result = instance.remove("5423");
+        assertEquals(expResult, result);
         expResult = false;
-        result = instance.remove(owner2);
+        result = instance.remove(owner3);
+        assertEquals(expResult, result);
+        result = instance.remove("5423");
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test find method for OwnerArrayListImpl class.
+     */
+    @Test
+    public void testFind() {
+        OwnerArrayListImpl instance = new OwnerArrayListImpl();
+        Owner expResult = null;
+        Owner result = instance.find("1234");
+        assertEquals(expResult, result);
+        instance.add(owner1);
+        Owner expResult2 = owner1;
+        Owner result2 = instance.find("1234");
+        assertEquals(expResult2, result2);
+        instance.add(owner2);
+        instance.add(owner3);
+        Owner expResult3 = owner2;
+        Owner result3 = instance.find("1432");
+        assertEquals(expResult3, result3);
+    }
+    
+    /**
+     * Test isPresent method for OwnerArrayListImpl class.
+     */
+    @Test
+    public void testIsPresent() {
+        OwnerArrayListImpl instance = new OwnerArrayListImpl();
+        //test with no items in array.
+        boolean expResult = false;
+        boolean result = instance.isPresent(owner1);
+        assertEquals(expResult, result);
+        result = instance.isPresent("1234");
+        assertEquals(expResult, result);
+        //test with only one item in array
+        instance.add(owner1);
+        expResult = true;
+        result = instance.isPresent(owner1);
+        assertEquals(expResult, result);
+        result = instance.isPresent("1234");
+        assertEquals(expResult, result);
+        expResult = false;
+        result = instance.isPresent(owner2);
+        assertEquals(expResult, result);
+        result = instance.isPresent("5423");
+        assertEquals(expResult, result);
+        //test with all items in array
+        instance.add(owner2);
+        instance.add(owner3);
+        expResult = true;
+        result = instance.isPresent(owner2);
+        assertEquals(expResult, result);
+        result = instance.isPresent("5423");
+        assertEquals(expResult, result);
+        expResult = false;
+        result = instance.isPresent("7777");
         assertEquals(expResult, result);
     }
 }

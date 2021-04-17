@@ -2,9 +2,12 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G Menasche
+ * File: Address.java
  */
 package edu.du.menascheraymond.model.domain;
 
+import java.security.InvalidParameterException;
 import java.util.Objects;
 
 /**
@@ -13,25 +16,32 @@ import java.util.Objects;
  */
 public class Address {
     
-    private String street1;
-    private String street2;
-    private String city;
-    private String state;
-    private String zipCode;
+    private String street1; // required
+    private String street2; // optional
+    private String city;    // required
+    private String state;   // required
+    private String zipCode; // required
     
     
     /**
-     * Constructors below.
-     * 1 Overloaded constructor.
+     * Constructor.
      */
     public Address() {
-        this.street1 = "";
-        this.street2 = "";
-        this.city = "";
-        this.state = "";
-        this.zipCode = "";
+        street1 = "";
+        street2 = "";
+        city = "";
+        state = "";
+        zipCode = "";
     }
     
+    /**
+     * Overloaded Constructor.
+     * @param street1
+     * @param street2
+     * @param city
+     * @param state
+     * @param zipCode 
+     */
     public Address(String street1, String street2, String city,
             String state, String zipCode) {
         this.street1 = street1;
@@ -51,6 +61,11 @@ public class Address {
         private String state;
         private String zipCode;
         
+        /**
+         * Builder method for Address class.
+         * Requires: street1, city, state, zipCode.
+         * Optional: street2.
+         */
         public Builder() {
            
         }
@@ -87,11 +102,39 @@ public class Address {
         
         public Address build() {
             Address address = new Address();
-            address.street1 = this.street1;
-            address.street2 = this.street2;
-            address.city = this.city;
-            address.state = this.state;
-            address.zipCode = this.zipCode;
+            if(this.street1 == null) {
+                throw new InvalidParameterException
+                        ("street1 attribute must be assigned a value but it is "
+                        + this.street1);
+            } else {
+                address.street1 = this.street1;
+            }
+            if (this.street2 == null) {
+                address.street2 = "";
+            } else {
+                address.street2 = this.street2;
+            }
+            if(this.city == null) {
+                throw new InvalidParameterException
+                        ("city attribute must be assigned a value, but it is "
+                        + this.city);
+            } else {
+                address.city = this.city;
+            }
+            if(this.state == null) {
+                throw new InvalidParameterException
+                        ("state attribute must be assigned a value, but it is "
+                        + this.state);
+            } else {
+                address.state = this.state;
+            }
+            if(this.zipCode == null) {
+                throw new InvalidParameterException
+                        ("zipCode attribute must be assigned a value, but it is "
+                        + this.zipCode);
+            } else {
+                address.zipCode = this.zipCode;
+            }
             
             return address;
         }

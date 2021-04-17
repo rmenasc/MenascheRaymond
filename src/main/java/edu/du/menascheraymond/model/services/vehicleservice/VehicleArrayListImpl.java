@@ -3,7 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
- * VehicleArrayListImpl.java
+ * File: VehicleArrayListImpl.java
  */
 package edu.du.menascheraymond.model.services.vehicleservice;
 
@@ -58,7 +58,7 @@ public class VehicleArrayListImpl {
     public boolean remove(String vehicleID) {
         int inx = 0;
         for(Vehicle v: vehicles) {
-            if(v.getVehicleID().equals(vehicleID)) {
+            if(v.getVehicleId().equals(vehicleID)) {
                 vehicles.remove(inx);
                 return true;
             }
@@ -74,7 +74,7 @@ public class VehicleArrayListImpl {
      */
     public Vehicle find(String ID) {
         for(Vehicle v: vehicles) {
-            if(v.getVehicleID().equals(ID)) {
+            if(v.getVehicleId().equals(ID)) {
                 return v;
             }
         }
@@ -88,7 +88,7 @@ public class VehicleArrayListImpl {
      */
     public boolean isPresent(String ID) {
         for(Vehicle v: vehicles) {
-            if(v.getVehicleID().equals(ID)) {
+            if(v.getVehicleId().equals(ID)) {
                 return true;
             }
         }

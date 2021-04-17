@@ -2,6 +2,8 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G Menasche
+ * File: CarShowOwner.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -12,20 +14,25 @@ import java.util.Objects;
  * @author raymond
  */
 public class CarShowOwner {
-    private String carShowID;
-    private String ownerID;
+    private String carShowId;
+    private String ownerId;
 
     /**
-     * Constructors Below.
-     * 1 Overloaded constructor.
+     * Constructor.
      */
     public CarShowOwner() {
-
+        carShowId = "";
+        ownerId = "";
     }
 
-    public CarShowOwner(String carShowID, String ownerID) {
-        this.carShowID = carShowID;
-        this.ownerID = ownerID;
+    /**
+     * Overloaded Constructor.
+     * @param carShowId
+     * @param ownerId 
+     */
+    public CarShowOwner(String carShowId, String ownerId) {
+        this.carShowId = carShowId;
+        this.ownerId = ownerId;
     }
 
     /**
@@ -38,23 +45,23 @@ public class CarShowOwner {
      * Getters Below.
      * @return 
      */
-    public String getCarShowID() {
-        return carShowID;
+    public String getCarShowId() {
+        return carShowId;
     }
 
-    public String getOwnerID() {
-        return ownerID;
+    public String getOwnerId() {
+        return ownerId;
     }
 
     /**
      * Setters Below.
      */
-    public void setCarShowID(String carShowID) {
-        this.carShowID = carShowID;
+    public void setCarShowId(String carShowId) {
+        this.carShowId = carShowId;
     }
 
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     
@@ -62,15 +69,16 @@ public class CarShowOwner {
      * Override methods Below.
      * @return 
      */
+    
     @Override
     public String toString() {
-        return "CarShowOwner{" + "carShowID=" + carShowID +
-                ", ownerID=" + ownerID + '}';
+        return "CarShowOwner{" + "carShowId=" + carShowId +
+                ", ownerId=" + ownerId + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(carShowID, ownerID);
+        int hash = Objects.hash(carShowId, ownerId);
         return hash;
     }
 
@@ -78,7 +86,7 @@ public class CarShowOwner {
     public boolean equals(Object obj) {
         if(obj instanceof CarShowOwner) {
             CarShowOwner c = (CarShowOwner)obj;
-            if(c.getCarShowID().equals(carShowID) && c.getOwnerID().equals(ownerID)) {
+            if(c.getCarShowId().equals(carShowId) && c.getOwnerId().equals(ownerId)) {
                 return true;
             }
         }

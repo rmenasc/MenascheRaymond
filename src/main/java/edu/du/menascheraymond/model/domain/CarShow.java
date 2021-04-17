@@ -2,6 +2,8 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G Menasche
+ * File: CarShow.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -13,22 +15,31 @@ import java.util.Objects;
  * @author raymond
  */
 public class CarShow {
-    private String carShowID;
-    private String carShowTitle;
-    private LocalDate carShowDate;
-    private boolean isSanctioned;
+    private String carShowId;     // required
+    private String carShowTitle;  // optional
+    private LocalDate carShowDate;// required - default date of creation
+    private boolean isSanctioned; // required - default false
     
     /**
-     * Constructors below.
-     * 1 Overloaded Constructor.
+     * Constructor.
      */
     public CarShow() {
-
+        carShowId = "";
+        carShowTitle = "";
+        carShowDate = LocalDate.now();
+        isSanctioned = false;
     }
     
-    public CarShow(String carShowID, String carShowTitle, LocalDate carShowDate,
+    /**
+     * Overloaded Constructor.
+     * @param carShowId
+     * @param carShowTitle
+     * @param carShowDate
+     * @param isSanctioned 
+     */
+    public CarShow(String carShowId, String carShowTitle, LocalDate carShowDate,
             boolean isSanctioned) {
-        this.carShowID = carShowID;
+        this.carShowId = carShowId;
         this.carShowTitle = carShowTitle;
         this.carShowDate = carShowDate;
         this.isSanctioned = isSanctioned;
@@ -38,13 +49,19 @@ public class CarShow {
      * Builder design pattern constructor.
      */
     public static class Builder {
-        private String carShowID;
+        private String carShowId;
         private String carShowTitle;
         private LocalDate carShowDate;
         private boolean isSanctioned;
         
-        public Builder(String carShowID) {
-            this.carShowID = carShowID;
+        /**
+         * Builder method for CarShow class.
+         * Requires: carShowId.
+         * Optional: carShowTitle, carShowDate, isSanctioned.
+         * @param carShowId 
+         */
+        public Builder(String carShowId) {
+            this.carShowId = carShowId;
         }
         
         public Builder withCarShowTitle(String carShowTitle) {
@@ -67,9 +84,13 @@ public class CarShow {
         
         public CarShow build() {
             CarShow carShow = new CarShow();
-            carShow.carShowID = this.carShowID;
+            carShow.carShowId = this.carShowId;
             carShow.carShowTitle = this.carShowTitle;
-            carShow.carShowDate = this.carShowDate;
+            if (this.carShowDate == null) {
+                carShow.carShowDate = LocalDate.now();
+            } else {
+                carShow.carShowDate = this.carShowDate;
+            }
             carShow.isSanctioned = this.isSanctioned;
             
             return carShow;
@@ -86,8 +107,8 @@ public class CarShow {
     /**
      * Getters Below.
      */
-    public String getCarShowID() {
-        return carShowID;
+    public String getCarShowId() {
+        return carShowId;
     }
 
     public String getCarShowTitle() {
@@ -105,8 +126,8 @@ public class CarShow {
     /**
      * Setters Below.
      */
-    public void setCarShowID(String carShowID) {
-        this.carShowID = carShowID;
+    public void setCarShowId(String carShowId) {
+        this.carShowId = carShowId;
     }
 
     public void setCarShowTitle(String carShowTitle) {
@@ -121,7 +142,7 @@ public class CarShow {
         this.isSanctioned = isSanctioned;
     }
     
-    public void setIsSanctioned(String isSanctioned) throws Exception {
+    public void setIsSanctioned(String isSanctioned) {
         if(isSanctioned.toUpperCase().equals("Y") || 
                 isSanctioned.toUpperCase().equals("YES")) {
             this.isSanctioned = true;
@@ -129,27 +150,27 @@ public class CarShow {
                 isSanctioned.toUpperCase().equals("NO")) {
             this.isSanctioned = false;
         } else {
-            throw new Exception("Invalid input string");
+            throw new IllegalArgumentException("Invalid input string");
         }
     }
     
-    public void setIsSanctioned(char isSanctioned) throws Exception {
+    public void setIsSanctioned(char isSanctioned) {
         if(isSanctioned == 'y' || isSanctioned == 'Y') {
             this.isSanctioned = true;
         } else if(isSanctioned == 'n' || isSanctioned == 'N') {
             this.isSanctioned = false;
         } else {
-            throw new Exception("Invalid character input");
+            throw new IllegalArgumentException("Invalid character input");
         }
     }
     
-    public void setIsSanctioned(int isSanctioned) throws Exception {
+    public void setIsSanctioned(int isSanctioned) {
         if(isSanctioned == 1) {
             this.isSanctioned = true;
         } else if(isSanctioned == 0) {
             this.isSanctioned = false;
         } else {
-            throw new Exception("Invalid input integer");
+            throw new IllegalArgumentException("Invalid input integer");
         }
     }
 
@@ -159,7 +180,7 @@ public class CarShow {
      */
     @Override
     public String toString() {
-        return "CarShow{" + "carShowID=" + carShowID +
+        return "CarShow{" + "carShowID=" + carShowId +
                 ", carShowTitle=" + carShowTitle +
                 ", carShowDate=" + carShowDate +
                 ", isSanctioned=" + isSanctioned + '}';
@@ -167,7 +188,7 @@ public class CarShow {
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(carShowID, carShowTitle, carShowDate, isSanctioned);
+        int hash = Objects.hash(carShowId, carShowTitle, carShowDate, isSanctioned);
         return hash;
     }
 
@@ -175,7 +196,7 @@ public class CarShow {
     public boolean equals(Object obj) {
         if(obj instanceof CarShow) {
             CarShow c = (CarShow)obj;
-            if(c.getCarShowID().equals(carShowID) 
+            if(c.getCarShowId().equals(carShowId) 
                     && c.getCarShowTitle().equals(carShowTitle)
                     && c.getCarShowDate().equals(carShowDate)
                     && c.isSanctioned() == isSanctioned) {

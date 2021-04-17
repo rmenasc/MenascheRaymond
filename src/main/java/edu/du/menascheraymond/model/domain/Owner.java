@@ -3,7 +3,7 @@
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
  * Author: Raymond G. Menasche
- * Owner.java
+ * File: Owner.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -15,24 +15,36 @@ import java.util.Objects;
  * @author raymond
  */
 public class Owner {
-    private String ownerID;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private int numYears;
-    private Address address;
+    private String ownerId;     // required - default ""
+    private String firstName;   // required - default EMPTY
+    private String lastName;    // required - default EMPTY
+    private String phoneNumber; // optional - default EMPTY
+    private int numYears;       // optional - default 0
+    private Address address;    // optional - default Address()
     
     /**
-     * Constructors.
-     * 1 Overloaded constructors.
+     * Constructor.
      */
     public Owner() {
-        
+        ownerId = "";
+        firstName = "EMPTY";
+        lastName = "EMPTY";
+        phoneNumber = "EMPTY";
+        address = new Address();
     }
     
-    public Owner(String ownerID, String firstName, String lastName,
+    /**
+     * Overloaded Constructor.
+     * @param ownerId
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @param numYears
+     * @param address 
+     */
+    public Owner(String ownerId, String firstName, String lastName,
             String phoneNumber, int numYears, Address address) {
-        this.ownerID = ownerID;
+        this.ownerId = ownerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -44,15 +56,23 @@ public class Owner {
      * Builder design pattern constructor.
      */
     public static class Builder {
-        private String ownerID;
+        private String ownerId;
         private String firstName;
         private String lastName;
         private String phoneNumber;
         private int numYears;
         private Address address;
         
-        public Builder(String ownerID, String firstName, String lastName) {
-            this.ownerID = ownerID;
+        /**
+         * Builder method for Owner class.
+         * Requires: ownerId, firstName, lastName.
+         * Optional: phoneNumber, numYears, address.
+         * @param ownerId
+         * @param firstName
+         * @param lastName 
+         */
+        public Builder(String ownerId, String firstName, String lastName) {
+            this.ownerId = ownerId;
             this.firstName = firstName;
             this.lastName = lastName;
         }
@@ -77,12 +97,20 @@ public class Owner {
         
         public Owner build() {
             Owner owner = new Owner();
-            owner.ownerID = this.ownerID;
+            owner.ownerId = this.ownerId;
             owner.firstName = this.firstName;
             owner.lastName = this.lastName;
-            owner.phoneNumber = this.phoneNumber;
+            if (this.phoneNumber == null) {
+                owner.phoneNumber = "EMPTY";
+            } else {
+                owner.phoneNumber = this.phoneNumber;
+            }
             owner.numYears = this.numYears;
-            owner.address = this.address;
+            if (this.address == null) {
+                owner.address = new Address();
+            } else {
+                owner.address = this.address;
+            }
             
             return owner;
         }
@@ -109,8 +137,8 @@ public class Owner {
      * Getters below.
      * @return 
      */
-    public String getOwnerID() {
-        return ownerID;
+    public String getOwnerId() {
+        return ownerId;
     }
 
     public String getFirstName() {
@@ -136,8 +164,8 @@ public class Owner {
     /**
      * Setters below.
      */
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
+    public void setOwnerID(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public void setFirstName(String firstName) {
@@ -167,7 +195,7 @@ public class Owner {
     @Override
     public String toString() {
         return "Owner{" 
-                + "ownerID=" + ownerID 
+                + "ownerID=" + ownerId 
                 + ", firstName=" + firstName 
                 + ", lastName=" + lastName 
                 + ", phoneNumber=" + phoneNumber 
@@ -177,7 +205,7 @@ public class Owner {
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(ownerID, firstName, lastName, phoneNumber, numYears,
+        int hash = Objects.hash(ownerId, firstName, lastName, phoneNumber, numYears,
                 address);
         return hash;
     }
@@ -186,7 +214,7 @@ public class Owner {
     public boolean equals(Object obj) {
         if(obj instanceof Owner) {
             Owner o = (Owner)obj;
-            if(o.getOwnerID().equals(ownerID) && o.getFirstName().equals(firstName)
+            if(o.getOwnerId().equals(ownerId) && o.getFirstName().equals(firstName)
                     && o.getLastName().equals(lastName)
                     && o.getPhoneNumber().equals(phoneNumber)
                     && o.getNumYears() == numYears

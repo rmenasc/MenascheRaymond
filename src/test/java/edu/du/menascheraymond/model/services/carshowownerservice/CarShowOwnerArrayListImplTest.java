@@ -3,6 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
+ * File: CarShowOwnerArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
- *
+ * Tests for CarShowOwnerArrayListImpl class.
  * @author raymond
  */
 public class CarShowOwnerArrayListImplTest {
@@ -63,13 +64,13 @@ public class CarShowOwnerArrayListImplTest {
         boolean expResult = false;
         boolean result = instance.isPresent(carShowOwner1);
         assertEquals(expResult, result);
-        result = instance.isPresent("0123", "42258");
+        result = instance.isPresent("42258", "0123");
         assertEquals(expResult, result);
         expResult = true;
         instance.add(carShowOwner1);
         result = instance.isPresent(carShowOwner1);
         assertEquals(expResult, result);
-        result = instance.isPresent("0123", "42258");
+        result = instance.isPresent("42258", "0123");
         assertEquals(expResult, result);
     }
 }

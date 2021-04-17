@@ -3,7 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
- * OwnerArrayListImpl.java
+ * File: OwnerArrayListImpl.java
  */
 package edu.du.menascheraymond.model.services.ownerservice;
 
@@ -58,7 +58,7 @@ public class OwnerArrayListImpl {
     public boolean remove(String ownerID) {
         int inx = 0;
         for(Owner o: owners) {
-            if(o.getOwnerID().equals(ownerID)) {
+            if(o.getOwnerId().equals(ownerID)) {
                 owners.remove(inx);
                 return true;
             }
@@ -74,7 +74,7 @@ public class OwnerArrayListImpl {
      */
     public Owner find(String ID) {
         for(Owner o: owners) {
-            if(o.getOwnerID().equals(ID)) {
+            if(o.getOwnerId().equals(ID)) {
                 return o;
             }
         }
@@ -88,7 +88,7 @@ public class OwnerArrayListImpl {
      */
     public boolean isPresent(String ID) {
         for(Owner o: owners) {
-            if(o.getOwnerID().equals(ID)) {
+            if(o.getOwnerId().equals(ID)) {
                 return true;
             }
         }

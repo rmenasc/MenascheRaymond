@@ -3,7 +3,7 @@
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
  * Author: Raymond G. Menasche
- * Vehicle.java
+ * File: Vehicle.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -14,26 +14,32 @@ import java.util.Objects;
  * @author raymond
  */
 public class Vehicle {
-    private String vehicleID;
-    private String ownerID;
-    private String manufacturer;
-    private int modelYear;
-    private String model;
-    private String subModel;
-    private VehicleClassification vehicleClassification;
-    private boolean isInsured;
+    private String vehicleId;                           //required - default ""
+    private String ownerId;                             //required - default ""
+    private String manufacturer;                        //optional - dafault EMPTY
+    private int modelYear;                              //optional - default 0
+    private String model;                               //optional - default EMPTY
+    private String subModel;                            //optional - default EMPTY
+    private VehicleClassification vehicleClassification;//optional - default .ANTIQUE
+    private boolean isInsured;                          //optional - default false
     
     /**
      * Constructors.
      */
     public Vehicle() {
-
+        vehicleId = "";
+        ownerId = "";
+        manufacturer = "EMPTY";
+        modelYear = 0;
+        model = "EMPTY";
+        subModel = "EMPTY";
+        vehicleClassification = VehicleClassification.ANTIQUE;
     }
     
     /**
      * Overloaded Constructor.
-     * @param vehicleID
-     * @param ownerID
+     * @param vehicleId
+     * @param ownerId
      * @param manufacturer
      * @param modelYear
      * @param model
@@ -41,11 +47,11 @@ public class Vehicle {
      * @param vehicleClassification
      * @param isInsured 
      */
-    public Vehicle(String vehicleID, String ownerID, String manufacturer,
+    public Vehicle(String vehicleId, String ownerId, String manufacturer,
             int modelYear, String model, String subModel, 
             VehicleClassification vehicleClassification, boolean isInsured) {
-        this.vehicleID = vehicleID;
-        this.ownerID = ownerID;
+        this.vehicleId = vehicleId;
+        this.ownerId = ownerId;
         this.manufacturer = manufacturer;
         this.modelYear = modelYear;
         this.model = model;
@@ -58,8 +64,8 @@ public class Vehicle {
      * Builder design pattern constructor class.
      */
     public static class Builder {
-        private String vehicleID;
-        private String ownerID;
+        private String vehicleId;
+        private String ownerId;
         private String manufacturer;
         private int modelYear;
         private String model;
@@ -69,12 +75,15 @@ public class Vehicle {
         
         /**
          * Builder constructor.
-         * @param vehicleID
-         * @param ownerID 
+         * Requires: vehicleId, ownerId.
+         * Optional: manufacturer, modelYear, model, subModel, vehicleClassification,
+         * isInsured.
+         * @param vehicleId
+         * @param ownerId 
          */
-        public Builder(String vehicleID, String ownerID) {
-            this.vehicleID = vehicleID;
-            this.ownerID = ownerID;
+        public Builder(String vehicleId, String ownerId) {
+            this.vehicleId = vehicleId;
+            this.ownerId = ownerId;
         }
         
         public Builder withManufacturer(String manufacturer) {
@@ -115,13 +124,30 @@ public class Vehicle {
         
         public Vehicle build() {
             Vehicle vehicle = new Vehicle();
-            vehicle.vehicleID = this.vehicleID;
-            vehicle.ownerID = this.ownerID;
-            vehicle.manufacturer = manufacturer;
+            vehicle.vehicleId = this.vehicleId;
+            vehicle.ownerId = this.ownerId;
+            if (this.manufacturer == null) {
+                vehicle.manufacturer = "EMPTY";
+            } else {
+                vehicle.manufacturer = manufacturer;
+            }
             vehicle.modelYear = this.modelYear;
-            vehicle.model = this.model;
-            vehicle.subModel = this.subModel;
-            vehicle.vehicleClassification = this.vehicleClassification;
+            if (this.model == null) {
+                vehicle.model = "EMPTY";
+            } else {
+                vehicle.model = this.model;
+            }
+            if (this.subModel == null) {
+                vehicle.subModel = "EMPTY";
+            } else {
+                vehicle.subModel = this.subModel;
+            }
+            if (this.vehicleClassification == null) {
+                vehicle.vehicleClassification = 
+                        VehicleClassification.ANTIQUE;
+            } else {
+                vehicle.vehicleClassification = this.vehicleClassification;
+            }
             vehicle.isInsured = this.isInsured;
             
             return vehicle;
@@ -174,12 +200,12 @@ public class Vehicle {
      * Getters below.
      * @return 
      */
-    public String getVehicleID() {
-        return vehicleID;
+    public String getVehicleId() {
+        return vehicleId;
     }
 
-    public String getOwnerID() {
-        return ownerID;
+    public String getOwnerId() {
+        return ownerId;
     }
 
     public String getManufacturer() {
@@ -209,12 +235,12 @@ public class Vehicle {
     /**
      * Setters below.
      */
-    public void setVehicleID(String vehicleID) {
-        this.vehicleID = vehicleID;
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public void setManufacturer(String manufacturer) {
@@ -279,8 +305,8 @@ public class Vehicle {
      */
     @Override
     public String toString() {
-        return "Vehicle{" + "vehicleID=" + vehicleID +
-                ", ownerID=" + ownerID +
+        return "Vehicle{" + "vehicleID=" + vehicleId +
+                ", ownerID=" + ownerId +
                 ", manufacturer=" + manufacturer +
                 ", modelYear=" + modelYear +
                 ", model=" + model +
@@ -291,7 +317,7 @@ public class Vehicle {
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(ownerID, manufacturer, modelYear, model,
+        int hash = Objects.hash(vehicleId, ownerId, manufacturer, modelYear, model,
                 subModel, vehicleClassification, isInsured);
         return hash;
     }
@@ -300,7 +326,8 @@ public class Vehicle {
     public boolean equals(Object obj) {
         if(obj instanceof Vehicle) {
             Vehicle v = (Vehicle)obj;
-            if(v.getVehicleID().equals(vehicleID)
+            if(v.getVehicleId().equals(vehicleId)
+                    && v.ownerId.equals(ownerId)
                     && v.getManufacturer().equals(manufacturer)
                     && v.getModelYear() == modelYear
                     && v.getModel().equals(model)

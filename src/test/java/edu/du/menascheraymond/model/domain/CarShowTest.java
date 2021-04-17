@@ -2,6 +2,8 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond G Menasche
+ * File: CarShowTest.java
  */
 package edu.du.menascheraymond.model.domain;
 
@@ -14,9 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author raymond
  */
 public class CarShowTest {
-    
-    public CarShowTest() {
-    }
 
     /**
      * Test setIsSanctioned overloaded methods.
@@ -32,42 +31,42 @@ public class CarShowTest {
         boolean expResult = true;
         try {
             instance.setIsSanctioned("yes");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(false);
         try {
             instance.setIsSanctioned("y");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(false);
         try {
             instance.setIsSanctioned("YeS");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(false);
         try {
             instance.setIsSanctioned('y');
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(false);
         try {
             instance.setIsSanctioned('Y');
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(false);
         try {
             instance.setIsSanctioned(1);
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
@@ -76,35 +75,35 @@ public class CarShowTest {
         expResult = false;
         try {
             instance.setIsSanctioned("n");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(true);
         try {
             instance.setIsSanctioned("nO");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(true);
         try {
             instance.setIsSanctioned('n');
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(true);
         try {
             instance.setIsSanctioned('N');
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
         instance.setIsSanctioned(true);
         try {
             instance.setIsSanctioned(0);
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isSanctioned());
@@ -113,21 +112,21 @@ public class CarShowTest {
         try {
             instance.setIsSanctioned("Maybe");
             fail("An Exeption should have been caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid input string");
         }
         
         try {
             instance.setIsSanctioned('0');
             fail("An Exeption should have been caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid character input");
         }
         
         try {
             instance.setIsSanctioned(35);
             fail("An Exception should have been caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid input integer");
         }
     }

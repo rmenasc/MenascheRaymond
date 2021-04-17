@@ -3,6 +3,7 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
+ * File: VehicleArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.vehicleservice;
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
- *
+ * Unit tests for VehicleArrayListImpl class.
  * @author raymond
  */
 public class VehicleArrayListImplTest {
@@ -109,7 +110,7 @@ public class VehicleArrayListImplTest {
         instance.add(vehicle2);
         instance.add(vehicle3);
         expResult = true;
-        result = instance.isPresent(vehicle2);
+        result = instance.isPresent(vehicle3);
         assertEquals(expResult, result);
         result = instance.isPresent("0324");
         assertEquals(expResult, result);
