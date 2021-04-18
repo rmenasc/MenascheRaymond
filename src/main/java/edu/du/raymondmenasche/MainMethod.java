@@ -46,13 +46,13 @@ public class MainMethod {
             owner1 = new Owner.Builder("1234", "Rockie", "Balboa")
                 .withPhoneNumber("555-555-5555").withAddress(address3)
                 .withNumYears(50).build();
+            System.out.println(owner1.toString());
         }
         if(ownerArrayList.isPresent(owner1)) {
             System.out.println("Owner object already exists");
         } else {
             ownerArrayList.add(owner1);
         }
-        System.out.println(owner1.toString());
         if(owner1.isSeniorOwner()) {
             System.out.println(owner1.getFirstName() + " is a senior owner.");
         } else {
@@ -65,11 +65,11 @@ public class MainMethod {
         } else {
             owner2 = new Owner("1246", "John", "Mayer", "555-433-6645",
                 16, address2);
+            System.out.println(owner2.toString());
         }
         if (!ownerArrayList.add(owner2)) {
             System.out.println("Owner object already exists");
         }
-        System.out.println(owner2.toString());
         if(owner2.isSeniorOwner()) {
             System.out.println(owner2.getFirstName() + " is a senior owner.");
         } else {

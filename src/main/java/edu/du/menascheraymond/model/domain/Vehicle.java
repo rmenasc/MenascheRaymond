@@ -164,36 +164,39 @@ public class Vehicle {
      * @return Returns true if the vehicle classification meets the year requirements.
      */
     public boolean validateVehicleClassification() {
+        boolean rv = false;
         if(modelYear < 1951 && vehicleClassification == VehicleClassification.ANTIQUE) {
-            return true;
+            rv = true;
         }
         if(modelYear < 1981 && modelYear > 1950 && 
                 vehicleClassification == VehicleClassification.CLASSIC) {
-            return true;
+            rv = true;
         }
         if(modelYear > 1980 && vehicleClassification == VehicleClassification.MODERN) {
-            return true;
+            rv = true;
         }
                 
-        return false;
+        return rv;
     }
 
     /**
      * Method returns the corresponding VehicleClassification from the provided
      * vehicle year.
-     * @param year
+     * @param year int
      * @return VehicleClassification Enumerator. 
      */
     public VehicleClassification findVehicleClassification(int year) {
+        VehicleClassification rv = VehicleClassification.ANTIQUE;
         if (year < 1951) {
-            return VehicleClassification.ANTIQUE;
+            rv = VehicleClassification.ANTIQUE;
         }
-        if (year < 1981 && this.modelYear > 1950) {
-            return VehicleClassification.CLASSIC;
+        if (year < 1981 && year > 1950) {
+            rv = VehicleClassification.CLASSIC;
         }
-        else {
-            return VehicleClassification.MODERN;
+        if (year > 1980) {
+            rv = VehicleClassification.MODERN;
         }
+        return rv;
     }
     
     /**
@@ -324,6 +327,7 @@ public class Vehicle {
 
     @Override
     public boolean equals(Object obj) {
+        boolean rv = false;
         if(obj instanceof Vehicle) {
             Vehicle v = (Vehicle)obj;
             if(v.getVehicleId().equals(vehicleId)
@@ -334,10 +338,10 @@ public class Vehicle {
                     && v.getSubModel().equals(subModel)
                     && v.getVehicleClassification().equals(vehicleClassification)
                     && v.isInsured() == isInsured) {
-                return true;
+                rv = true;
             }
         }
-        return false;
+        return rv;
     }
     
     

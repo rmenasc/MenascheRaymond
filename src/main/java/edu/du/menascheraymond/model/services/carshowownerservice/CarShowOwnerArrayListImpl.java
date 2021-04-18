@@ -24,13 +24,17 @@ public class CarShowOwnerArrayListImpl {
      * @return Returns false if CarShowOwner object already exists in ArrayList.
      */
     public boolean add(CarShowOwner carShowOwner) {
+        boolean rv = true;
         for(CarShowOwner o: carShowOwners) {
             if(o.equals(carShowOwner)) {
-                return false;
+                rv = false;
+                break;
             }
         }
-        carShowOwners.add(carShowOwner);
-        return true;
+        if (rv) {
+            carShowOwners.add(carShowOwner);
+        }
+        return rv;
     }
     
     /**
@@ -39,15 +43,17 @@ public class CarShowOwnerArrayListImpl {
      * @return Returns false if CarShowOwner object does not exist in ArrayList.
      */
     public boolean remove(CarShowOwner carShowOwner) {
+        boolean rv = false;
         int inx = 0;
         for(CarShowOwner o: carShowOwners) {
             if(o.equals(carShowOwner)) {
                 carShowOwners.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -57,12 +63,14 @@ public class CarShowOwnerArrayListImpl {
      * @return Returns true if CarShowOwner object exist in ArrayList.
      */
     public boolean isPresent(String ownerId, String carShowId) {
+        boolean rv = false;
         for(CarShowOwner o: carShowOwners) {
             if(o.getOwnerId().equals(ownerId) && o.getCarShowId().equals(carShowId)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -71,12 +79,14 @@ public class CarShowOwnerArrayListImpl {
      * @return Returns true if CarShowOwner object exist in ArrayList.
      */
     public boolean isPresent(CarShowOwner carShowOwner) {
+        boolean rv = false;
         for(CarShowOwner o: carShowOwners) {
             if(o.equals(carShowOwner)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**

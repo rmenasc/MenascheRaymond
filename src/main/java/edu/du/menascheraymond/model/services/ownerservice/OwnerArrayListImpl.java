@@ -24,13 +24,17 @@ public class OwnerArrayListImpl {
      * @return Returns false if Owner object already exists in ArrayList.
      */
     public boolean add(Owner owner) {
+        boolean rv = true;
         for(Owner o: owners) {
             if(o.equals(owner)) {
-                return false;
+                rv = false;
+                break;
             }
         }
-        owners.add(owner);
-        return true;
+        if (rv) {
+            owners.add(owner);
+        }
+        return rv;
     }
     
     /**
@@ -39,15 +43,17 @@ public class OwnerArrayListImpl {
      * @return Returns false if Owner object does not exist in ArrayList.
      */
     public boolean remove(Owner owner) {
+        boolean rv = false;
         int inx = 0;
         for(Owner o: owners) {
             if(o.equals(owner)) {
                 owners.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -56,15 +62,17 @@ public class OwnerArrayListImpl {
      * @return Returns false if Owner object does not exists in ArrayList.
      */
     public boolean remove(String ownerID) {
+        boolean rv = false;
         int inx = 0;
         for(Owner o: owners) {
             if(o.getOwnerId().equals(ownerID)) {
                 owners.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -73,12 +81,14 @@ public class OwnerArrayListImpl {
      * @return Returns Owner object if exists. Null if does not.
      */
     public Owner find(String ID) {
+        Owner rv = null;
         for(Owner o: owners) {
             if(o.getOwnerId().equals(ID)) {
-                return o;
+                rv = o;
+                break;
             }
         }
-        return null;
+        return rv;
     }
     
     /**
@@ -87,12 +97,14 @@ public class OwnerArrayListImpl {
      * @return Returns true if Owner object exists in ArrayList.
      */
     public boolean isPresent(String ID) {
+        boolean rv = false;
         for(Owner o: owners) {
             if(o.getOwnerId().equals(ID)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -101,12 +113,14 @@ public class OwnerArrayListImpl {
      * @return Returns true if Owner object exists in ArrayList.
      */
     public boolean isPresent(Owner owner) {
+        boolean rv = false;
         for(Owner o: owners) {
             if(o.equals(owner)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**

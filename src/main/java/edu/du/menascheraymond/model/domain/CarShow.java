@@ -194,16 +194,17 @@ public class CarShow {
 
     @Override
     public boolean equals(Object obj) {
+        boolean rv = false;
         if(obj instanceof CarShow) {
             CarShow c = (CarShow)obj;
             if(c.getCarShowId().equals(carShowId) 
                     && c.getCarShowTitle().equals(carShowTitle)
                     && c.getCarShowDate().equals(carShowDate)
                     && c.isSanctioned() == isSanctioned) {
-                return true;
+                rv = true;
             }
         }
-        return false;
+        return rv;
     }
 
 }

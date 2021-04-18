@@ -24,13 +24,17 @@ public class CarShowArrayListImpl {
      * @return Returns false if CarShow object already exist in ArrayList.
      */
     public boolean add(CarShow carShow) {
+        boolean rv = true;
         for(CarShow c: carShows) {
             if(c.equals(carShow)) {
-                return false;
+                rv = false;
+                break;
             }
         }
-        carShows.add(carShow);
-        return true;
+        if (rv) {
+            carShows.add(carShow);
+        }
+        return rv;
     }
     
     /**
@@ -39,15 +43,17 @@ public class CarShowArrayListImpl {
      * @return Return false if CarShow object does not exist in ArrayList.
      */
     public boolean remove(CarShow carShow) {
+        boolean rv = false;
         int inx = 0;
         for(CarShow c: carShows) {
             if(c.equals(carShow)) {
                 carShows.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -56,15 +62,17 @@ public class CarShowArrayListImpl {
      * @return Returns false if CarShow object does not exist in ArrayList.
      */
     public boolean remove(String carShowID) {
+        boolean rv = false;
         int inx = 0;
         for(CarShow c: carShows) {
             if(c.getCarShowId().equals(carShowID)) {
                 carShows.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -73,12 +81,14 @@ public class CarShowArrayListImpl {
      * @return Returns CarShow object. Null if object does not exist in ArrayList.
      */
     public CarShow find(String ID) {
+        CarShow rv = null;
         for(CarShow c: carShows) {
             if(c.getCarShowId().equals(ID)) {
-                return c;
+                rv = c;
+                break;
             }
         }
-        return null;
+        return rv;
     }
     
     /**
@@ -87,12 +97,14 @@ public class CarShowArrayListImpl {
      * @return Returns true if CarShow id found in ArrayList.
      */
     public boolean isPresent(String ID) {
+        boolean rv = false;
         for(CarShow c: carShows) {
             if(c.getCarShowId().equals(ID)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -101,12 +113,14 @@ public class CarShowArrayListImpl {
      * @return Returns true if CarShow object found in ArrayList.
      */
     public boolean isPresent(CarShow carShow) {
+        boolean rv = false;
         for(CarShow c: carShows) {
             if(c.equals(carShow)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**

@@ -71,7 +71,7 @@ public class VehicleTest {
         expResult = VehicleClassification.MODERN;
         result = instance.findVehicleClassification(1981);
         assertEquals(expResult, result);
-    }
+   }
     
     /**
      * Test overloaded isInsured methods.

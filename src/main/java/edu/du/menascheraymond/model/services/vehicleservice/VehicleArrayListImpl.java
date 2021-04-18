@@ -24,13 +24,17 @@ public class VehicleArrayListImpl {
      * @return Returns false if Vehicle object already exist in ArrayList.
      */
     public boolean add(Vehicle vehicle) {
+        boolean rv = true;
         for(Vehicle v: vehicles) {
             if(v.equals(vehicle)) {
-                return false;
+                rv = false;
+                break;
             }
         }
-        vehicles.add(vehicle);
-        return true;
+        if (rv) {
+            vehicles.add(vehicle);
+        }
+        return rv;
     }
     
     /**
@@ -39,15 +43,17 @@ public class VehicleArrayListImpl {
      * @return Returns false if Vehicle Object does not exist in ArrayList.
      */
     public boolean remove(Vehicle vehicle) {
+        boolean rv = false;
         int inx = 0;
         for(Vehicle v: vehicles) {
             if(v.equals(vehicle)) {
                 vehicles.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -56,15 +62,17 @@ public class VehicleArrayListImpl {
      * @return Returns false if Vehicle object does not exist in ArrayList.
      */
     public boolean remove(String vehicleID) {
+        boolean rv = false;
         int inx = 0;
         for(Vehicle v: vehicles) {
             if(v.getVehicleId().equals(vehicleID)) {
                 vehicles.remove(inx);
-                return true;
+                rv = true;
+                break;
             }
             inx++;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -73,12 +81,14 @@ public class VehicleArrayListImpl {
      * @return Vehicle object.
      */
     public Vehicle find(String ID) {
+        Vehicle rv = null;
         for(Vehicle v: vehicles) {
             if(v.getVehicleId().equals(ID)) {
-                return v;
+                rv = v;
+                break;
             }
         }
-        return null;
+        return rv;
     }
     
     /**
@@ -87,12 +97,14 @@ public class VehicleArrayListImpl {
      * @return true if Vehicle ID match a Vehicle object's id.
      */
     public boolean isPresent(String ID) {
+        boolean rv = false;
         for(Vehicle v: vehicles) {
             if(v.getVehicleId().equals(ID)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -101,12 +113,14 @@ public class VehicleArrayListImpl {
      * @return Returns true if Vehicle Object exists in ArrayList.
      */
     public boolean isPresent(Vehicle vehicle) {
+        boolean rv = false;
         for(Vehicle v: vehicles) {
             if(v.equals(vehicle)) {
-                return true;
+                rv = true;
+                break;
             }
         }
-        return false;
+        return rv;
     }
     
     /**

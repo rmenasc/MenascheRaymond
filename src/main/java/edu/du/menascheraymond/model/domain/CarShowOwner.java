@@ -84,13 +84,14 @@ public class CarShowOwner {
 
     @Override
     public boolean equals(Object obj) {
+        boolean rv = false;
         if(obj instanceof CarShowOwner) {
             CarShowOwner c = (CarShowOwner)obj;
             if(c.getCarShowId().equals(carShowId) && c.getOwnerId().equals(ownerId)) {
-                return true;
+                rv = true;
             }
         }
-        return false;
+        return rv;
     }
     
     

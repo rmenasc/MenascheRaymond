@@ -127,10 +127,11 @@ public class Owner {
      * @return true if owner over 20 years.
      */
     public boolean isSeniorOwner() {
+        boolean rv = false;
         if (numYears > 20) {
-            return true;
+            rv = true;
         }
-        return false;
+        return rv;
     }
     
     /**
@@ -212,6 +213,7 @@ public class Owner {
 
     @Override
     public boolean equals(Object obj) {
+        boolean rv = false;
         if(obj instanceof Owner) {
             Owner o = (Owner)obj;
             if(o.getOwnerId().equals(ownerId) && o.getFirstName().equals(firstName)
@@ -219,10 +221,10 @@ public class Owner {
                     && o.getPhoneNumber().equals(phoneNumber)
                     && o.getNumYears() == numYears
                     && o.getAddress().equals(address)) {
-                return true;
+                rv = true;
             }
         }
-        return false;
+        return rv;
     }
     
 }
