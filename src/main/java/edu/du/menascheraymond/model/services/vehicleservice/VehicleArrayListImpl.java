@@ -8,6 +8,7 @@
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,62 +16,37 @@ import java.util.List;
  * ArrayList implementation for Vehicle.
  * @author raymond
  */
-public class VehicleArrayListImpl {
+public class VehicleArrayListImpl implements ArrayListImpl {
     private List<Vehicle> vehicles = new ArrayList<>();
     
     /**
      * Adds a Vehicle object to the ArrayList.
-     * @param vehicle
+     * @param o
      * @return Returns false if Vehicle object already exist in ArrayList.
      */
-    public boolean add(Vehicle vehicle) {
-        boolean rv = true;
-        for(Vehicle v: vehicles) {
-            if(v.equals(vehicle)) {
-                rv = false;
-                break;
-            }
-        }
-        if (rv) {
-            vehicles.add(vehicle);
+    @Override
+    public boolean add(Object o) {
+        boolean rv = false;
+        if (!isPresent(o)) {
+            Vehicle v = (Vehicle)o;
+            rv = vehicles.add(v);
         }
         return rv;
     }
     
     /**
      * Removes Vehicle object from ArrayList.
-     * @param vehicle
+     * @param o
      * @return Returns false if Vehicle Object does not exist in ArrayList.
      */
-    public boolean remove(Vehicle vehicle) {
+    @Override
+    public boolean remove(Object o) {
         boolean rv = false;
-        int inx = 0;
-        for(Vehicle v: vehicles) {
-            if(v.equals(vehicle)) {
-                vehicles.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
-        }
-        return rv;
-    }
-    
-    /**
-     * Removes Vehicle object from ArrayList.
-     * @param vehicleID
-     * @return Returns false if Vehicle object does not exist in ArrayList.
-     */
-    public boolean remove(String vehicleID) {
-        boolean rv = false;
-        int inx = 0;
-        for(Vehicle v: vehicles) {
-            if(v.getVehicleId().equals(vehicleID)) {
-                vehicles.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
+        if (o instanceof Vehicle) {
+            rv = vehicles.remove(o);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = vehicles.remove(find(ID));
         }
         return rv;
     }
@@ -78,9 +54,10 @@ public class VehicleArrayListImpl {
     /**
      * Retrieves Vehicle object from ArrayList
      * @param ID
-     * @return Vehicle object.
+     * @return Vehicle object if exist. Null if does not exist.
      */
-    public Vehicle find(String ID) {
+    @Override
+    public Object find(String ID) {
         Vehicle rv = null;
         for(Vehicle v: vehicles) {
             if(v.getVehicleId().equals(ID)) {
@@ -93,39 +70,30 @@ public class VehicleArrayListImpl {
     
     /**
      * Checks if Vehicle object exist in ArrayList
-     * @param ID
-     * @return true if Vehicle ID match a Vehicle object's id.
+     * @param o
+     * @return Returns true if Vehicle Object exists in ArrayList.
      */
-    public boolean isPresent(String ID) {
+    @Override
+    public boolean isPresent(Object o) {
         boolean rv = false;
-        for(Vehicle v: vehicles) {
-            if(v.getVehicleId().equals(ID)) {
-                rv = true;
-                break;
-            }
+        if (o instanceof Vehicle) {
+            rv = vehicles.contains(o);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = vehicles.contains(find(ID));
         }
         return rv;
     }
     
-    /**
-     * Checks if Vehicle object exist in ArrayList
-     * @param vehicle
-     * @return Returns true if Vehicle Object exists in ArrayList.
-     */
-    public boolean isPresent(Vehicle vehicle) {
-        boolean rv = false;
-        for(Vehicle v: vehicles) {
-            if(v.equals(vehicle)) {
-                rv = true;
-                break;
-            }
-        }
-        return rv;
+    @Override
+    public int size() {
+        return vehicles.size();
     }
     
     /**
      * System print all Vehicle objects in ArrayList.
      */
+    @Override
     public void dump() {
         for(Vehicle v: vehicles) {
             System.out.println(v.toString());

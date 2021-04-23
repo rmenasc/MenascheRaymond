@@ -8,6 +8,7 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class OwnerArrayListImplTest {
      */
     @Test
     public void testAdd() {
-        OwnerArrayListImpl instance = new OwnerArrayListImpl();
+        ArrayListImpl instance = new OwnerArrayListImpl();
         boolean expResult = true;
         boolean result = instance.add(owner1);
         assertEquals(expResult, result);
@@ -53,7 +54,7 @@ public class OwnerArrayListImplTest {
      */
     @Test
     public void testRemove() {
-        OwnerArrayListImpl instance = new OwnerArrayListImpl();
+        ArrayListImpl instance = new OwnerArrayListImpl();
         boolean expResult = false;
         boolean result = instance.remove(owner1);
         assertEquals(expResult, result);
@@ -82,16 +83,16 @@ public class OwnerArrayListImplTest {
     public void testFind() {
         OwnerArrayListImpl instance = new OwnerArrayListImpl();
         Owner expResult = null;
-        Owner result = instance.find("1234");
+        Owner result = (Owner)instance.find("1234");
         assertEquals(expResult, result);
         instance.add(owner1);
         Owner expResult2 = owner1;
-        Owner result2 = instance.find("1234");
+        Owner result2 = (Owner)instance.find("1234");
         assertEquals(expResult2, result2);
         instance.add(owner2);
         instance.add(owner3);
         Owner expResult3 = owner2;
-        Owner result3 = instance.find("1432");
+        Owner result3 = (Owner)instance.find("1432");
         assertEquals(expResult3, result3);
     }
     
@@ -100,7 +101,7 @@ public class OwnerArrayListImplTest {
      */
     @Test
     public void testIsPresent() {
-        OwnerArrayListImpl instance = new OwnerArrayListImpl();
+        ArrayListImpl instance = new OwnerArrayListImpl();
         //test with no items in array.
         boolean expResult = false;
         boolean result = instance.isPresent(owner1);

@@ -18,7 +18,7 @@ public class CarShow {
     private String carShowId;     // required
     private String carShowTitle;  // optional
     private LocalDate carShowDate;// required - default date of creation
-    private boolean isSanctioned; // required - default false
+    private boolean sanctioned; // required - default false
     
     /**
      * Constructor.
@@ -27,7 +27,7 @@ public class CarShow {
         carShowId = "";
         carShowTitle = "";
         carShowDate = LocalDate.now();
-        isSanctioned = false;
+        sanctioned = false;
     }
     
     /**
@@ -42,7 +42,7 @@ public class CarShow {
         this.carShowId = carShowId;
         this.carShowTitle = carShowTitle;
         this.carShowDate = carShowDate;
-        this.isSanctioned = isSanctioned;
+        this.sanctioned = isSanctioned;
     }
     
     /**
@@ -52,7 +52,7 @@ public class CarShow {
         private String carShowId;
         private String carShowTitle;
         private LocalDate carShowDate;
-        private boolean isSanctioned;
+        private boolean sanctioned;
         
         /**
          * Builder method for CarShow class.
@@ -77,7 +77,7 @@ public class CarShow {
         }
         
         public Builder isSanctioned(boolean isSanctioned) {
-            this.isSanctioned = isSanctioned;
+            this.sanctioned = isSanctioned;
             
             return this;
         }
@@ -91,7 +91,7 @@ public class CarShow {
             } else {
                 carShow.carShowDate = this.carShowDate;
             }
-            carShow.isSanctioned = this.isSanctioned;
+            carShow.sanctioned = this.sanctioned;
             
             return carShow;
         }
@@ -120,7 +120,7 @@ public class CarShow {
     }
 
     public boolean isSanctioned() {
-        return isSanctioned;
+        return sanctioned;
     }
 
     /**
@@ -139,16 +139,16 @@ public class CarShow {
     }
 
     public void setIsSanctioned(boolean isSanctioned) {
-        this.isSanctioned = isSanctioned;
+        this.sanctioned = isSanctioned;
     }
     
     public void setIsSanctioned(String isSanctioned) {
         if(isSanctioned.toUpperCase().equals("Y") || 
                 isSanctioned.toUpperCase().equals("YES")) {
-            this.isSanctioned = true;
+            this.sanctioned = true;
         } else if (isSanctioned.toUpperCase().equals("N") ||
                 isSanctioned.toUpperCase().equals("NO")) {
-            this.isSanctioned = false;
+            this.sanctioned = false;
         } else {
             throw new IllegalArgumentException("Invalid input string");
         }
@@ -156,9 +156,9 @@ public class CarShow {
     
     public void setIsSanctioned(char isSanctioned) {
         if(isSanctioned == 'y' || isSanctioned == 'Y') {
-            this.isSanctioned = true;
+            this.sanctioned = true;
         } else if(isSanctioned == 'n' || isSanctioned == 'N') {
-            this.isSanctioned = false;
+            this.sanctioned = false;
         } else {
             throw new IllegalArgumentException("Invalid character input");
         }
@@ -166,9 +166,9 @@ public class CarShow {
     
     public void setIsSanctioned(int isSanctioned) {
         if(isSanctioned == 1) {
-            this.isSanctioned = true;
+            this.sanctioned = true;
         } else if(isSanctioned == 0) {
-            this.isSanctioned = false;
+            this.sanctioned = false;
         } else {
             throw new IllegalArgumentException("Invalid input integer");
         }
@@ -183,12 +183,12 @@ public class CarShow {
         return "CarShow{" + "carShowID=" + carShowId +
                 ", carShowTitle=" + carShowTitle +
                 ", carShowDate=" + carShowDate +
-                ", isSanctioned=" + isSanctioned + '}';
+                ", isSanctioned=" + sanctioned + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(carShowId, carShowTitle, carShowDate, isSanctioned);
+        int hash = Objects.hash(carShowId, carShowTitle, carShowDate, sanctioned);
         return hash;
     }
 
@@ -200,7 +200,7 @@ public class CarShow {
             if(c.getCarShowId().equals(carShowId) 
                     && c.getCarShowTitle().equals(carShowTitle)
                     && c.getCarShowDate().equals(carShowDate)
-                    && c.isSanctioned() == isSanctioned) {
+                    && c.isSanctioned() == sanctioned) {
                 rv = true;
             }
         }

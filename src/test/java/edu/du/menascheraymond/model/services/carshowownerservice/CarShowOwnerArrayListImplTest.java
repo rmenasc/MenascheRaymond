@@ -8,6 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
 import edu.du.menascheraymond.model.domain.CarShowOwner;
+import edu.du.menascheraymond.model.service.JoinArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class CarShowOwnerArrayListImplTest {
      */
     @Test
     public void testAdd() {
-        CarShowOwnerArrayListImpl instance = new CarShowOwnerArrayListImpl();
+        JoinArrayListImpl instance = new CarShowOwnerArrayListImpl();
         boolean expResult = true;
         boolean result = instance.add(carShowOwner1);
         assertEquals(expResult, result);
@@ -40,7 +41,7 @@ public class CarShowOwnerArrayListImplTest {
      */
     @Test
     public void testRemove() {
-        CarShowOwnerArrayListImpl instance = new CarShowOwnerArrayListImpl();
+        JoinArrayListImpl instance = new CarShowOwnerArrayListImpl();
         boolean expResult = false;
         boolean result = instance.remove(carShowOwner1);
         assertEquals(expResult, result);
@@ -60,7 +61,7 @@ public class CarShowOwnerArrayListImplTest {
      */
     @Test
     public void testIsPresent() {
-        CarShowOwnerArrayListImpl instance = new CarShowOwnerArrayListImpl();
+        JoinArrayListImpl instance = new CarShowOwnerArrayListImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(carShowOwner1);
         assertEquals(expResult, result);

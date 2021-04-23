@@ -8,6 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,62 +16,40 @@ import java.util.List;
  * ArrayList implementation for CarShow.
  * @author raymond
  */
-public class CarShowArrayListImpl {
+public class CarShowArrayListImpl implements ArrayListImpl {
     private List<CarShow> carShows = new ArrayList<>();
     
     /**
      * Adds a CarShow object to ArrayList. 
-     * @param carShow
+     * @param o
      * @return Returns false if CarShow object already exist in ArrayList.
      */
-    public boolean add(CarShow carShow) {
-        boolean rv = true;
-        for(CarShow c: carShows) {
-            if(c.equals(carShow)) {
-                rv = false;
-                break;
+    @Override
+    public boolean add(Object o) {
+        boolean rv  = false;
+        if (o instanceof CarShow) {
+            CarShow c = (CarShow)o;
+            if (!isPresent(c)) {
+                rv = carShows.add(c);
             }
-        }
-        if (rv) {
-            carShows.add(carShow);
         }
         return rv;
     }
     
     /**
      * Removes CarShow object from ArrayList.
-     * @param carShow
+     * @param o
      * @return Return false if CarShow object does not exist in ArrayList.
      */
-    public boolean remove(CarShow carShow) {
+    @Override
+    public boolean remove(Object o) {
         boolean rv = false;
-        int inx = 0;
-        for(CarShow c: carShows) {
-            if(c.equals(carShow)) {
-                carShows.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
-        }
-        return rv;
-    }
-    
-    /**
-     * Removes CarShow object from ArrayList.
-     * @param carShowID
-     * @return Returns false if CarShow object does not exist in ArrayList.
-     */
-    public boolean remove(String carShowID) {
-        boolean rv = false;
-        int inx = 0;
-        for(CarShow c: carShows) {
-            if(c.getCarShowId().equals(carShowID)) {
-                carShows.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
+        if (o instanceof CarShow) {
+            CarShow c = (CarShow)o;
+            rv = carShows.remove(c);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = carShows.remove(find(ID));
         }
         return rv;
     }
@@ -78,8 +57,9 @@ public class CarShowArrayListImpl {
     /**
      * Retrieves CarShow object from ArrayList.
      * @param ID
-     * @return Returns CarShow object. Null if object does not exist in ArrayList.
+     * @return Returns CarShowObject. Null if object does not exist in ArrayList.
      */
+    @Override
     public CarShow find(String ID) {
         CarShow rv = null;
         for(CarShow c: carShows) {
@@ -93,39 +73,30 @@ public class CarShowArrayListImpl {
     
     /**
      * Checks to see if CarShow object exists in ArrayList.
-     * @param ID
-     * @return Returns true if CarShow id found in ArrayList.
+     * @param o
+     * @return Returns true if CarShow object found in ArrayList.
      */
-    public boolean isPresent(String ID) {
+    @Override
+    public boolean isPresent(Object o) {
         boolean rv = false;
-        for(CarShow c: carShows) {
-            if(c.getCarShowId().equals(ID)) {
-                rv = true;
-                break;
-            }
+        if (o instanceof CarShow) {
+            rv = carShows.contains(o);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = carShows.contains(find(ID));
         }
         return rv;
     }
     
-    /**
-     * Checks to see if CarShow object exists in ArrayList.
-     * @param carShow
-     * @return Returns true if CarShow object found in ArrayList.
-     */
-    public boolean isPresent(CarShow carShow) {
-        boolean rv = false;
-        for(CarShow c: carShows) {
-            if(c.equals(carShow)) {
-                rv = true;
-                break;
-            }
-        }
-        return rv;
+    @Override
+    public int size() {
+        return carShows.size();
     }
     
     /**
      * System print all objects in ArrayList.
      */
+    @Override
     public void dump() {
         for(CarShow c: carShows) {
             System.out.println(c.toString());

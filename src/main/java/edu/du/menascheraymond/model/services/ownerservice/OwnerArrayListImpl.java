@@ -8,69 +8,49 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Implementation of ArrayList for Owners class.
  * @author raymond
  */
-public class OwnerArrayListImpl {
+public class OwnerArrayListImpl implements ArrayListImpl {
     List<Owner> owners = new ArrayList<>();
     
     /**
      * Adds Owner to ArrayList.
-     * @param owner
+     * @param o Object
      * @return Returns false if Owner object already exists in ArrayList.
      */
-    public boolean add(Owner owner) {
-        boolean rv = true;
-        for(Owner o: owners) {
-            if(o.equals(owner)) {
-                rv = false;
-                break;
+    @Override
+    public boolean add(Object o) {
+        boolean rv = false;
+        if (o instanceof Owner) {
+            Owner owner = (Owner)o;
+            if (!isPresent(owner)) {
+                rv = owners.add(owner);
             }
-        }
-        if (rv) {
-            owners.add(owner);
         }
         return rv;
     }
     
     /**
      * Removes Owner from ArrayList.
-     * @param owner
+     * @param o
      * @return Returns false if Owner object does not exist in ArrayList.
      */
-    public boolean remove(Owner owner) {
+    @Override
+    public boolean remove(Object o) {
         boolean rv = false;
-        int inx = 0;
-        for(Owner o: owners) {
-            if(o.equals(owner)) {
-                owners.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
-        }
-        return rv;
-    }
-    
-    /**
-     * Removes Owner from ArrayList.
-     * @param ownerID
-     * @return Returns false if Owner object does not exists in ArrayList.
-     */
-    public boolean remove(String ownerID) {
-        boolean rv = false;
-        int inx = 0;
-        for(Owner o: owners) {
-            if(o.getOwnerId().equals(ownerID)) {
-                owners.remove(inx);
-                rv = true;
-                break;
-            }
-            inx++;
+        if (o instanceof Owner) {
+            Owner owner = (Owner)o;
+            rv = owners.remove(owner);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = owners.remove(find(ID));
         }
         return rv;
     }
@@ -80,6 +60,7 @@ public class OwnerArrayListImpl {
      * @param ID
      * @return Returns Owner object if exists. Null if does not.
      */
+    @Override
     public Owner find(String ID) {
         Owner rv = null;
         for(Owner o: owners) {
@@ -92,35 +73,25 @@ public class OwnerArrayListImpl {
     }
     
     /**
-     * Checks if Owner object exists in the ArrayList.
-     * @param ID
+     * Checks if Owner object exists in the ArrayList. 
+     * @param o
      * @return Returns true if Owner object exists in ArrayList.
      */
-    public boolean isPresent(String ID) {
+    @Override
+    public boolean isPresent(Object o) {
         boolean rv = false;
-        for(Owner o: owners) {
-            if(o.getOwnerId().equals(ID)) {
-                rv = true;
-                break;
-            }
+        if (o instanceof Owner) {
+            rv = owners.contains(o);
+        } else if (o instanceof String) {
+            String ID = (String)o;
+            rv = owners.contains(find(ID));
         }
         return rv;
     }
     
-    /**
-     * Checks if Owner object exists in the ArrayList. 
-     * @param owner
-     * @return Returns true if Owner object exists in ArrayList.
-     */
-    public boolean isPresent(Owner owner) {
-        boolean rv = false;
-        for(Owner o: owners) {
-            if(o.equals(owner)) {
-                rv = true;
-                break;
-            }
-        }
-        return rv;
+    @Override
+    public int size() {
+        return owners.size();
     }
     
     /**

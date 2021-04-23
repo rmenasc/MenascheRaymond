@@ -21,7 +21,7 @@ public class Vehicle {
     private String model;                               //optional - default EMPTY
     private String subModel;                            //optional - default EMPTY
     private VehicleClassification vehicleClassification;//optional - default .ANTIQUE
-    private boolean isInsured;                          //optional - default false
+    private boolean insured;                            //optional - default false
     
     /**
      * Constructors.
@@ -57,7 +57,7 @@ public class Vehicle {
         this.model = model;
         this.subModel = subModel;
         this.vehicleClassification = vehicleClassification;
-        this.isInsured = isInsured;
+        this.insured = isInsured;
     }
     
     /**
@@ -71,7 +71,7 @@ public class Vehicle {
         private String model;
         private String subModel;
         private VehicleClassification vehicleClassification;
-        private boolean isInsured;
+        private boolean insured;
         
         /**
          * Builder constructor.
@@ -117,7 +117,7 @@ public class Vehicle {
         }
         
         public Builder isInsured(boolean isInsured) {
-            this.isInsured = isInsured;
+            this.insured = isInsured;
             
             return this;
         }
@@ -148,7 +148,7 @@ public class Vehicle {
             } else {
                 vehicle.vehicleClassification = this.vehicleClassification;
             }
-            vehicle.isInsured = this.isInsured;
+            vehicle.insured = this.insured;
             
             return vehicle;
         }
@@ -232,7 +232,7 @@ public class Vehicle {
     }
 
     public boolean isInsured() {
-        return isInsured;
+        return insured;
     }
     
     /**
@@ -267,16 +267,16 @@ public class Vehicle {
     }
 
     public void setIsInsured(boolean isInsured) {
-        this.isInsured = isInsured;
+        this.insured = isInsured;
     }
     
     public void setIsInsured(String isInsured) throws Exception {
         if(isInsured.toUpperCase().equals("Y") ||
                 isInsured.toUpperCase().equals("YES")) {
-            this.isInsured = true;
+            this.insured = true;
         } else if (isInsured.toUpperCase().equals("N") ||
                 isInsured.toUpperCase().equals("NO")) {
-            this.isInsured = false;
+            this.insured = false;
         } else {
             throw new Exception("Invalid string input");
         }
@@ -284,9 +284,9 @@ public class Vehicle {
     
     public void setIsInsured(char isInsured) throws Exception {
         if(isInsured == 'y' || isInsured == 'Y') {
-            this.isInsured = true;
+            this.insured = true;
         } else if(isInsured == 'n' || isInsured == 'N') {
-            this.isInsured = false;
+            this.insured = false;
         } else {
             throw new Exception("Invalid character input");
         }
@@ -294,9 +294,9 @@ public class Vehicle {
     
     public void setIsInsured(int isInsured) throws Exception {
         if(isInsured == 1) {
-            this.isInsured = true;
+            this.insured = true;
         } else if(isInsured == 0) {
-            this.isInsured = false;
+            this.insured = false;
         } else {
             throw new Exception("Invalid integer input");
         }
@@ -315,13 +315,13 @@ public class Vehicle {
                 ", model=" + model +
                 ", subModel=" + subModel +
                 ", vehicleClassification=" + vehicleClassification +
-                ", isInsured=" + isInsured + '}';
+                ", isInsured=" + insured + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = Objects.hash(vehicleId, ownerId, manufacturer, modelYear, model,
-                subModel, vehicleClassification, isInsured);
+                subModel, vehicleClassification, insured);
         return hash;
     }
 
@@ -337,7 +337,7 @@ public class Vehicle {
                     && v.getModel().equals(model)
                     && v.getSubModel().equals(subModel)
                     && v.getVehicleClassification().equals(vehicleClassification)
-                    && v.isInsured() == isInsured) {
+                    && v.isInsured() == insured) {
                 rv = true;
             }
         }

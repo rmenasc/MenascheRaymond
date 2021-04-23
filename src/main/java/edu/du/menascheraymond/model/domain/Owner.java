@@ -165,7 +165,7 @@ public class Owner {
     /**
      * Setters below.
      */
-    public void setOwnerID(String ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 

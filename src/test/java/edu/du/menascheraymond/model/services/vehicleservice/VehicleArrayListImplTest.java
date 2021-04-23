@@ -9,6 +9,7 @@ package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ public class VehicleArrayListImplTest {
         vehicle2 = new Vehicle.Builder("0324", "22432")
                 .withManufacturer("Chevrolet")
                 .withModelYear(1945)
-                .withModel("Implala")
+                .withModel("Impala")
                 .withVehicleClassification(VehicleClassification.ANTIQUE)
                 .build();
         vehicle3 = new Vehicle.Builder("6453", "23212")
@@ -48,7 +49,7 @@ public class VehicleArrayListImplTest {
      */
     @Test
     public void testAdd() {
-        VehicleArrayListImpl instance = new VehicleArrayListImpl();
+        ArrayListImpl instance = new VehicleArrayListImpl();
         boolean expResult = true;
         boolean result = instance.add(vehicle1);
         assertEquals(expResult, result);
@@ -63,7 +64,7 @@ public class VehicleArrayListImplTest {
      */
     @Test
     public void testRemove() {
-        VehicleArrayListImpl instance = new VehicleArrayListImpl();
+        ArrayListImpl instance = new VehicleArrayListImpl();
         boolean expResult = false;
         boolean result = instance.remove(vehicle1);
         assertEquals(expResult, result);
@@ -83,16 +84,19 @@ public class VehicleArrayListImplTest {
      */
     @Test
     public void testFind() {
-        VehicleArrayListImpl instance = new VehicleArrayListImpl();
+        ArrayListImpl instance = new VehicleArrayListImpl();
         Vehicle expResult = null;
-        Vehicle result = instance.find("0212");
+        Vehicle result = (Vehicle)instance.find("0212");
         assertEquals(expResult, result);
         instance.add(vehicle1);
         instance.add(vehicle2);
         instance.add(vehicle3);
         Vehicle expResult2 = vehicle2;
-        Vehicle result2 = instance.find("0324");
-        assertEquals(expResult, result);
+        Vehicle result2 = (Vehicle)instance.find("0324");
+        assertEquals(expResult2, result2);
+        Vehicle expResult3 = vehicle1;
+        Vehicle result3 = (Vehicle)instance.find("0212");
+        assertEquals(expResult3, result3);
     }
     
     /**
@@ -100,7 +104,7 @@ public class VehicleArrayListImplTest {
      */
     @Test
     public void testIsPresent() {
-        VehicleArrayListImpl instance = new VehicleArrayListImpl();
+        ArrayListImpl instance = new VehicleArrayListImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(vehicle3);
         assertEquals(expResult, result);

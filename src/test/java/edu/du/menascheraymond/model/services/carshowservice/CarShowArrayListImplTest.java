@@ -8,6 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +39,7 @@ public class CarShowArrayListImplTest {
      */
     @Test
     public void testAdd() {
-        CarShowArrayListImpl instance = new CarShowArrayListImpl();
+        ArrayListImpl instance = new CarShowArrayListImpl();
         boolean expResult = true;
         boolean result = instance.add(carShow1);
         assertEquals(expResult, result);
@@ -60,7 +61,7 @@ public class CarShowArrayListImplTest {
      */
     @Test
     public void testRemove() {
-        CarShowArrayListImpl instance = new CarShowArrayListImpl();
+        ArrayListImpl instance = new CarShowArrayListImpl();
         boolean expResult = false;
         boolean result = instance.remove(carShow1);
         assertEquals(expResult, result);
@@ -83,7 +84,7 @@ public class CarShowArrayListImplTest {
      */
     @Test
     public void testIsPresent() {
-        CarShowArrayListImpl instance = new CarShowArrayListImpl();
+        ArrayListImpl instance = new CarShowArrayListImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(carShow2);
         assertEquals(expResult, result);
@@ -111,24 +112,24 @@ public class CarShowArrayListImplTest {
      */
     @Test
     public void testFind() {
-        CarShowArrayListImpl instance = new CarShowArrayListImpl();
+        ArrayListImpl instance = new CarShowArrayListImpl();
         CarShow expResult = null;
-        CarShow result = instance.find("0124");
+        CarShow result = (CarShow)instance.find("0124");
         assertEquals(expResult, result);
         expResult = carShow1;
         instance.add(carShow1);
         instance.add(carShow2);
         instance.add(carShow3);
-        result = instance.find("0124");
+        result = (CarShow)instance.find("0124");
         assertEquals(expResult, result);
         expResult = carShow2;
-        result = instance.find("4352");
+        result = (CarShow)instance.find("4352");
         assertEquals(expResult, result);
         expResult = carShow3;
-        result = instance.find("4523");
+        result = (CarShow)instance.find("4523");
         assertEquals(expResult, result);
         expResult = null;
-        result = instance.find("7777");
+        result = (CarShow)instance.find("7777");
         assertEquals(expResult, result);
     }
 }

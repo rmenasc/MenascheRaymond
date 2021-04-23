@@ -13,6 +13,8 @@ import edu.du.menascheraymond.model.domain.CarShowOwner;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
+import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.service.JoinArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowownerservice.CarShowOwnerArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowArrayListImpl;
 import edu.du.menascheraymond.model.services.ownerservice.OwnerArrayListImpl;
@@ -24,12 +26,67 @@ import java.time.LocalDate;
  * @author raymondmenasche
  */
 public class MainMethod {
-    private static OwnerArrayListImpl ownerArrayList = new OwnerArrayListImpl();
-    private static VehicleArrayListImpl vehicleArrayList = new VehicleArrayListImpl();
-    private static CarShowArrayListImpl carShowArrayList = new CarShowArrayListImpl();
-    private static CarShowOwnerArrayListImpl carShowOwnerArrayList = new CarShowOwnerArrayListImpl();
+    private static ArrayListImpl ownerArrayList = new OwnerArrayListImpl();
+    private static ArrayListImpl vehicleArrayList = new VehicleArrayListImpl();
+    private static ArrayListImpl carShowArrayList = new CarShowArrayListImpl();
+    private static JoinArrayListImpl carShowOwnerArrayList = new CarShowOwnerArrayListImpl();
     
     public static void main(String[] args) {
+        
+        
+        //Create Owner objects.
+        Owner[] owners = doOwners();
+        
+        
+        //Create Vehicle objects.
+        Vehicle[] vehicles = doVehicles(owners);
+        
+        
+        //Create CarShow objects.
+        CarShow[] carShows = doCarShows();
+        
+        
+        //Create CarShowOwner objects.
+        CarShowOwner[] carShowOwners = doCarShowOwners
+                (owners, carShows);
+    }
+    
+    public void perform(Object[] objects, ArrayListImpl arrayListImpl) {
+        for (Object o: objects) {
+            if(arrayListImpl.isPresent(o)) {
+                System.out.println(o.toString() + " already exists in List.");
+            } else {
+                if (ownerArrayList.add(o)) {
+                    System.out.println("Added: " + o.toString());
+                }
+            }
+        }
+    }
+    
+    public void perform(Object[] objects, JoinArrayListImpl arrayListImpl) {
+        for (Object o: objects) {
+            if(arrayListImpl.isPresent(o)) {
+                System.out.println(o.toString() + " already exists in List.");
+            } else {
+                if (ownerArrayList.add(o)) {
+                    System.out.println("Added: " + o.toString());
+                }
+            }
+        }
+    }
+    
+    public void performExists(Object[] objects) {
+        for (Object o: objects) {
+            if (o != null) {
+                System.out.println(o.toString() + " exists");
+            } else {
+                System.out.println("The return value is null. Owner does not exists.");
+            }
+        }
+    }
+    
+    public static Owner[] doOwners() {
+        MainMethod mm = new MainMethod();
         Address address1 = new Address();
         System.out.println(address1.toString());
         Address address2 = new Address("111 Somewhere St", "Apt 404", "Thereville",
@@ -39,100 +96,57 @@ public class MainMethod {
                 .withCity("Denver").withState("Colorado").withZip("80001").build();
         System.out.println(address3.toString());
         
-        Owner owner1 = null;
-        if(ownerArrayList.isPresent("1234")) {
-            System.out.println("Owner ID is present. Cannot create object.");
-        } else {
-            owner1 = new Owner.Builder("1234", "Rockie", "Balboa")
+        Owner owner1 = new Owner.Builder("O1234", "Rockie", "Balboa")
                 .withPhoneNumber("555-555-5555").withAddress(address3)
                 .withNumYears(50).build();
-            System.out.println("Created: " + owner1.toString());
-        }
-        if(ownerArrayList.isPresent(owner1)) {
-            System.out.println("Owner: " + owner1.getOwnerId() + " already exists.");
-        } else {
-            if (ownerArrayList.add(owner1)) {
-                System.out.println("Added Owner: " + owner1.getOwnerId());
-            }
-        }
-        if(owner1.isSeniorOwner()) {
-            System.out.println(owner1.getFirstName() + " is a senior owner.");
-        } else {
-            System.out.println(owner1.getFirstName() + " is not a senior owner.");
-        }
         
-        Owner owner2 = null;
-        if (ownerArrayList.isPresent("1246")) {
-            System.out.println("Owner ID is present. Cannot create object.");
-        } else {
-            owner2 = new Owner("1246", "John", "Mayer", "555-433-6645",
+        Owner owner2 = new Owner("O1246", "John", "Mayer", "555-433-6645",
                 16, address2);
-            System.out.println("Created: " + owner2.toString());
-        }
-        if (!ownerArrayList.add(owner2)) {
-            System.out.println("Owner: " + owner2.getOwnerId() + " already exists.");
-        } else {
-            System.out.println("Added Owner: " + owner2.getOwnerId());
-        }
-        if(owner2.isSeniorOwner()) {
-            System.out.println(owner2.getFirstName() + " is a senior owner.");
-        } else {
-            System.out.println(owner2.getFirstName() + " is not a senior owner");
-        }
         
-        Owner owner3 = null;
-        if (ownerArrayList.isPresent("1246")) {
-            System.out.println("Owner ID is present. Cannot create object.");
-        } else {
-            owner3 = new Owner.Builder("1246", "Don", "Added").build();
-            System.out.println("Created: " + owner3.toString());
-        }
-        //Since above will fail, we create a different owner3.
-        if (ownerArrayList.isPresent("1249")) {
-            System.out.println("Owner ID is present. Cannot create object.");
-        } else {
-            owner3 = new Owner.Builder("1249", "Don", "Added").build();
-            System.out.println("Created: " + owner3.toString());
-        }
-        //try to add an object that already exist.
-        if (!ownerArrayList.add(owner2)) {
-            System.out.println("Owner " + owner2.getOwnerId() + " already exists");
-        } else {
-            System.out.println("Added Owner: " + owner2.getOwnerId());
-        }
-        if (ownerArrayList.isPresent(owner3)) {
-            System.out.println("Owner " + owner3.getOwnerId() + " already exists");
-        } else {
-            if (ownerArrayList.add(owner3)) {
-                System.out.println("Added Owner: " + owner3.getOwnerId());
+        Owner owner3 = new Owner.Builder("O1246", "Don", "Added").build();
+        
+        Object[] ownerArray = {owner1, owner2, owner3};
+        mm.perform(ownerArray, ownerArrayList);
+        
+        owner3.setOwnerId("O1249");
+        ownerArray[2] = owner3;
+        ownerArrayList.add(owner3);
+        
+        for (Object o: ownerArray) {
+            Owner owner = (Owner)o;
+            if(owner.isSeniorOwner()) {
+                System.out.println(owner.getFirstName() + " is a senior owner.");
+            } else {
+                System.out.println(owner.getFirstName() + " is not a senior owner.");
             }
         }
-        Owner ownerDoesExist = ownerArrayList.find("1249");
-        if (ownerDoesExist != null) {
-            System.out.println(ownerDoesExist.toString() + " exists");
-        } else {
-            System.out.println("The return value is null. Owner does not exists.");
-        }
-        Owner ownerDoesNotExist = ownerArrayList.find("1111");
-        if (ownerDoesNotExist != null) {
-            System.out.println(ownerDoesNotExist.toString() + " exists.");
-        } else {
-            System.out.println("The return value is null, Owner does not exists.");
-        }
+        //run again to check fail messages if objects already exists.
+        mm.perform(ownerArray, ownerArrayList);
+        
+        Owner ownerDoesExists = (Owner)ownerArrayList.find("O1249");
+        Owner ownerDoesNotExists = (Owner)ownerArrayList.find("O1111");
+        Object[] doThisOwnersExists = {ownerDoesExists, ownerDoesNotExists};
+        mm.performExists(doThisOwnersExists);
+        
         if (ownerArrayList.remove(owner3)) {
             int counter = 0;
             System.out.println("Last object from Owners Array removed.");
         }
         ownerArrayList.dump();
-        
+        Owner[] returnArray = {owner1, owner2, owner3};
+        return returnArray;
+    }
+    
+    public static Vehicle[] doVehicles(Owner[] owners) {
+        MainMethod mm = new MainMethod();
         Vehicle vehicle1 = new Vehicle();
-        if (vehicleArrayList.isPresent("122")) {
+        if (vehicleArrayList.isPresent("V122")) {
             System.out.println("Could not set vehicleId because another object already has it.");
         } else {
-            vehicle1.setVehicleId("122");
+            vehicle1.setVehicleId("V122");
         }
-        if (ownerArrayList.isPresent(owner2)) {
-            vehicle1.setOwnerId(owner2.getOwnerId());
+        if (ownerArrayList.isPresent(owners[1])) {
+            vehicle1.setOwnerId(owners[1].getOwnerId());
         } else {
             System.out.println("Could not set ownerId since owner does not exists.");
         }
@@ -143,17 +157,9 @@ public class MainMethod {
         vehicle1.setVehicleClassification(vehicle1.findVehicleClassification(
                 vehicle1.getModelYear()));
         vehicle1.setIsInsured(true);
-        System.out.println("Created: " + vehicle1.toString());
-        if (!vehicleArrayList.isPresent(vehicle1) && ownerArrayList.isPresent(owner2)) {
-            if (vehicleArrayList.add(vehicle1)) {
-                System.out.println("Added Vehicle: " + vehicle1.getVehicleId());
-            }
-        } else {
-            System.out.println("Could not add vehicle " + vehicle1.getVehicleId()
-                    + " to ArrayList");
-        }
+        
         if(vehicle1.validateVehicleClassification()) {
-            System.out.println("Vehicle " + vehicle1.getOwnerId()
+            System.out.println("Vehicle " + vehicle1.getVehicleId()
                     + " has the correct classification");
         } else {
             System.out.println("Vehicle " + vehicle1.getVehicleId()
@@ -161,20 +167,13 @@ public class MainMethod {
         }
         
         Vehicle vehicle2 = null;
-        if (!vehicleArrayList.isPresent("143") && ownerArrayList.isPresent(owner2)) {
-            vehicle2 = new Vehicle("143", owner2.getOwnerId(), "Chevrolet",
+        if (ownerArrayList.isPresent(owners[1])) {
+            vehicle2 = new Vehicle("V143", owners[1].getOwnerId(), "Chevrolet",
                 2004, "Camaro", "Turbo", VehicleClassification.MODERN, true);
-            System.out.println("Created: " + vehicle2.toString());
         } else {
             System.out.println("Could not create Vehicle object");
         }
-        if (!vehicleArrayList.isPresent(vehicle2) && ownerArrayList.isPresent(owner2)) {
-            if (vehicleArrayList.add(vehicle2)) {
-                System.out.println("Added Vehicle: " + vehicle2.getVehicleId());
-            }
-        } else {
-            System.out.println("Could not add Vehicle object to ArrayList.");
-        }
+        
         if(vehicle2.validateVehicleClassification()) {
             System.out.println("Vehicle " + vehicle2.getVehicleId()
                     + " has the correct classification");
@@ -184,11 +183,10 @@ public class MainMethod {
         }
         
         Vehicle vehicle3 = null;
-        if (!vehicleArrayList.isPresent("426") && ownerArrayList.isPresent(owner1)) {
-            vehicle3 = new Vehicle.Builder("426", owner1.getOwnerId())
+        if (ownerArrayList.isPresent(owners[0])) {
+            vehicle3 = new Vehicle.Builder("V426", owners[0].getOwnerId())
                 .withManufacturer("Chevrolet").withModelYear(1948).withModel("Corvette")
                 .withVehicleClassification(VehicleClassification.CLASSIC).build();
-            System.out.println("Created: " + vehicle3.toString());
         } else {
             System.out.println("Could not create Vehicle object.");
         }
@@ -202,79 +200,38 @@ public class MainMethod {
         vehicle3.setVehicleClassification(vehicle3.findVehicleClassification(
                 vehicle3.getModelYear()));
         System.out.println("Modified: " + vehicle3.toString());
-        if (!vehicleArrayList.isPresent(vehicle3) && ownerArrayList.isPresent(owner1)) {
-            if (vehicleArrayList.add(vehicle3)) {
-                System.out.println("Added Vehicle: " + vehicle3.getVehicleId());
-            }
-        } else {
-            System.out.println("Could not add Vehicle " + vehicle3.getVehicleId()
-                    + " to ArrayList.");
-        }
         
-        Vehicle vehicle4 = null;
-        if (!vehicleArrayList.isPresent("426") && ownerArrayList.isPresent(owner1)) {
-            vehicle4 = new Vehicle.Builder("426", owner1.getOwnerId()).build();
-            System.out.println("Created: " + vehicle4.toString());
-        } else {
-            System.out.println("Could not create Vehicle Object.");
-        }
+        Vehicle[] vehicles = {vehicle1, vehicle2, vehicle3};
+        mm.perform(vehicles, vehicleArrayList);
+        
         //try to add a vehicle that already exists.
-        if (!vehicleArrayList.isPresent(vehicle3)) {
-            if (vehicleArrayList.add(vehicle3)) {
-                System.out.println("Added Vehicle: " + vehicle3.getVehicleId());
-            }
-        } else {
-            System.out.println("Could not add Vehicle: " + vehicle3.getVehicleId()
-                    + "to ArrayList.");
-        }
+        mm.perform(vehicles, vehicleArrayList);
         
-        Vehicle vehicleDoesExist = vehicleArrayList.find("426");
-        if (vehicleDoesExist != null) {
-            System.out.println(vehicleDoesExist.toString() + " exists.");
-        } else {
-            System.out.println("The return value is null. The Vehcile does not exists.");
-        }
-        Vehicle vehicleDoesNotExist = vehicleArrayList.find("1111");
-        if (vehicleDoesNotExist != null) {
-            System.out.println(vehicleDoesNotExist.toString() + " exists.");
-        } else {
-            System.out.println("The return value is null. The Vehicle does not exists.");
-        }
+        Vehicle vehicleDoesExists = (Vehicle)vehicleArrayList.find("V122");
+        Vehicle vehicleDoesNotExists = (Vehicle)vehicleArrayList.find("V1111");
+        Vehicle[] doThisVehiclesExists = {vehicleDoesExists, vehicleDoesNotExists};
+        mm.performExists(doThisVehiclesExists);
         
-        if (vehicleArrayList.remove(vehicle3)) {
+        if (vehicleArrayList.remove(vehicles[2])) {
             System.out.println("The last Vehicle Object was removed from the ArrayList.");
         }
         vehicleArrayList.dump();
-        
-        CarShow carShow1 = null;
-        if (!carShowArrayList.isPresent("123")) {
-            carShow1 = new CarShow("123", "The Great Car Show",
-                LocalDate.of(2021, 12, 12), true);
-            System.out.println("Created: " + carShow1.toString());
-        } else {
-            System.out.println("Did not create object. CarShow object already exist.");
-        }
+        Vehicle[] returnArray = {vehicle1, vehicle2, vehicle3};
+        return returnArray;
+    }
+    
+    public static CarShow[] doCarShows() {
+        MainMethod mm = new MainMethod();
+        CarShow carShow1 = new CarShow("C123", "The Great Car Show",
+                LocalDate.of(2021, 12, 12), true);;
         if(carShow1.isSanctioned()) {
             System.out.println(carShow1.getCarShowTitle() + " is Sanctioned");
         } else {
             System.out.println(carShow1.getCarShowTitle() + " is not Sanctioned");
         }
-        if (!carShowArrayList.isPresent(carShow1)) {
-            if (carShowArrayList.add(carShow1)) {
-                System.out.println("Added CarShow: " + carShow1.getCarShowId());
-            }
-        } else {
-            System.out.println("Could not add CarShow Object to ArrayList.");
-        }
         
-        CarShow carShow2 = null;
-        if (!carShowArrayList.isPresent("124")) {
-            carShow2 = new CarShow.Builder("124").withCarShowTitle("Next Gen Auto")
-                .withCarShowDate(LocalDate.of(2022, 2, 15)).isSanctioned(false).build();
-            System.out.println("Created: " + carShow2.toString());
-        } else {
-            System.out.println("Could not add CarShow Object to ArrayList.");
-        }
+        CarShow carShow2 = new CarShow.Builder("C124").withCarShowTitle("Next Gen Auto")
+                .withCarShowDate(LocalDate.of(2022, 2, 15)).isSanctioned(false).build();;
         if(carShow2.isSanctioned()) {
             System.out.println(carShow2.getCarShowTitle() + " is Sanctioned");
         } else {
@@ -286,128 +243,79 @@ public class MainMethod {
         System.out.println("Modified: " + carShow2.toString());
         carShow2.setIsSanctioned(0);
         System.out.println("Modified: " + carShow2.toString());
-        if (!carShowArrayList.isPresent(carShow2)) {
-            if (carShowArrayList.add(carShow2)) {
-                System.out.println("Added CarShow: " + carShow2.getCarShowId());
-            }
-        } else {
-            System.out.println("Could not add CarShow " + carShow2.getCarShowId()
-                    + " to ArrayList.");
-        }
         
-        CarShow carShow3 = null;
-        if (!carShowArrayList.isPresent("124")) {
-            carShow3 = new CarShow.Builder("124").build();
-            System.out.println("Created: " + carShow3.toString());
-        } else {
-            System.out.println("Could not create CarShow Object. ID already exists.");
-        }
-        //Since above will fail create a different carShow3 id.
-        if (!carShowArrayList.isPresent("125")) {
-            carShow3 = new CarShow.Builder("125").withCarShowTitle("Done").build();
-            System.out.println("Created: " + carShow3.toString());
-        } else {
-            System.out.println("Could not create CarShow object.");
-        }
+        CarShow carShow3 = new CarShow.Builder("V124").build();
+        
+        CarShow[] carShows = {carShow1, carShow2, carShow3};
+        mm.perform(carShows, carShowArrayList);
+
+        //Since above carShow3 will not add create a different carShow3 id.
+        carShow3.setCarShowId("V125");
+        carShows[2] = carShow3;
         //try to add an object that alrady exists.
-        if (!carShowArrayList.isPresent(carShow2)) {
-            if (carShowArrayList.add(carShow2)) {
-                System.out.println("Added CarShow: " + carShow2.getCarShowId());
-            }
-        } else {
-            System.out.println("Could not add CarShow: " + carShow2.getCarShowId()
-                    + " to ArrayList.");
-        }
-        if (!carShowArrayList.isPresent(carShow3)) {
-            if (carShowArrayList.add(carShow3)) {
-                System.out.println("Added CarShow: " + carShow3.getCarShowId());
-            }
-        } else {
-            System.out.println("Could not add CarShow: " + carShow3.getCarShowId()
-                    + " to ArrayList.");
-        }
-        CarShow carShowDoesExist = carShowArrayList.find("125");
-        if (carShowDoesExist != null) {
-            System.out.println(carShowDoesExist.toString() + " exists.");
-        } else {
-            System.out.println("The return value is null. CarShow does not exists.");
-        }
-        CarShow carShowDoesNotExist = carShowArrayList.find("12888");
-        if (carShowDoesNotExist != null) {
-            System.out.println(carShowDoesNotExist.toString() + " exists.");
-        } else {
-            System.out.println("The return value is null. CarShow does not exists.");
-        }
+        mm.perform(carShows, carShowArrayList);
+
+        CarShow carShowDoesExists = (CarShow)carShowArrayList.find("125");
+        CarShow carShowDoesNotExists = (CarShow)carShowArrayList.find("12888");
+        CarShow[] doThisCarShowsExists = {carShowDoesExists, carShowDoesNotExists};
+        mm.performExists(doThisCarShowsExists);
+        
         if (carShowArrayList.remove(carShow3)) {
             System.out.println("The last CarShow object was removed from ArrayList.");
         }
         carShowArrayList.dump();
-        
-        
+        CarShow[] returnArray = {carShow1, carShow2, carShow3};
+        return returnArray;
+    }
+    
+    public static CarShowOwner[] doCarShowOwners(Owner[] owners, CarShow[] carShows) {
+        MainMethod mm = new MainMethod();
         CarShowOwner carShowOwner1 = null;
-        if (!carShowOwnerArrayList.isPresent(owner2.getOwnerId(), carShow1.getCarShowId())) {
-            carShowOwner1 = new CarShowOwner(carShow1.getCarShowId(),
-                owner2.getOwnerId());
+        if (ownerArrayList.isPresent(owners[1].getOwnerId()) 
+                && carShowArrayList.isPresent(carShows[0].getCarShowId())) {
+            carShowOwner1 = new CarShowOwner(carShows[0].getCarShowId(),
+                owners[1].getOwnerId());
             System.out.println("Created: " + carShowOwner1.toString());
         } else {
-            System.out.println("Could not create CarShowOwner. It already exists.");
-        }
-        if (!carShowOwnerArrayList.isPresent(carShowOwner1)) {
-            if (carShowOwnerArrayList.add(carShowOwner1)) {
-                System.out.println("Added: " + carShowOwner1.toString());
-            }
-        } else {
-            System.out.println("Could not add: " + carShowOwner1.toString());
+            System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         
         CarShowOwner carShowOwner2 = null;
-        if (!carShowOwnerArrayList.isPresent(owner1.getOwnerId(), carShow2.getCarShowId())) {
-            carShowOwner2 = new CarShowOwner(carShow2.getCarShowId(),
-                owner1.getOwnerId());
+        if (ownerArrayList.isPresent(owners[0].getOwnerId()) 
+                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
+            carShowOwner2 = new CarShowOwner(carShows[1].getCarShowId(),
+                owners[0].getOwnerId());
             System.out.println("Created: " + carShowOwner2.toString());
         } else {
-            System.out.println("Could not create CarShowOwner. It already exist.");
-        }
-        if (!carShowOwnerArrayList.isPresent(carShowOwner2)) {
-            if (carShowOwnerArrayList.add(carShowOwner2)) {
-                System.out.println("Added: " + carShowOwner2.toString());
-            }
-        } else {
-            System.out.println("Could not add: " + carShowOwner2.toString());
+            System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         
         CarShowOwner carShowOwner3 = null;
-        if (!carShowOwnerArrayList.isPresent(owner1.getOwnerId(), carShow2.getCarShowId())) {
-            carShowOwner3 = new CarShowOwner(carShow2.getCarShowId(), owner1.getOwnerId());
+        if (ownerArrayList.isPresent(owners[0].getOwnerId())
+                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
+            carShowOwner3 = new CarShowOwner(carShows[1].getCarShowId(), owners[0].getOwnerId());
             System.out.println("Created: " + carShowOwner3.toString());
         } else {
-            System.out.println("Could not create CarShowOwner. It already exist.");
+            System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         //Since above will fail, create a different object. 
-        if (!carShowOwnerArrayList.isPresent(owner2.getOwnerId(), carShow2.getCarShowId())) {
-            carShowOwner3 = new CarShowOwner(carShow2.getCarShowId(), owner2.getOwnerId());
+        if (ownerArrayList.isPresent(owners[1].getOwnerId())
+                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
+            carShowOwner3 = new CarShowOwner(carShows[1].getCarShowId(), owners[1].getOwnerId());
             System.out.println("Created: " + carShowOwner3.toString());
         } else {
-            System.out.println("Could not create CarShowOwner. It already exist.");
+            System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
-        //Try to add an object that already exists.
-        if (!carShowOwnerArrayList.isPresent(carShowOwner2)) {
-            if (carShowOwnerArrayList.add(carShowOwner2)) {
-                System.out.println("Added: " + carShowOwner2.toString());
-            }
-        } else {
-            System.out.println("Could not add: " + carShowOwner2.toString());
-        }
-        if (!carShowOwnerArrayList.isPresent(carShowOwner3)) {
-            if (carShowOwnerArrayList.add(carShowOwner3)) {
-                System.out.println("Added: " + carShowOwner3.toString());
-            }
-        } else {
-            System.out.println("Could not add: " + carShowOwner3.toString());
-        }
+        CarShowOwner[] carShowOwners = {carShowOwner1, carShowOwner2, carShowOwner3};
+        mm.perform(carShowOwners, carShowOwnerArrayList);
+        
+        //try to add object that exist
+        mm.perform(carShowOwners, carShowOwnerArrayList);
         if (carShowOwnerArrayList.remove(carShowOwner3)) {
             System.out.println("Removed the last CarShowOwner from ArrayList.");
         }
         carShowOwnerArrayList.dump();
+        CarShowOwner[] returnArray = {carShowOwner1, carShowOwner2, carShowOwner3};
+        return returnArray;
     }
 }
