@@ -30,7 +30,7 @@ public class OwnerArrayListImpl implements ArrayListImpl {
         boolean rv = false;
         if (o instanceof Owner) {
             Owner owner = (Owner)o;
-            if (!isPresent(owner)) {
+            if (!owners.contains(owner)) {
                 rv = owners.add(owner);
             }
         }
@@ -48,9 +48,21 @@ public class OwnerArrayListImpl implements ArrayListImpl {
         if (o instanceof Owner) {
             Owner owner = (Owner)o;
             rv = owners.remove(owner);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            rv = owners.remove(find(ID));
+        } 
+        return rv;
+    }
+    
+    @Override
+    public boolean remove(String ID) {
+        boolean rv = false;
+        Iterator i = owners.iterator();
+        while (i.hasNext()) {
+            Owner o = (Owner)i.next();
+            if (o.getOwnerId().equals(ID)) {
+                i.remove();
+                rv = true;
+                break;
+            }
         }
         return rv;
     }
@@ -82,9 +94,18 @@ public class OwnerArrayListImpl implements ArrayListImpl {
         boolean rv = false;
         if (o instanceof Owner) {
             rv = owners.contains(o);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            rv = owners.contains(find(ID));
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean isPresent(String ID) {
+        boolean rv = false;
+        for (Owner o: owners) {
+            if (o.getOwnerId().equals(ID)) {
+                rv = true;
+                break;
+            }
         }
         return rv;
     }

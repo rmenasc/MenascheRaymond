@@ -22,7 +22,7 @@ public class CarShowTest {
      */
     @Test
     public void testSetIsSanctioned() {
-        CarShow instance = new CarShow.Builder("123").withCarShowTitle("Test1")
+        CarShow instance = new CarShow.Builder("123", "Test1")
                 .withCarShowDate(LocalDate.of(2021, 12, 12)).isSanctioned(false)
                 .build();
         

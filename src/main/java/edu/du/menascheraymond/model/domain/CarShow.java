@@ -18,7 +18,7 @@ public class CarShow {
     private String carShowId;     // required
     private String carShowTitle;  // optional
     private LocalDate carShowDate;// required - default date of creation
-    private boolean sanctioned; // required - default false
+    private boolean sanctioned;   // required - default false
     
     /**
      * Constructor.
@@ -58,16 +58,12 @@ public class CarShow {
          * Builder method for CarShow class.
          * Requires: carShowId.
          * Optional: carShowTitle, carShowDate, isSanctioned.
-         * @param carShowId 
+         * @param carShowId String
+         * @param carShowTitle String
          */
-        public Builder(String carShowId) {
+        public Builder(String carShowId, String  carShowTitle) {
             this.carShowId = carShowId;
-        }
-        
-        public Builder withCarShowTitle(String carShowTitle) {
             this.carShowTitle = carShowTitle;
-            
-            return this;
         }
         
         public Builder withCarShowDate(LocalDate carShowDate) {

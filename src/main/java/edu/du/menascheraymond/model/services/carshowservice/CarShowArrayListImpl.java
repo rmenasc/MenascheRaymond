@@ -10,6 +10,7 @@ package edu.du.menascheraymond.model.services.carshowservice;
 import edu.du.menascheraymond.model.domain.CarShow;
 import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class CarShowArrayListImpl implements ArrayListImpl {
         boolean rv  = false;
         if (o instanceof CarShow) {
             CarShow c = (CarShow)o;
-            if (!isPresent(c)) {
+            if (!carShows.contains(c)) {
                 rv = carShows.add(c);
             }
         }
@@ -47,9 +48,21 @@ public class CarShowArrayListImpl implements ArrayListImpl {
         if (o instanceof CarShow) {
             CarShow c = (CarShow)o;
             rv = carShows.remove(c);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            rv = carShows.remove(find(ID));
+        } 
+        return rv;
+    }
+    
+    @Override
+    public boolean remove(String ID) {
+        boolean rv = false;
+        Iterator i = carShows.iterator();
+        while (i.hasNext()) {
+            CarShow c = (CarShow)i.next();
+            if (c.getCarShowId().equals(ID)) {
+                i.remove();
+                rv = true;
+                break;
+            }
         }
         return rv;
     }
@@ -80,10 +93,19 @@ public class CarShowArrayListImpl implements ArrayListImpl {
     public boolean isPresent(Object o) {
         boolean rv = false;
         if (o instanceof CarShow) {
-            rv = carShows.contains(o);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            rv = carShows.contains(find(ID));
+            carShows.contains(o);
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean isPresent(String ID){
+        boolean rv = false;
+        for (CarShow c: carShows) {
+            if(c.getCarShowId().equals(ID)) {
+                rv = true;
+                break;
+            }
         }
         return rv;
     }

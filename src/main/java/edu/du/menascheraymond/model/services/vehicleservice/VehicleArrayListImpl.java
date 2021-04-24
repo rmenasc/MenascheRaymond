@@ -10,6 +10,7 @@ package edu.du.menascheraymond.model.services.vehicleservice;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.service.ArrayListImpl;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  * @author raymond
  */
 public class VehicleArrayListImpl implements ArrayListImpl {
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private final List<Vehicle> vehicles = new ArrayList<>();
     
     /**
      * Adds a Vehicle object to the ArrayList.
@@ -27,7 +28,7 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     @Override
     public boolean add(Object o) {
         boolean rv = false;
-        if (!isPresent(o)) {
+        if (!vehicles.contains(o)) {
             Vehicle v = (Vehicle)o;
             rv = vehicles.add(v);
         }
@@ -43,10 +44,23 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     public boolean remove(Object o) {
         boolean rv = false;
         if (o instanceof Vehicle) {
-            rv = vehicles.remove(o);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            rv = vehicles.remove(find(ID));
+            Vehicle v = (Vehicle)o;
+            rv = vehicles.remove(v);
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean remove(String ID) {
+        boolean rv = false;
+        Iterator i = vehicles.iterator();
+        while (i.hasNext()) {
+            Vehicle v = (Vehicle)i.next();
+            if (v.getVehicleId().equals(ID)) {
+                i.remove();
+                rv = true;
+                break;
+            }
         }
         return rv;
     }
@@ -77,10 +91,24 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     public boolean isPresent(Object o) {
         boolean rv = false;
         if (o instanceof Vehicle) {
-            rv = vehicles.contains(o);
+            Vehicle v = (Vehicle)o;
+            rv = vehicles.contains(v);
         } else if (o instanceof String) {
             String ID = (String)o;
-            rv = vehicles.contains(find(ID));
+            Vehicle v = (Vehicle)find(ID);
+            rv = vehicles.contains(v);
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean isPresent(String ID) {
+        boolean rv = false;
+        for (Vehicle v: vehicles) {
+            if (v.getVehicleId().equals(ID)) {
+                rv = true;
+                break;
+            }
         }
         return rv;
     }
@@ -95,7 +123,7 @@ public class VehicleArrayListImpl implements ArrayListImpl {
      */
     @Override
     public void dump() {
-        for(Vehicle v: vehicles) {
+        for (Vehicle v: vehicles) {
             System.out.println(v.toString());
         }
     }

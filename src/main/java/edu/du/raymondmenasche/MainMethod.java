@@ -35,47 +35,48 @@ public class MainMethod {
         
         
         //Create Owner objects.
-        Owner[] owners = doOwners();
+        doOwners();
         
         
         //Create Vehicle objects.
-        Vehicle[] vehicles = doVehicles(owners);
+        doVehicles();
         
         
         //Create CarShow objects.
-        CarShow[] carShows = doCarShows();
+        doCarShows();
         
         
         //Create CarShowOwner objects.
-        CarShowOwner[] carShowOwners = doCarShowOwners
-                (owners, carShows);
+        doCarShowOwners();
     }
     
-    public void perform(Object[] objects, ArrayListImpl arrayListImpl) {
+    public static ArrayListImpl perform(Object[] objects, ArrayListImpl arrayListImpl) {
         for (Object o: objects) {
             if(arrayListImpl.isPresent(o)) {
                 System.out.println(o.toString() + " already exists in List.");
             } else {
-                if (ownerArrayList.add(o)) {
+                if (arrayListImpl.add(o)) {
                     System.out.println("Added: " + o.toString());
                 }
             }
         }
+        return arrayListImpl;
     }
     
-    public void perform(Object[] objects, JoinArrayListImpl arrayListImpl) {
+    public static JoinArrayListImpl perform(Object[] objects, JoinArrayListImpl arrayListImpl) {
         for (Object o: objects) {
             if(arrayListImpl.isPresent(o)) {
                 System.out.println(o.toString() + " already exists in List.");
             } else {
-                if (ownerArrayList.add(o)) {
+                if (arrayListImpl.add(o)) {
                     System.out.println("Added: " + o.toString());
                 }
             }
         }
+        return arrayListImpl;
     }
     
-    public void performExists(Object[] objects) {
+    public static void performExists(Object[] objects) {
         for (Object o: objects) {
             if (o != null) {
                 System.out.println(o.toString() + " exists");
@@ -85,8 +86,7 @@ public class MainMethod {
         }
     }
     
-    public static Owner[] doOwners() {
-        MainMethod mm = new MainMethod();
+    public static void doOwners() {
         Address address1 = new Address();
         System.out.println(address1.toString());
         Address address2 = new Address("111 Somewhere St", "Apt 404", "Thereville",
@@ -106,7 +106,7 @@ public class MainMethod {
         Owner owner3 = new Owner.Builder("O1246", "Don", "Added").build();
         
         Object[] ownerArray = {owner1, owner2, owner3};
-        mm.perform(ownerArray, ownerArrayList);
+        ownerArrayList = perform(ownerArray, ownerArrayList);
         
         owner3.setOwnerId("O1249");
         ownerArray[2] = owner3;
@@ -120,33 +120,30 @@ public class MainMethod {
                 System.out.println(owner.getFirstName() + " is not a senior owner.");
             }
         }
-        //run again to check fail messages if objects already exists.
-        mm.perform(ownerArray, ownerArrayList);
+        //Run again to check fail messages for objects that already exists.
+        ownerArrayList = perform(ownerArray, ownerArrayList);
         
         Owner ownerDoesExists = (Owner)ownerArrayList.find("O1249");
         Owner ownerDoesNotExists = (Owner)ownerArrayList.find("O1111");
         Object[] doThisOwnersExists = {ownerDoesExists, ownerDoesNotExists};
-        mm.performExists(doThisOwnersExists);
+        performExists(doThisOwnersExists);
         
         if (ownerArrayList.remove(owner3)) {
             int counter = 0;
             System.out.println("Last object from Owners Array removed.");
         }
         ownerArrayList.dump();
-        Owner[] returnArray = {owner1, owner2, owner3};
-        return returnArray;
     }
     
-    public static Vehicle[] doVehicles(Owner[] owners) {
-        MainMethod mm = new MainMethod();
+    public static void doVehicles() {
         Vehicle vehicle1 = new Vehicle();
         if (vehicleArrayList.isPresent("V122")) {
             System.out.println("Could not set vehicleId because another object already has it.");
         } else {
             vehicle1.setVehicleId("V122");
         }
-        if (ownerArrayList.isPresent(owners[1])) {
-            vehicle1.setOwnerId(owners[1].getOwnerId());
+        if (ownerArrayList.isPresent("O1246")) {
+            vehicle1.setOwnerId("O1246");
         } else {
             System.out.println("Could not set ownerId since owner does not exists.");
         }
@@ -167,8 +164,8 @@ public class MainMethod {
         }
         
         Vehicle vehicle2 = null;
-        if (ownerArrayList.isPresent(owners[1])) {
-            vehicle2 = new Vehicle("V143", owners[1].getOwnerId(), "Chevrolet",
+        if (ownerArrayList.isPresent("O1246")) {
+            vehicle2 = new Vehicle("V143", "O1246", "Chevrolet",
                 2004, "Camaro", "Turbo", VehicleClassification.MODERN, true);
         } else {
             System.out.println("Could not create Vehicle object");
@@ -183,8 +180,8 @@ public class MainMethod {
         }
         
         Vehicle vehicle3 = null;
-        if (ownerArrayList.isPresent(owners[0])) {
-            vehicle3 = new Vehicle.Builder("V426", owners[0].getOwnerId())
+        if (ownerArrayList.isPresent("O1234")) {
+            vehicle3 = new Vehicle.Builder("V426", "O1234")
                 .withManufacturer("Chevrolet").withModelYear(1948).withModel("Corvette")
                 .withVehicleClassification(VehicleClassification.CLASSIC).build();
         } else {
@@ -202,26 +199,23 @@ public class MainMethod {
         System.out.println("Modified: " + vehicle3.toString());
         
         Vehicle[] vehicles = {vehicle1, vehicle2, vehicle3};
-        mm.perform(vehicles, vehicleArrayList);
+        vehicleArrayList = perform(vehicles, vehicleArrayList);
         
         //try to add a vehicle that already exists.
-        mm.perform(vehicles, vehicleArrayList);
+        vehicleArrayList = perform(vehicles, vehicleArrayList);
         
         Vehicle vehicleDoesExists = (Vehicle)vehicleArrayList.find("V122");
         Vehicle vehicleDoesNotExists = (Vehicle)vehicleArrayList.find("V1111");
         Vehicle[] doThisVehiclesExists = {vehicleDoesExists, vehicleDoesNotExists};
-        mm.performExists(doThisVehiclesExists);
+        performExists(doThisVehiclesExists);
         
         if (vehicleArrayList.remove(vehicles[2])) {
             System.out.println("The last Vehicle Object was removed from the ArrayList.");
         }
         vehicleArrayList.dump();
-        Vehicle[] returnArray = {vehicle1, vehicle2, vehicle3};
-        return returnArray;
     }
     
-    public static CarShow[] doCarShows() {
-        MainMethod mm = new MainMethod();
+    public static void doCarShows() {
         CarShow carShow1 = new CarShow("C123", "The Great Car Show",
                 LocalDate.of(2021, 12, 12), true);;
         if(carShow1.isSanctioned()) {
@@ -230,7 +224,7 @@ public class MainMethod {
             System.out.println(carShow1.getCarShowTitle() + " is not Sanctioned");
         }
         
-        CarShow carShow2 = new CarShow.Builder("C124").withCarShowTitle("Next Gen Auto")
+        CarShow carShow2 = new CarShow.Builder("C124", "Next Gen Auto")
                 .withCarShowDate(LocalDate.of(2022, 2, 15)).isSanctioned(false).build();;
         if(carShow2.isSanctioned()) {
             System.out.println(carShow2.getCarShowTitle() + " is Sanctioned");
@@ -244,78 +238,71 @@ public class MainMethod {
         carShow2.setIsSanctioned(0);
         System.out.println("Modified: " + carShow2.toString());
         
-        CarShow carShow3 = new CarShow.Builder("V124").build();
+        CarShow carShow3 = new CarShow.Builder("V124", "The Old One").build();
         
         CarShow[] carShows = {carShow1, carShow2, carShow3};
-        mm.perform(carShows, carShowArrayList);
+        carShowArrayList = perform(carShows, carShowArrayList);
 
         //Since above carShow3 will not add create a different carShow3 id.
         carShow3.setCarShowId("V125");
         carShows[2] = carShow3;
         //try to add an object that alrady exists.
-        mm.perform(carShows, carShowArrayList);
+        carShowArrayList = perform(carShows, carShowArrayList);
 
         CarShow carShowDoesExists = (CarShow)carShowArrayList.find("125");
         CarShow carShowDoesNotExists = (CarShow)carShowArrayList.find("12888");
         CarShow[] doThisCarShowsExists = {carShowDoesExists, carShowDoesNotExists};
-        mm.performExists(doThisCarShowsExists);
+        performExists(doThisCarShowsExists);
         
         if (carShowArrayList.remove(carShow3)) {
             System.out.println("The last CarShow object was removed from ArrayList.");
         }
         carShowArrayList.dump();
-        CarShow[] returnArray = {carShow1, carShow2, carShow3};
-        return returnArray;
     }
     
-    public static CarShowOwner[] doCarShowOwners(Owner[] owners, CarShow[] carShows) {
-        MainMethod mm = new MainMethod();
+    public static void doCarShowOwners() {
         CarShowOwner carShowOwner1 = null;
-        if (ownerArrayList.isPresent(owners[1].getOwnerId()) 
-                && carShowArrayList.isPresent(carShows[0].getCarShowId())) {
-            carShowOwner1 = new CarShowOwner(carShows[0].getCarShowId(),
-                owners[1].getOwnerId());
+        if (ownerArrayList.isPresent("O1246")
+                && carShowArrayList.isPresent("C123")) {
+            carShowOwner1 = new CarShowOwner("C123", "O1246");
             System.out.println("Created: " + carShowOwner1.toString());
         } else {
             System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         
         CarShowOwner carShowOwner2 = null;
-        if (ownerArrayList.isPresent(owners[0].getOwnerId()) 
-                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
-            carShowOwner2 = new CarShowOwner(carShows[1].getCarShowId(),
-                owners[0].getOwnerId());
+        if (ownerArrayList.isPresent("O1234") 
+                && carShowArrayList.isPresent("C124")) {
+            carShowOwner2 = new CarShowOwner("C124","O1234");
             System.out.println("Created: " + carShowOwner2.toString());
         } else {
             System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         
         CarShowOwner carShowOwner3 = null;
-        if (ownerArrayList.isPresent(owners[0].getOwnerId())
-                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
-            carShowOwner3 = new CarShowOwner(carShows[1].getCarShowId(), owners[0].getOwnerId());
+        if (ownerArrayList.isPresent("O1234")
+                && carShowArrayList.isPresent("C124")) {
+            carShowOwner3 = new CarShowOwner("C124", "O1234");
             System.out.println("Created: " + carShowOwner3.toString());
         } else {
             System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         //Since above will fail, create a different object. 
-        if (ownerArrayList.isPresent(owners[1].getOwnerId())
-                && carShowArrayList.isPresent(carShows[1].getCarShowId())) {
-            carShowOwner3 = new CarShowOwner(carShows[1].getCarShowId(), owners[1].getOwnerId());
+        if (ownerArrayList.isPresent("O1246")
+                && carShowArrayList.isPresent("C124")) {
+            carShowOwner3 = new CarShowOwner("C124", "O1246");
             System.out.println("Created: " + carShowOwner3.toString());
         } else {
             System.out.println("Could not create CarShowOwner. No supporting objects.");
         }
         CarShowOwner[] carShowOwners = {carShowOwner1, carShowOwner2, carShowOwner3};
-        mm.perform(carShowOwners, carShowOwnerArrayList);
+        carShowOwnerArrayList = perform(carShowOwners, carShowOwnerArrayList);
         
         //try to add object that exist
-        mm.perform(carShowOwners, carShowOwnerArrayList);
+        carShowOwnerArrayList = perform(carShowOwners, carShowOwnerArrayList);
         if (carShowOwnerArrayList.remove(carShowOwner3)) {
             System.out.println("Removed the last CarShowOwner from ArrayList.");
         }
         carShowOwnerArrayList.dump();
-        CarShowOwner[] returnArray = {carShowOwner1, carShowOwner2, carShowOwner3};
-        return returnArray;
     }
 }

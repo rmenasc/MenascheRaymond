@@ -23,15 +23,12 @@ public class CarShowArrayListImplTest {
     CarShow carShow3;
     
     public CarShowArrayListImplTest() {
-        carShow1 = new CarShow.Builder("0124")
-                .withCarShowDate(LocalDate.of(2021, 3, 4))
-                .withCarShowTitle("The Great Show").build();
-        carShow2 = new CarShow.Builder("4352")
-                .withCarShowDate(LocalDate.of(2021, 12, 12))
-                .withCarShowTitle("The Winter Show").build();
-        carShow3 = new CarShow.Builder("4523")
-                .withCarShowDate(LocalDate.of(2022, 01, 03))
-                .withCarShowTitle("Early Bird Show").build();
+        carShow1 = new CarShow.Builder("0124", "The Great Show")
+                .withCarShowDate(LocalDate.of(2021, 3, 4)).build();
+        carShow2 = new CarShow.Builder("4352", "The Winter Show")
+                .withCarShowDate(LocalDate.of(2021, 12, 12)).build();
+        carShow3 = new CarShow.Builder("4523", "The Early Bird  Show")
+                .withCarShowDate(LocalDate.of(2022, 01, 03)).build();
     }
 
     /**

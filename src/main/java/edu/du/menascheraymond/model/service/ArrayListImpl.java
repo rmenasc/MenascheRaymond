@@ -22,17 +22,31 @@ public interface ArrayListImpl {
     
     /**
      * Removes object from ArrayList.
-     * @param o Can be an Object or String including the object ID
+     * @param o Object
      * @return True if the object was successfully removed. False if it does not exists.
      */
     public boolean remove(Object o);
     
     /**
+     * Removes object from ArrayList.
+     * @param ID String including the object ID
+     * @return True if the object was successfully removed. False if it does not exists.
+     */
+    public boolean remove(String ID);
+    
+    /**
      * Checks to see if the object exists in ArrayList.
-     * @param o Can be an Object, or a String including the object ID
+     * @param o Object
      * @return True if object exists in ArrayList.
      */
     public boolean isPresent(Object o);
+    
+    /**
+     * Checks to see if the object exists in ArrayList.
+     * @param ID String including the object ID
+     * @return True if object exists in ArrayList.
+     */
+    public boolean isPresent(String ID);
     
     /**
      * Looks for an object with the corresponding object ID
