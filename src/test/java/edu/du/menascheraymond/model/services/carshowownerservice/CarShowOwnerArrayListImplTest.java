@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
 import edu.du.menascheraymond.model.domain.CarShowOwner;
-import edu.du.menascheraymond.model.service.JoinArrayListImpl;
+import edu.du.menascheraymond.model.services.JoinArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,14 @@ public class CarShowOwnerArrayListImplTest {
         expResult = false;
         result = instance.add(carShowOwner1);
         assertEquals(expResult, result);
-        
+        expResult = true;
+        result = instance.add(carShowOwner2);
+        assertEquals(expResult, result);
+        result = instance.add(carShowOwner3);
+        assertEquals(expResult, result);
+        expResult = false;
+        result = instance.add(carShowOwner2);
+        assertEquals(expResult, result);
     }
     
     /**

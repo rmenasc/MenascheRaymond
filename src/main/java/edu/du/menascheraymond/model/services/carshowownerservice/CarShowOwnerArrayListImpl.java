@@ -8,8 +8,9 @@
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
 import edu.du.menascheraymond.model.domain.CarShowOwner;
-import edu.du.menascheraymond.model.service.JoinArrayListImpl;
+import edu.du.menascheraymond.model.services.JoinArrayListImpl;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
         boolean rv = false;
         if (o instanceof CarShowOwner) {
             CarShowOwner c = (CarShowOwner)o;
-            if (!isPresent(c)) {
+            if (!carShowOwners.contains(c)) {
               rv = carShowOwners.add(c);
             }
         }
@@ -79,7 +80,18 @@ public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
      */
     @Override
     public boolean isPresent(String firstObjectId, String secondObjectId) {
-        return carShowOwners.contains(find(firstObjectId, secondObjectId));
+        boolean rv = false;
+        for (CarShowOwner cso: carShowOwners) {
+            if (cso.getCarShowId().equals(firstObjectId) 
+                    && cso.getOwnerId().equals(secondObjectId)) {
+                rv = true;
+            }
+            if (cso.getCarShowId().equals(secondObjectId)
+                    && cso.getOwnerId().equals(firstObjectId)) {
+                rv = true;
+            }
+        }
+        return rv;
     }
     
     /**
@@ -93,6 +105,25 @@ public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
         if (o instanceof CarShowOwner) {
             rv = carShowOwners.contains(o);
         }
+        return rv;
+    }
+    
+    /**
+     * Getter
+     * @return ArrayList.
+     */
+    @Override
+    public List getList() {
+        return carShowOwners;
+    }
+    
+    /**
+     * Iterator getter
+     * @return Iterator
+     */
+    @Override
+    public Iterator getIterator() {
+        Iterator<CarShowOwner> rv = carShowOwners.listIterator();
         return rv;
     }
     

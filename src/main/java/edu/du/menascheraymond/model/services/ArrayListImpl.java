@@ -5,7 +5,10 @@
  * Author: Raymond G Menasche
  * ArrayListImpl.java
  */
-package edu.du.menascheraymond.model.service;
+package edu.du.menascheraymond.model.services;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -15,7 +18,7 @@ public interface ArrayListImpl {
     
     /**
      * Adds object to ArrayList.
-     * @param o Can be an Object or String including the object ID
+     * @param o 
      * @return True if the object was successfully added. False if it already exists.
      */
     public boolean add(Object o);
@@ -54,6 +57,18 @@ public interface ArrayListImpl {
      * @return Object
      */
     public Object find(String ID);
+    
+    /**
+     * Gets main list attribute.
+     * @return ArrayList.
+     */
+    public List getList();
+    
+    /**
+     * Returns the listIterator for the ArrayList.
+     * @return Iterator
+     */
+    public Iterator getIterator();
     
     /**
      * Gets the number of objects in the ArrayList.

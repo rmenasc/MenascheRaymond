@@ -5,7 +5,10 @@
  * Author: Raymond G Menasche
  * File: JoinArrayListImpl.java
  */
-package edu.du.menascheraymond.model.service;
+package edu.du.menascheraymond.model.services;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides an interface for the implementation of joint classes.
@@ -49,6 +52,18 @@ public interface JoinArrayListImpl {
      * @return True if object is present in ArrayList.
      */
     public boolean isPresent(Object o);
+    
+    /**
+     * Gets main ArrayList attribute.
+     * @return ArrayList.
+     */
+    public List getList();
+    
+    /**
+     * Gets the listIterator for the ArrayList.
+     * @return Iterator
+     */
+    public Iterator getIterator();
     
     /**
      * Gets the number of objects in the ArrayList.

@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,13 +53,12 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     @Override
     public boolean remove(String ID) {
         boolean rv = false;
-        Iterator i = vehicles.iterator();
+        Iterator<Vehicle> i = vehicles.listIterator();
         while (i.hasNext()) {
-            Vehicle v = (Vehicle)i.next();
+            Vehicle v = i.next();
             if (v.getVehicleId().equals(ID)) {
                 i.remove();
                 rv = true;
-                break;
             }
         }
         return rv;
@@ -91,13 +90,8 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     public boolean isPresent(Object o) {
         boolean rv = false;
         if (o instanceof Vehicle) {
-            Vehicle v = (Vehicle)o;
-            rv = vehicles.contains(v);
-        } else if (o instanceof String) {
-            String ID = (String)o;
-            Vehicle v = (Vehicle)find(ID);
-            rv = vehicles.contains(v);
-        }
+            rv = vehicles.contains(o);
+        } 
         return rv;
     }
     
@@ -112,7 +106,30 @@ public class VehicleArrayListImpl implements ArrayListImpl {
         }
         return rv;
     }
+
+    /**
+     * Getter
+     * @return ArrayList.
+     */
+    @Override
+    public List getList() {
+        return vehicles;
+    }
     
+    /**
+     * Iterator getter
+     * @return Iterator
+     */
+    @Override
+    public Iterator getIterator() {
+        Iterator<Vehicle> rv = vehicles.listIterator();
+        return rv;
+    }
+    
+    /**
+     * Gets int of number of objects in ArrayList.
+     * @return int
+     */
     @Override
     public int size() {
         return vehicles.size();

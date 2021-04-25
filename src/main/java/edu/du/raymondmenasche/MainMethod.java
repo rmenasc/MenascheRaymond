@@ -13,13 +13,20 @@ import edu.du.menascheraymond.model.domain.CarShowOwner;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
-import edu.du.menascheraymond.model.service.JoinArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
+import edu.du.menascheraymond.model.services.JoinArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowownerservice.CarShowOwnerArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowArrayListImpl;
 import edu.du.menascheraymond.model.services.ownerservice.OwnerArrayListImpl;
 import edu.du.menascheraymond.model.services.vehicleservice.VehicleArrayListImpl;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Main method class.
@@ -30,48 +37,95 @@ public class MainMethod {
     private static ArrayListImpl vehicleArrayList = new VehicleArrayListImpl();
     private static ArrayListImpl carShowArrayList = new CarShowArrayListImpl();
     private static JoinArrayListImpl carShowOwnerArrayList = new CarShowOwnerArrayListImpl();
+    private static List<String> fileReaderLines = new ArrayList<>();
+    private static List<String> fileWriterLines = new ArrayList<>();
+    private static Address address = null;
     
     public static void main(String[] args) {
+        //Store all the lines from CarShowData.txt and stores them in fileReaderLines
+        //ArrayList.
+        readFile();
         
-        
-        //Create Owner objects.
-        doOwners();
-        
-        
-        //Create Vehicle objects.
-        doVehicles();
-        
-        
-        //Create CarShow objects.
-        doCarShows();
-        
-        
-        //Create CarShowOwner objects.
-        doCarShowOwners();
-    }
-    
-    public static ArrayListImpl perform(Object[] objects, ArrayListImpl arrayListImpl) {
-        for (Object o: objects) {
-            if(arrayListImpl.isPresent(o)) {
-                System.out.println(o.toString() + " already exists in List.");
-            } else {
-                if (arrayListImpl.add(o)) {
-                    System.out.println("Added: " + o.toString());
-                }
+        //Create address.
+        for (String line: fileReaderLines) {
+            String[] data = line.split(",");
+
+            try {
+                doAddresses(data);
+                doOwners(data);
+                doVehicles(data);
+                doCarShows(data);
+                doCarShowOwners(data);
+            } catch (NullPointerException e) {
+                System.out.println("Error " + e);
             }
         }
+        
+        //perform data check for all objects
+        ownerDataCheck();
+        vehicleDataCheck();
+        carShowDataCheck();
+        
+        setFileWriterLines();
+        writeToFile();
+    }
+    
+    public static ArrayListImpl perform(Object o, String command,
+            ArrayListImpl arrayListImpl) {
+        
+        switch (command.toUpperCase()) {
+            case "ADD":
+                if(arrayListImpl.isPresent(o)) {
+                    System.out.println(o.toString() + " already exists in List.");
+                } else {
+                    if (arrayListImpl.add(o)) {
+                        System.out.println("Added: " + o.toString());
+                    } else {
+                        System.out.println("Error adding: " + o.toString());
+                    }
+                }
+
+                break;
+            case "REM":
+                if (arrayListImpl.remove(o)) {
+                    System.out.println("Removed: " + o.toString());
+                } else {
+                    System.out.println("Error removing: " + o.toString());
+                }
+
+                break;
+            default:
+                System.out.println("Nothing happened?!");
+                break;
+        }
+
         return arrayListImpl;
     }
     
-    public static JoinArrayListImpl perform(Object[] objects, JoinArrayListImpl arrayListImpl) {
-        for (Object o: objects) {
-            if(arrayListImpl.isPresent(o)) {
-                System.out.println(o.toString() + " already exists in List.");
-            } else {
-                if (arrayListImpl.add(o)) {
-                    System.out.println("Added: " + o.toString());
+    public static JoinArrayListImpl perform(Object o, String command,
+            JoinArrayListImpl arrayListImpl) {
+        switch (command.toUpperCase()) {
+            case "ADD":
+                if(arrayListImpl.isPresent(o)) {
+                    System.out.println(o.toString() + " already exists in List.");
+                } else {
+                    if (arrayListImpl.add(o)) {
+                        System.out.println("Added: " + o.toString());
+                    } else {
+                        System.out.println("Error adding: " + o.toString());
+                    }
                 }
-            }
+                break;
+            case "REM":
+                if (arrayListImpl.remove(o)) {
+                    System.out.println("Removed: " + o.toString());
+                } else {
+                    System.out.println("Error removing: " + o.toString());
+                }
+                break;
+            default:
+                System.out.println("Nothing happened?!");
+                break;
         }
         return arrayListImpl;
     }
@@ -81,228 +135,395 @@ public class MainMethod {
             if (o != null) {
                 System.out.println(o.toString() + " exists");
             } else {
-                System.out.println("The return value is null. Owner does not exists.");
+                System.out.println("The return value is null. Object does not exists.");
             }
         }
     }
     
-    public static void doOwners() {
-        Address address1 = new Address();
-        System.out.println(address1.toString());
-        Address address2 = new Address("111 Somewhere St", "Apt 404", "Thereville",
-                "Colorado", "80001");
-        System.out.println(address2.toString());
-        Address address3 = new Address.Builder().withStreet1("123 Nowhere Ln")
-                .withCity("Denver").withState("Colorado").withZip("80001").build();
-        System.out.println(address3.toString());
-        
-        Owner owner1 = new Owner.Builder("O1234", "Rockie", "Balboa")
-                .withPhoneNumber("555-555-5555").withAddress(address3)
-                .withNumYears(50).build();
-        
-        Owner owner2 = new Owner("O1246", "John", "Mayer", "555-433-6645",
-                16, address2);
-        
-        Owner owner3 = new Owner.Builder("O1246", "Don", "Added").build();
-        
-        Object[] ownerArray = {owner1, owner2, owner3};
-        ownerArrayList = perform(ownerArray, ownerArrayList);
-        
-        owner3.setOwnerId("O1249");
-        ownerArray[2] = owner3;
-        ownerArrayList.add(owner3);
-        
-        for (Object o: ownerArray) {
-            Owner owner = (Owner)o;
-            if(owner.isSeniorOwner()) {
-                System.out.println(owner.getFirstName() + " is a senior owner.");
+    public static void readFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("target/CarShowData.txt")))
+        {
+            String line;
+            while ((line = br.readLine()) != null) {
+                fileReaderLines.add(line); 
+            }
+        } catch (IOException e) {
+            System.out.println("I/O Error: " + e);
+        }
+    }
+    
+    public static void writeToFile() {
+        try (FileWriter fw = new FileWriter("target/OwnerReport.txt"))
+        {
+            for (String line: fileWriterLines) {
+                fw.write(line);
+            }
+        } catch (IOException e) {
+            System.out.println("I/O Error: " + e);
+        }
+    }
+    
+    public static LocalDate dateFromString(String s) {
+        LocalDate rv = null;
+        if (s.contains("-")) {
+            String[] da = s.split("-");
+            int year = Integer.parseInt(da[0]);
+            int month = Integer.parseInt(da[1]);
+            int day = Integer.parseInt(da[2]);
+            rv = LocalDate.of(year, month, day);
+        } else if (s.contains("/")) {
+            String[] da = s.split("/");
+            int month = Integer.parseInt(da[0]);
+            int day = Integer.parseInt(da[1]);
+            int year = Integer.parseInt(da[2]);
+            rv = LocalDate.of(year, month, day);
+        } else {
+            throw new IllegalArgumentException("Invalid date string format or unsupported");
+        }
+        return rv;
+    }
+    
+    public static void doAddresses(String[] data) {
+
+        if (data[0].strip().equalsIgnoreCase("ADDRESS")) {
+            if (data.length == 7) {
+                String command = data[1].strip();       //Command: ADD, REM, ...
+                String street1 = data[2];               //Street 1
+                String street2 = data[3];               //Street 2
+                String city = data[4];                  //City
+                String state = data[5];                 //State
+                String zipCode = data[6].strip();       //Zip Code
+                address = new Address.Builder().withStreet1(street1)
+                        .withStreet2(street2).withCity(city).withState(state)
+                        .withZip(zipCode).build();
+                System.out.println("Created: " + address.toString());
             } else {
-                System.out.println(owner.getFirstName() + " is not a senior owner.");
+                throw new NullPointerException("Error building Array. Size mismatch");
             }
         }
-        //Run again to check fail messages for objects that already exists.
-        ownerArrayList = perform(ownerArray, ownerArrayList);
         
-        Owner ownerDoesExists = (Owner)ownerArrayList.find("O1249");
+    }
+    
+    public static void doOwners(String[] data) {
+
+        if (data[0].strip().equalsIgnoreCase("OWNER")) {
+            //check minimum array lenght
+            if (data.length >= 3) {
+                String command = data[1].strip();                   //ADD, REM, ...
+                String id = data[2].strip();                        //Owner ID
+
+                if (command.equalsIgnoreCase("ADD")) {
+                    //Check array lenght for all necessary fields. 
+                    if (data.length == 7) {
+                        String firstName = data[3];                         //First Name
+                        String lastName = data[4];                          //Last Name
+                        String phoneNumber = data[5].strip();               //Phone Number
+                        int numYears = Integer.parseInt(data[6].strip());   //Number of Years
+                        Owner o = new Owner.Builder(id, firstName, lastName)
+                                .withPhoneNumber(phoneNumber).withAddress(address)
+                                .withNumYears(numYears).build();
+                        ownerArrayList = perform(o, command, ownerArrayList);
+                    } else {
+                        throw new NullPointerException("Error creating array. Size mismatch");
+                    }
+                }
+                if (command.equalsIgnoreCase("REM")) {
+                    //Removes Owner object.
+                    if (ownerArrayList.remove(id)) {
+                        System.out.println("Removed owner: " + id);
+                        //If succesfully removed Owner, removes vehicles with
+                        //objects that include ownerId, and removes CarShowOwner
+                        //with matching ownerId.
+                        Iterator<Vehicle> i = vehicleArrayList.getIterator();
+                        while (i.hasNext()) {
+                            Vehicle v = i.next();
+                            if (v.getOwnerId().equals(id)) {
+                                i.remove();
+                                System.out.println("Removed: " + v.toString());
+                            }
+                        }
+                        Iterator<CarShowOwner> is = carShowOwnerArrayList.getIterator();
+                        while (is.hasNext()) {
+                            CarShowOwner c = is.next();
+                            if (c.getOwnerId().equals(id)) {
+                                is.remove();
+                                System.out.println("Removed: " + c.toString());
+                            }
+                        }
+                    } else {
+                        System.out.println("Error removing owner: " + id);
+                    }
+                }
+            } else {
+                throw new NullPointerException("Error building Array. Size mismatch");
+            }
+        }
+        
+        
+
+    }
+    
+    public static void doVehicles(String[] data) {
+
+        if (data[0].strip().equalsIgnoreCase("VEHICLE")) {
+            //Check minimum array size
+            if (data.length >= 3) {
+                String command = data[1].strip();              //Command: ADD, REM, ...
+                String id = data[2].strip();                   //Vehicle id
+                
+                if (command.equalsIgnoreCase("ADD")) {
+                    //Check array contains all required attributes. 
+                    if (data.length == 10) {
+                        String ownerId = data[3].strip();              //Owner id
+                        int year = Integer.parseInt(data[4]);          //Vehicle year
+                        String manufacturer = data[5];                 //Manufacturer
+                        String model = data[6];                        //Vehicle model
+                        String subModel = data[7];                     //Vehicle sub model
+                        VehicleClassification classification = null;
+                        switch (data[8].toUpperCase().strip()) {       //Vehicle Classification
+                            case "ANTIQUE":
+                                classification = VehicleClassification.ANTIQUE;
+                                break;
+                            case "CLASSIC":
+                                classification = VehicleClassification.CLASSIC;
+                                break;
+                            case "MODERN":
+                                classification = VehicleClassification.MODERN;
+                                break;
+                            default:
+                                // think of something here. 
+                                break;
+                        }
+                        String insured = data[9].strip();             //Insured? Y/Yes/N/No
+                    
+                        Vehicle vehicle = new Vehicle.Builder(id, ownerId)
+                                .withModelYear(year)
+                                .withManufacturer(manufacturer)
+                                .withModel(model)
+                                .withSubModel(subModel)
+                                .withVehicleClassification(classification).build();
+                        vehicle.setInsured(insured);
+                        if (ownerArrayList.isPresent(ownerId)) {
+                            vehicleArrayList = perform(vehicle, command, vehicleArrayList);
+                        } else {
+                            System.out.println("Could not add: " + vehicle.toString()
+                                    + ". Missing dependencies.");
+                        }
+                    } else {
+                        throw new NullPointerException("Error creating array. Size mismatch");
+                    }
+                }
+                if (command.equalsIgnoreCase("REM")) {
+                    if (vehicleArrayList.remove(id)) {
+                        System.out.println("Removed vehicle: " + id);
+                    } else {
+                        System.out.println("Error removing vehicle: " + id);
+                    }
+                }
+            } else {
+                throw new NullPointerException("Error building array. Size mismatch");
+            }
+        }
+        
+        
+        
+    }
+    
+    public static void doCarShows(String[] data) {
+
+        if (data[0].strip().equalsIgnoreCase("CARSHOW")) {
+            //Check minimum array size
+            if (data.length >= 3) {
+                String command = data[1].strip();                 //Command: ADD, REM...
+                String id = data[2].strip();                      //CarShow id
+                
+
+                if (command.equalsIgnoreCase("ADD")) {
+                    //Check if array contains all required attributes
+                    if (data.length == 6) {
+                        String title = data[3];                           //Title
+                        String strDate = data[4].strip();                 //String date ex. 12/12/2020 or 2020-12-12
+                        LocalDate date = null;
+                        try {
+                            date = dateFromString(strDate);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error creating date" + e);
+                        }
+                        String sanctioned = data[5].strip();              //Sanctioned: Y/Yes/N/No
+                        CarShow carShow = new CarShow.Builder(id, title)
+                                .withCarShowDate(date).build();
+                        carShow.setSanctioned(sanctioned);
+                        carShowArrayList = perform(carShow, command, carShowArrayList);
+                    } else {
+                        throw new NullPointerException("Error creating array. Size mismatch");
+                    }
+                }
+                if (command.equalsIgnoreCase("REM")) {
+                    //Removes CarShow Object
+                    if (carShowArrayList.remove(id)) {
+                        System.out.println("Removed CarShow: " + id);
+                        //If successfully removed CarShow Object, removes
+                        //CarShowOwner objects with matching CarShowId.
+                        Iterator<CarShowOwner> i = carShowOwnerArrayList.getIterator();
+                        while (i.hasNext()) {
+                            CarShowOwner c = i.next();
+                            if (c.getCarShowId().equals(id)) {
+                                i.remove();
+                                System.out.println("Removed: " + c.toString());
+                            }
+                        }
+                    } else {
+                        System.out.println("Error removing CarShow: " + id);
+                    }
+                }
+            } else {
+                throw new NullPointerException("Error building Array. Size mismatch");
+            }
+        }
+    }
+    
+    public static void doCarShowOwners(String[] data) {
+
+        if (data[0].strip().equalsIgnoreCase("CSO") && data.length == 4) {
+            if (data.length == 4) {
+                String command = data[1].strip();                  //Command: ADD, REM...
+                String ownerId = data[2].strip();
+                String carShowId = data[3].strip();
+                CarShowOwner cso = new CarShowOwner(carShowId, ownerId);
+                if (command.equalsIgnoreCase("ADD")) {
+                    if (ownerArrayList.isPresent(ownerId)
+                            && carShowArrayList.isPresent(carShowId)) {
+                        carShowOwnerArrayList = perform(cso, command, carShowOwnerArrayList);
+                    } else {
+                        System.out.println("Could not add: " + cso.toString()
+                                + ". Missing dependencies");
+                    }
+                }
+
+                if (command.equalsIgnoreCase("REM")) {
+                    if (carShowOwnerArrayList.remove(cso)) {
+                        System.out.println("Removed; " + cso.toString());
+                    } else {
+                        System.out.println("Error removing: " + cso.toString());
+                    }
+                }
+            } else {
+                throw new NullPointerException("Error building array. Size mismatch.");
+            }
+        }
+    }
+    
+    public static void ownerDataCheck() {
+        // Check if owners in array are senior
+        List<Owner> owners = ownerArrayList.getList();
+        for (Owner o: owners) {
+            if(o.isSeniorOwner()) {
+                System.out.println(o.getFirstName() + " is a senior owner.");
+            } else {
+                System.out.println(o.getFirstName() + " is not a senior owner.");
+            }
+        }
+        
+        //Add existing Owners again to check fail messages for objects that already exists.
+        for (Object o: owners) {
+            ownerArrayList = perform(o, "ADD", ownerArrayList);
+        }
+        
+        Owner ownerDoesExists = (Owner)ownerArrayList.find("O1");
         Owner ownerDoesNotExists = (Owner)ownerArrayList.find("O1111");
         Object[] doThisOwnersExists = {ownerDoesExists, ownerDoesNotExists};
         performExists(doThisOwnersExists);
         
-        if (ownerArrayList.remove(owner3)) {
-            int counter = 0;
-            System.out.println("Last object from Owners Array removed.");
-        }
         ownerArrayList.dump();
     }
     
-    public static void doVehicles() {
-        Vehicle vehicle1 = new Vehicle();
-        if (vehicleArrayList.isPresent("V122")) {
-            System.out.println("Could not set vehicleId because another object already has it.");
-        } else {
-            vehicle1.setVehicleId("V122");
-        }
-        if (ownerArrayList.isPresent("O1246")) {
-            vehicle1.setOwnerId("O1246");
-        } else {
-            System.out.println("Could not set ownerId since owner does not exists.");
-        }
-        vehicle1.setManufacturer("Ford");
-        vehicle1.setModelYear(1978);
-        vehicle1.setModel("Mustang");
-        vehicle1.setSubModel("Cobra");
-        vehicle1.setVehicleClassification(vehicle1.findVehicleClassification(
-                vehicle1.getModelYear()));
-        vehicle1.setIsInsured(true);
-        
-        if(vehicle1.validateVehicleClassification()) {
-            System.out.println("Vehicle " + vehicle1.getVehicleId()
-                    + " has the correct classification");
-        } else {
-            System.out.println("Vehicle " + vehicle1.getVehicleId()
-                    + " has an incorrect classification");
+    public static void vehicleDataCheck() {
+        //Check vehicles for correct classification
+        Iterator<Vehicle> i = vehicleArrayList.getIterator();
+        while (i.hasNext()) {
+            Vehicle v = i.next();
+            if (v.validateVehicleClassification()) {
+                System.out.println(v.getVehicleId() + " has the correct classification");
+            } else {
+                System.out.println(v.getVehicleId() + " has an incorrect classification");
+                //Modify Vehicle object
+                VehicleClassification vc = v
+                        .findVehicleClassification(v.getModelYear());
+                v.setVehicleClassification(vc);
+                System.out.println("Modified: " + v.toString());
+            }
         }
         
-        Vehicle vehicle2 = null;
-        if (ownerArrayList.isPresent("O1246")) {
-            vehicle2 = new Vehicle("V143", "O1246", "Chevrolet",
-                2004, "Camaro", "Turbo", VehicleClassification.MODERN, true);
-        } else {
-            System.out.println("Could not create Vehicle object");
+        //Try adding Vehicle objects that already exist in ArrayList
+        List<Vehicle> vehicles = vehicleArrayList.getList();
+        for (Vehicle v: vehicles) {
+            vehicleArrayList = perform(v, "ADD", vehicleArrayList);
         }
         
-        if(vehicle2.validateVehicleClassification()) {
-            System.out.println("Vehicle " + vehicle2.getVehicleId()
-                    + " has the correct classification");
-        } else {
-            System.out.println("Vehicle " + vehicle2.getVehicleId()
-                    + " has an incorrect classification");
-        }
-        
-        Vehicle vehicle3 = null;
-        if (ownerArrayList.isPresent("O1234")) {
-            vehicle3 = new Vehicle.Builder("V426", "O1234")
-                .withManufacturer("Chevrolet").withModelYear(1948).withModel("Corvette")
-                .withVehicleClassification(VehicleClassification.CLASSIC).build();
-        } else {
-            System.out.println("Could not create Vehicle object.");
-        }
-        if(vehicle3.validateVehicleClassification()) {
-            System.out.println("Vehicle " + vehicle3.getVehicleId() 
-                    + " has the correct classification");
-        } else {
-            System.out.println("Vehicle " + vehicle3.getVehicleId()
-                    + " has an incorrect classification");
-        }
-        vehicle3.setVehicleClassification(vehicle3.findVehicleClassification(
-                vehicle3.getModelYear()));
-        System.out.println("Modified: " + vehicle3.toString());
-        
-        Vehicle[] vehicles = {vehicle1, vehicle2, vehicle3};
-        vehicleArrayList = perform(vehicles, vehicleArrayList);
-        
-        //try to add a vehicle that already exists.
-        vehicleArrayList = perform(vehicles, vehicleArrayList);
-        
-        Vehicle vehicleDoesExists = (Vehicle)vehicleArrayList.find("V122");
+        Vehicle vehicleDoesExists = (Vehicle)vehicleArrayList.find("V124");
         Vehicle vehicleDoesNotExists = (Vehicle)vehicleArrayList.find("V1111");
         Vehicle[] doThisVehiclesExists = {vehicleDoesExists, vehicleDoesNotExists};
         performExists(doThisVehiclesExists);
         
-        if (vehicleArrayList.remove(vehicles[2])) {
-            System.out.println("The last Vehicle Object was removed from the ArrayList.");
-        }
         vehicleArrayList.dump();
     }
     
-    public static void doCarShows() {
-        CarShow carShow1 = new CarShow("C123", "The Great Car Show",
-                LocalDate.of(2021, 12, 12), true);;
-        if(carShow1.isSanctioned()) {
-            System.out.println(carShow1.getCarShowTitle() + " is Sanctioned");
-        } else {
-            System.out.println(carShow1.getCarShowTitle() + " is not Sanctioned");
+    public static void carShowDataCheck() {
+        //Check to see if CarShow objects are sanctioned
+        List<CarShow> carShows = carShowArrayList.getList();
+        for (CarShow c: carShows) {
+            if (c.isSanctioned()) {
+                System.out.println(c.getCarShowId() + " is sanctioned.");
+            } else {
+                System.out.println(c.getCarShowId() + " is not sanctioned");
+            }
         }
         
-        CarShow carShow2 = new CarShow.Builder("C124", "Next Gen Auto")
-                .withCarShowDate(LocalDate.of(2022, 2, 15)).isSanctioned(false).build();;
-        if(carShow2.isSanctioned()) {
-            System.out.println(carShow2.getCarShowTitle() + " is Sanctioned");
-        } else {
-            System.out.println(carShow2.getCarShowTitle() + " is not Sanctioned");
+        //Try to add CarShow objects that already exist in ArrayList
+        for (CarShow c: carShows) {
+            carShowArrayList = perform(c, "ADD", carShowArrayList);
         }
-        carShow2.setIsSanctioned('Y');
-        System.out.println("Modified: " + carShow2.toString());
-        carShow2.setIsSanctioned("YES");
-        System.out.println("Modified: " + carShow2.toString());
-        carShow2.setIsSanctioned(0);
-        System.out.println("Modified: " + carShow2.toString());
         
-        CarShow carShow3 = new CarShow.Builder("V124", "The Old One").build();
-        
-        CarShow[] carShows = {carShow1, carShow2, carShow3};
-        carShowArrayList = perform(carShows, carShowArrayList);
-
-        //Since above carShow3 will not add create a different carShow3 id.
-        carShow3.setCarShowId("V125");
-        carShows[2] = carShow3;
-        //try to add an object that alrady exists.
-        carShowArrayList = perform(carShows, carShowArrayList);
-
-        CarShow carShowDoesExists = (CarShow)carShowArrayList.find("125");
-        CarShow carShowDoesNotExists = (CarShow)carShowArrayList.find("12888");
+        CarShow carShowDoesExists = (CarShow)carShowArrayList.find("CS1");
+        CarShow carShowDoesNotExists = (CarShow)carShowArrayList.find("CS5");
         CarShow[] doThisCarShowsExists = {carShowDoesExists, carShowDoesNotExists};
         performExists(doThisCarShowsExists);
-        
-        if (carShowArrayList.remove(carShow3)) {
-            System.out.println("The last CarShow object was removed from ArrayList.");
-        }
+
         carShowArrayList.dump();
     }
     
-    public static void doCarShowOwners() {
-        CarShowOwner carShowOwner1 = null;
-        if (ownerArrayList.isPresent("O1246")
-                && carShowArrayList.isPresent("C123")) {
-            carShowOwner1 = new CarShowOwner("C123", "O1246");
-            System.out.println("Created: " + carShowOwner1.toString());
-        } else {
-            System.out.println("Could not create CarShowOwner. No supporting objects.");
+    public static void setFileWriterLines() {
+        List<Owner> owners = ownerArrayList.getList();
+        List<Vehicle> vehicles = vehicleArrayList.getList();
+        List<CarShowOwner> cso = carShowOwnerArrayList.getList();
+        for (Owner o: owners) {
+            String special = "";
+            if (o.isSeniorOwner()) {
+                special = "**SO**";
+            }
+            fileWriterLines.add("OWNER " + o.getFirstName() + " " + o.getLastName()
+                    + " " + special + "\n");
+            fileWriterLines.add("VEHICLES\n");
+            for (Vehicle v: vehicles) {
+                if (v.getOwnerId().equals(o.getOwnerId())) {
+                    fileWriterLines.add("\t" + v.getModelYear() + " "
+                            + v.getManufacturer() + " " + v.getModel()
+                            + " " + v.getSubModel() + "\n");
+                }
+            }
+            fileWriterLines.add("CAR SHOWS\n");
+            for (CarShowOwner c: cso) {
+                if (c.getOwnerId().equals(o.getOwnerId())) {
+                    CarShow carShow = (CarShow)carShowArrayList.find(c.getCarShowId());
+                    String exclamations = "";
+                    if (carShow.isSanctioned()) {
+                        exclamations = "!!!!";
+                    }
+                    fileWriterLines.add("\t" + carShow.getCarShowTitle() + " " 
+                            + exclamations + "\n");
+                }
+            }
+            fileWriterLines.add("\n");
         }
-        
-        CarShowOwner carShowOwner2 = null;
-        if (ownerArrayList.isPresent("O1234") 
-                && carShowArrayList.isPresent("C124")) {
-            carShowOwner2 = new CarShowOwner("C124","O1234");
-            System.out.println("Created: " + carShowOwner2.toString());
-        } else {
-            System.out.println("Could not create CarShowOwner. No supporting objects.");
-        }
-        
-        CarShowOwner carShowOwner3 = null;
-        if (ownerArrayList.isPresent("O1234")
-                && carShowArrayList.isPresent("C124")) {
-            carShowOwner3 = new CarShowOwner("C124", "O1234");
-            System.out.println("Created: " + carShowOwner3.toString());
-        } else {
-            System.out.println("Could not create CarShowOwner. No supporting objects.");
-        }
-        //Since above will fail, create a different object. 
-        if (ownerArrayList.isPresent("O1246")
-                && carShowArrayList.isPresent("C124")) {
-            carShowOwner3 = new CarShowOwner("C124", "O1246");
-            System.out.println("Created: " + carShowOwner3.toString());
-        } else {
-            System.out.println("Could not create CarShowOwner. No supporting objects.");
-        }
-        CarShowOwner[] carShowOwners = {carShowOwner1, carShowOwner2, carShowOwner3};
-        carShowOwnerArrayList = perform(carShowOwners, carShowOwnerArrayList);
-        
-        //try to add object that exist
-        carShowOwnerArrayList = perform(carShowOwners, carShowOwnerArrayList);
-        if (carShowOwnerArrayList.remove(carShowOwner3)) {
-            System.out.println("Removed the last CarShowOwner from ArrayList.");
-        }
-        carShowOwnerArrayList.dump();
     }
 }

@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

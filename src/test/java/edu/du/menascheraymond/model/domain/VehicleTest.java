@@ -80,98 +80,98 @@ public class VehicleTest {
     public void testIsInsured() {
         //happy path
         //test set to true overloaded methods
-        instance.setIsInsured(false);
+        instance.setInsured(false);
         boolean expResult = true;
         try {
-            instance.setIsInsured("y");
-        } catch(Exception e) {
+            instance.setInsured("y");
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(false);
+        instance.setInsured(false);
         try {
-            instance.setIsInsured("yEs");
-        } catch(Exception e) {
+            instance.setInsured("yEs");
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(false);
+        instance.setInsured(false);
         try {
-            instance.setIsInsured('y');
-        } catch(Exception e) {
+            instance.setInsured('y');
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(false);
+        instance.setInsured(false);
         try {
-            instance.setIsInsured('Y');
-        } catch(Exception e) {
+            instance.setInsured('Y');
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(false);
+        instance.setInsured(false);
         try {
-            instance.setIsInsured(1);
-        } catch(Exception e) {
+            instance.setInsured(1);
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         
         //test set to false overloaded methods
         expResult = false;
         try {
-            instance.setIsInsured("n");
-        } catch(Exception e) {
+            instance.setInsured("n");
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(true);
+        instance.setInsured(true);
         try {
-            instance.setIsInsured("no");
-        } catch(Exception e) {
+            instance.setInsured("no");
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(true);
+        instance.setInsured(true);
         try {
-            instance.setIsInsured('n');
-        } catch(Exception e) {
+            instance.setInsured('n');
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(true);
+        instance.setInsured(true);
         try {
-            instance.setIsInsured('N');
-        } catch(Exception e) {
+            instance.setInsured('N');
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
-        instance.setIsInsured(true);
+        instance.setInsured(true);
         try {
-            instance.setIsInsured(0);
-        } catch(Exception e) {
+            instance.setInsured(0);
+        } catch(IllegalArgumentException e) {
             fail("An Exception should not have been caught");
         }
         assertEquals(expResult, instance.isInsured());
         
         //sad path
         try {
-            instance.setIsInsured("yeah");
+            instance.setInsured("yeah");
             fail("An Exception should be caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid string input");
         }
         
         try {
-            instance.setIsInsured('1');
+            instance.setInsured('1');
             fail("An Exception should be caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid character input");
         }
         
         try {
-            instance.setIsInsured(45);
+            instance.setInsured(45);
             fail("An Exception should have been caught");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Invalid integer input");
         }
     }

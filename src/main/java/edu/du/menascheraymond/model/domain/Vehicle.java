@@ -266,11 +266,11 @@ public class Vehicle {
         this.vehicleClassification = vehicleClassification;
     }
 
-    public void setIsInsured(boolean isInsured) {
+    public void setInsured(boolean isInsured) {
         this.insured = isInsured;
     }
     
-    public void setIsInsured(String isInsured) throws Exception {
+    public void setInsured(String isInsured) {
         if(isInsured.toUpperCase().equals("Y") ||
                 isInsured.toUpperCase().equals("YES")) {
             this.insured = true;
@@ -278,27 +278,27 @@ public class Vehicle {
                 isInsured.toUpperCase().equals("NO")) {
             this.insured = false;
         } else {
-            throw new Exception("Invalid string input");
+            throw new IllegalArgumentException("Invalid string input");
         }
     }
     
-    public void setIsInsured(char isInsured) throws Exception {
+    public void setInsured(char isInsured) {
         if(isInsured == 'y' || isInsured == 'Y') {
             this.insured = true;
         } else if(isInsured == 'n' || isInsured == 'N') {
             this.insured = false;
         } else {
-            throw new Exception("Invalid character input");
+            throw new IllegalArgumentException("Invalid character input");
         }
     }
     
-    public void setIsInsured(int isInsured) throws Exception {
+    public void setInsured(int isInsured) {
         if(isInsured == 1) {
             this.insured = true;
         } else if(isInsured == 0) {
             this.insured = false;
         } else {
-            throw new Exception("Invalid integer input");
+            throw new IllegalArgumentException("Invalid integer input");
         }
     }
 

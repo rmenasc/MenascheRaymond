@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +61,6 @@ public class OwnerArrayListImpl implements ArrayListImpl {
             if (o.getOwnerId().equals(ID)) {
                 i.remove();
                 rv = true;
-                break;
             }
         }
         return rv;
@@ -110,6 +109,29 @@ public class OwnerArrayListImpl implements ArrayListImpl {
         return rv;
     }
     
+    /**
+     * Getter
+     * @return ArrayList.
+     */
+    @Override
+    public List getList() {
+        return owners;
+    }
+    
+    /**
+     * Iterator getter
+     * @return Iterator
+     */
+    @Override
+    public Iterator getIterator() {
+        Iterator<Owner> rv = owners.listIterator();
+        return rv;
+    }
+    
+    /**
+     * Gets int of number of objects in ArrayList.
+     * @return int
+     */
     @Override
     public int size() {
         return owners.size();

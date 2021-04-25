@@ -87,7 +87,8 @@ public class CarShowOwner {
         boolean rv = false;
         if(obj instanceof CarShowOwner) {
             CarShowOwner c = (CarShowOwner)obj;
-            if(c.getCarShowId().equals(carShowId) && c.getOwnerId().equals(ownerId)) {
+            if(c.getCarShowId().equals(carShowId)
+                    && c.getOwnerId().equals(ownerId)) {
                 rv = true;
             }
         }

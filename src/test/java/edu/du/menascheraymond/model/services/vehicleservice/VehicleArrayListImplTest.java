@@ -9,7 +9,7 @@ package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 

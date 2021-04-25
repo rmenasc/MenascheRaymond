@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 

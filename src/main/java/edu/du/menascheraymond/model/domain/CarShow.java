@@ -134,11 +134,11 @@ public class CarShow {
         this.carShowDate = carShowDate;
     }
 
-    public void setIsSanctioned(boolean isSanctioned) {
+    public void setSanctioned(boolean isSanctioned) {
         this.sanctioned = isSanctioned;
     }
     
-    public void setIsSanctioned(String isSanctioned) {
+    public void setSanctioned(String isSanctioned) {
         if(isSanctioned.toUpperCase().equals("Y") || 
                 isSanctioned.toUpperCase().equals("YES")) {
             this.sanctioned = true;
@@ -150,7 +150,7 @@ public class CarShow {
         }
     }
     
-    public void setIsSanctioned(char isSanctioned) {
+    public void setSanctioned(char isSanctioned) {
         if(isSanctioned == 'y' || isSanctioned == 'Y') {
             this.sanctioned = true;
         } else if(isSanctioned == 'n' || isSanctioned == 'N') {
@@ -160,7 +160,7 @@ public class CarShow {
         }
     }
     
-    public void setIsSanctioned(int isSanctioned) {
+    public void setSanctioned(int isSanctioned) {
         if(isSanctioned == 1) {
             this.sanctioned = true;
         } else if(isSanctioned == 0) {

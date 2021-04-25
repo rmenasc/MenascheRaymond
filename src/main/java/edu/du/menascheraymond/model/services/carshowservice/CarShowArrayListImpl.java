@@ -8,7 +8,7 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
-import edu.du.menascheraymond.model.service.ArrayListImpl;
+import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +61,6 @@ public class CarShowArrayListImpl implements ArrayListImpl {
             if (c.getCarShowId().equals(ID)) {
                 i.remove();
                 rv = true;
-                break;
             }
         }
         return rv;
@@ -93,7 +92,7 @@ public class CarShowArrayListImpl implements ArrayListImpl {
     public boolean isPresent(Object o) {
         boolean rv = false;
         if (o instanceof CarShow) {
-            carShows.contains(o);
+            rv = carShows.contains(o);
         }
         return rv;
     }
@@ -110,6 +109,29 @@ public class CarShowArrayListImpl implements ArrayListImpl {
         return rv;
     }
     
+    /**
+     * Getter
+     * @return ArrayList.
+     */
+    @Override
+    public List getList() {
+        return carShows;
+    }
+    
+    /**
+     * Iterator getter
+     * @return Iterator
+     */
+    @Override
+    public Iterator getIterator() {
+        Iterator<CarShow> rv = carShows.listIterator();
+        return rv;
+    }
+    
+    /**
+     * Retrieves int of number of objects in ArrayList.
+     * @return int
+     */
     @Override
     public int size() {
         return carShows.size();
