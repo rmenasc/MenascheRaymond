@@ -1,28 +1,27 @@
 /*
  * University College, University of Denver student project.
- * Not intended for production or distribution.
+ * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * Author: Raymond G Menasche
- * File: VehicleArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for VehicleArrayListImpl class.
- * @author raymond
+ *
+ * @author raymondmenasche
  */
-public class VehicleArrayListImplTest {
+public class VehicleHashSetImplTest {
+    
     Vehicle vehicle1;
     Vehicle vehicle2;
     Vehicle vehicle3;
     Vehicle vehicle4;
     
-    public VehicleArrayListImplTest() {
+    public VehicleHashSetImplTest() {
         vehicle1 = new Vehicle.Builder("0212", "34131")
                 .withManufacturer("Ford")
                 .withModelYear(1969)
@@ -52,11 +51,11 @@ public class VehicleArrayListImplTest {
     }
 
     /**
-     * Test add method for VehicleArrayListImpl class.
+     * Test add method for VehicleHashSetImpl class.
      */
     @Test
     public void testAdd() {
-        VehicleService instance = new VehicleArrayListImpl();
+        VehicleService instance = new VehicleHashSetImpl();
         boolean expResult = true;
         boolean result = instance.add(vehicle1);
         assertEquals(expResult, result);
@@ -67,11 +66,11 @@ public class VehicleArrayListImplTest {
     }
     
     /**
-     * Test remove method for VehicleArrayListImpl class.
+     * Test remove method for VehicleHashSetImpl class.
      */
     @Test
     public void testRemove() {
-        VehicleService instance = new VehicleArrayListImpl();
+        VehicleService instance = new VehicleHashSetImpl();
         boolean expResult = false;
         boolean result = instance.remove(vehicle1);
         assertEquals(expResult, result);
@@ -89,7 +88,7 @@ public class VehicleArrayListImplTest {
     
     @Test
     public void testRemoveByOwnerId() {
-        VehicleService instance = new VehicleArrayListImpl();
+        VehicleService instance = new VehicleHashSetImpl();
         boolean expResult = false;
         boolean result = instance.removeByOwnerId("34131");
         assertEquals(expResult, result);
@@ -108,11 +107,11 @@ public class VehicleArrayListImplTest {
     }
     
     /**
-     * Test find method for VehicleArrayListImpl class.
+     * Test find method for VehicleHashSetImpl class.
      */
     @Test
     public void testFind() {
-        VehicleService instance = new VehicleArrayListImpl();
+        VehicleService instance = new VehicleHashSetImpl();
         Vehicle expResult = null;
         Vehicle result = (Vehicle)instance.find("0212");
         assertEquals(expResult, result);
@@ -128,11 +127,11 @@ public class VehicleArrayListImplTest {
     }
     
     /**
-     * Test isPresent method for VehicleArrayListImpl class.
+     * Test isPresent method for VehicleHashSetImpl class.
      */
     @Test
     public void testIsPresent() {
-        VehicleService instance = new VehicleArrayListImpl();
+        VehicleService instance = new VehicleHashSetImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(vehicle3);
         assertEquals(expResult, result);
@@ -147,4 +146,5 @@ public class VehicleArrayListImplTest {
         result = instance.isPresent("0324");
         assertEquals(expResult, result);
     }
+    
 }

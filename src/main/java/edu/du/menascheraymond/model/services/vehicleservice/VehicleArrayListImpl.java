@@ -8,7 +8,6 @@
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
-import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,37 +16,31 @@ import java.util.List;
  * ArrayList implementation for Vehicle.
  * @author raymond
  */
-public class VehicleArrayListImpl implements ArrayListImpl {
+public class VehicleArrayListImpl implements VehicleService {
     private final List<Vehicle> vehicles = new ArrayList<>();
     
     /**
      * Adds a Vehicle object to the ArrayList.
-     * @param o
+     * @param vehicle
      * @return Returns false if Vehicle object already exist in ArrayList.
      */
     @Override
-    public boolean add(Object o) {
+    public boolean add(Vehicle vehicle) {
         boolean rv = false;
-        if (!vehicles.contains(o)) {
-            Vehicle v = (Vehicle)o;
-            rv = vehicles.add(v);
+        if (!vehicles.contains(vehicle)) {
+            rv = vehicles.add(vehicle);
         }
         return rv;
     }
     
     /**
      * Removes Vehicle object from ArrayList.
-     * @param o
+     * @param vehicle
      * @return Returns false if Vehicle Object does not exist in ArrayList.
      */
     @Override
-    public boolean remove(Object o) {
-        boolean rv = false;
-        if (o instanceof Vehicle) {
-            Vehicle v = (Vehicle)o;
-            rv = vehicles.remove(v);
-        }
-        return rv;
+    public boolean remove(Vehicle vehicle) {
+        return vehicles.remove(vehicle);
     }
     
     @Override
@@ -65,12 +58,31 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     }
     
     /**
+     * Removes all Vehicle objects from collection with matching ownerId
+     * @param ownerId
+     * @return False if no objects were removed.
+     */
+    @Override
+    public boolean removeByOwnerId(String ownerId) {
+        boolean rv = false;
+        Iterator<Vehicle> i = vehicles.iterator();
+        while(i.hasNext()) {
+            Vehicle v = i.next();
+            if (v.getOwnerId().equals(ownerId)) {
+                i.remove();
+                rv = true;
+            }
+        }
+        return rv;
+    }
+    
+    /**
      * Retrieves Vehicle object from ArrayList
      * @param ID
      * @return Vehicle object if exist. Null if does not exist.
      */
     @Override
-    public Object find(String ID) {
+    public Vehicle find(String ID) {
         Vehicle rv = null;
         for(Vehicle v: vehicles) {
             if(v.getVehicleId().equals(ID)) {
@@ -83,16 +95,12 @@ public class VehicleArrayListImpl implements ArrayListImpl {
     
     /**
      * Checks if Vehicle object exist in ArrayList
-     * @param o
+     * @param vehicle
      * @return Returns true if Vehicle Object exists in ArrayList.
      */
     @Override
-    public boolean isPresent(Object o) {
-        boolean rv = false;
-        if (o instanceof Vehicle) {
-            rv = vehicles.contains(o);
-        } 
-        return rv;
+    public boolean isPresent(Vehicle vehicle) {
+        return vehicles.contains(vehicle);
     }
     
     @Override
@@ -104,25 +112,6 @@ public class VehicleArrayListImpl implements ArrayListImpl {
                 break;
             }
         }
-        return rv;
-    }
-
-    /**
-     * Getter
-     * @return ArrayList.
-     */
-    @Override
-    public List getList() {
-        return vehicles;
-    }
-    
-    /**
-     * Iterator getter
-     * @return Iterator
-     */
-    @Override
-    public Iterator getIterator() {
-        Iterator<Vehicle> rv = vehicles.listIterator();
         return rv;
     }
     
@@ -143,5 +132,10 @@ public class VehicleArrayListImpl implements ArrayListImpl {
         for (Vehicle v: vehicles) {
             System.out.println(v.toString());
         }
+    }
+    
+    @Override
+    public String getName() {
+        return this.getClass().getName();
     }
 }

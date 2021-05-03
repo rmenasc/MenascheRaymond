@@ -8,7 +8,6 @@
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
 import edu.du.menascheraymond.model.domain.CarShowOwner;
-import edu.du.menascheraymond.model.services.JoinArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,78 +16,106 @@ import java.util.List;
  * ArrayList implementation for CarShowOwner.
  * @author raymond
  */
-public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
-    private List<CarShowOwner> carShowOwners = new ArrayList<>();
+public class CarShowOwnerArrayListImpl implements CarShowOwnerService {
+    private final List<CarShowOwner> carShowOwners = new ArrayList<>();
     
     /**
      * Adds CarShowOwner object to ArrayList.
-     * @param o Object
+     * @param carShowOwner
      * @return Returns false if CarShowOwner object already exists in ArrayList.
      */
     @Override
-    public boolean add(Object o) {
+    public boolean add(CarShowOwner carShowOwner) {
         boolean rv = false;
-        if (o instanceof CarShowOwner) {
-            CarShowOwner c = (CarShowOwner)o;
-            if (!carShowOwners.contains(c)) {
-              rv = carShowOwners.add(c);
-            }
+        
+        if (!carShowOwners.contains(carShowOwner)) {
+          rv = carShowOwners.add(carShowOwner);
         }
+        
         return rv;
     }
     
     /**
      * Removes CarShowOwner object from ArrayList.
-     * @param o Object.
+     * @param carShowOwner
      * @return Returns false if CarShowOwner object does not exist in ArrayList.
      */
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(CarShowOwner carShowOwner) {
+        return carShowOwners.remove(carShowOwner);
+    }
+    
+    @Override
+    public boolean remove(String ownerId, String carShowId) {
         boolean rv = false;
-        if (o instanceof CarShowOwner) {
-            rv = carShowOwners.remove(o);
+        CarShowOwner carShowOwner = find(ownerId, carShowId);
+        if (carShowOwner != null) {
+            rv = carShowOwners.remove(carShowOwner);
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean removeByOwnerId(String ownerId) {
+        boolean rv = false;
+        Iterator<CarShowOwner> i = carShowOwners.iterator();
+        while (i.hasNext()) {
+            CarShowOwner c = i.next();
+            if (c.getOwnerId().equals(ownerId)) {
+                i.remove();
+                rv = true;
+            }
+        }
+        return rv;
+    }
+    
+    @Override
+    public boolean removeByCarShowId(String carShowId) {
+        boolean rv = false;
+        Iterator<CarShowOwner> i = carShowOwners.iterator();
+        while (i.hasNext()) {
+            CarShowOwner c = i.next();
+            if (c.getCarShowId().equals(carShowId)) {
+                i.remove();
+                rv = true;
+            }
         }
         return rv;
     }
     
     /**
      * Gets the object with matching join objects ids.
-     * @param firstObjectId String
-     * @param secondObjectId String
+     * @param ownerId
+     * @param carShowId
      * @return CarShowOwner Object.
      */
     @Override
-    public CarShowOwner find(String firstObjectId, String secondObjectId) {
+    public CarShowOwner find(String ownerId, String carShowId) {
         CarShowOwner rv = null;
         for (CarShowOwner c: carShowOwners) {
-            if (c.getCarShowId().equals(firstObjectId)
-                    && c.getOwnerId().equals(secondObjectId)) {
+            if (c.getOwnerId().equals(ownerId)
+                    && c.getCarShowId().equals(carShowId)) {
                 rv = c;
-            } else if (c.getOwnerId().equals(firstObjectId)
-                    && c.getCarShowId().equals(secondObjectId)) {
-                rv = c;
-            }
+                break;
+            } 
         }
         return rv;
     }
     
     /**
      * Checks if CarShowOwner object is present in ArrayList.
-     * @param firstObjectId String
-     * @param secondObjectId String
+     * @param ownerId
+     * @param carShowId
      * @return Returns true if CarShowOwner object exist in ArrayList.
      */
     @Override
-    public boolean isPresent(String firstObjectId, String secondObjectId) {
+    public boolean isPresent(String ownerId, String carShowId) {
         boolean rv = false;
         for (CarShowOwner cso: carShowOwners) {
-            if (cso.getCarShowId().equals(firstObjectId) 
-                    && cso.getOwnerId().equals(secondObjectId)) {
+            if (cso.getOwnerId().equals(ownerId) 
+                    && cso.getCarShowId().equals(carShowId)) {
                 rv = true;
-            }
-            if (cso.getCarShowId().equals(secondObjectId)
-                    && cso.getOwnerId().equals(firstObjectId)) {
-                rv = true;
+                break;
             }
         }
         return rv;
@@ -96,35 +123,12 @@ public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
     
     /**
      * Checks if CarShowOwner object is present in ArrayList.
-     * @param o Object
+     * @param carShowOwner
      * @return Returns true if CarShowOwner object exist in ArrayList.
      */
     @Override
-    public boolean isPresent(Object o) {
-        boolean rv = false;
-        if (o instanceof CarShowOwner) {
-            rv = carShowOwners.contains(o);
-        }
-        return rv;
-    }
-    
-    /**
-     * Getter
-     * @return ArrayList.
-     */
-    @Override
-    public List getList() {
-        return carShowOwners;
-    }
-    
-    /**
-     * Iterator getter
-     * @return Iterator
-     */
-    @Override
-    public Iterator getIterator() {
-        Iterator<CarShowOwner> rv = carShowOwners.listIterator();
-        return rv;
+    public boolean isPresent(CarShowOwner carShowOwner) {
+        return carShowOwners.contains(carShowOwner);
     }
     
     /**
@@ -144,5 +148,10 @@ public class CarShowOwnerArrayListImpl implements JoinArrayListImpl {
         for(CarShowOwner o: carShowOwners) {
             System.out.println(o.toString());
         }
+    }
+
+    @Override
+    public String getName() {
+        return this.getClass().getName();
     }
 }

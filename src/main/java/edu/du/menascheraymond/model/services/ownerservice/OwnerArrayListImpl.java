@@ -8,7 +8,6 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
-import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,39 +16,31 @@ import java.util.List;
  * Implementation of ArrayList for Owners class.
  * @author raymond
  */
-public class OwnerArrayListImpl implements ArrayListImpl {
+public class OwnerArrayListImpl implements OwnerService {
     List<Owner> owners = new ArrayList<>();
     
     /**
      * Adds Owner to ArrayList.
-     * @param o Object
+     * @param owner
      * @return Returns false if Owner object already exists in ArrayList.
      */
     @Override
-    public boolean add(Object o) {
+    public boolean add(Owner owner) {
         boolean rv = false;
-        if (o instanceof Owner) {
-            Owner owner = (Owner)o;
-            if (!owners.contains(owner)) {
-                rv = owners.add(owner);
-            }
+        if (!owners.contains(owner)) {
+            rv = owners.add(owner);
         }
         return rv;
     }
     
     /**
      * Removes Owner from ArrayList.
-     * @param o
+     * @param owner
      * @return Returns false if Owner object does not exist in ArrayList.
      */
     @Override
-    public boolean remove(Object o) {
-        boolean rv = false;
-        if (o instanceof Owner) {
-            Owner owner = (Owner)o;
-            rv = owners.remove(owner);
-        } 
-        return rv;
+    public boolean remove(Owner owner) {
+        return owners.remove(owner);
     }
     
     @Override
@@ -85,16 +76,12 @@ public class OwnerArrayListImpl implements ArrayListImpl {
     
     /**
      * Checks if Owner object exists in the ArrayList. 
-     * @param o
+     * @param owner
      * @return Returns true if Owner object exists in ArrayList.
      */
     @Override
-    public boolean isPresent(Object o) {
-        boolean rv = false;
-        if (o instanceof Owner) {
-            rv = owners.contains(o);
-        }
-        return rv;
+    public boolean isPresent(Owner owner) {
+        return owners.contains(owner);
     }
     
     @Override
@@ -106,25 +93,6 @@ public class OwnerArrayListImpl implements ArrayListImpl {
                 break;
             }
         }
-        return rv;
-    }
-    
-    /**
-     * Getter
-     * @return ArrayList.
-     */
-    @Override
-    public List getList() {
-        return owners;
-    }
-    
-    /**
-     * Iterator getter
-     * @return Iterator
-     */
-    @Override
-    public Iterator getIterator() {
-        Iterator<Owner> rv = owners.listIterator();
         return rv;
     }
     
@@ -144,5 +112,10 @@ public class OwnerArrayListImpl implements ArrayListImpl {
         for(Owner o: owners) {
             System.out.println(o.toString());
         }
+    }
+    
+    @Override
+    public String getName() {
+        return this.getClass().getName();
     }
 }

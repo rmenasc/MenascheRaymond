@@ -8,7 +8,6 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
-import edu.du.menascheraymond.model.services.ArrayListImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,39 +16,33 @@ import java.util.List;
  * ArrayList implementation for CarShow.
  * @author raymond
  */
-public class CarShowArrayListImpl implements ArrayListImpl {
+public class CarShowArrayListImpl implements CarShowService {
     private List<CarShow> carShows = new ArrayList<>();
     
     /**
      * Adds a CarShow object to ArrayList. 
-     * @param o
+     * @param carShow
      * @return Returns false if CarShow object already exist in ArrayList.
      */
     @Override
-    public boolean add(Object o) {
+    public boolean add(CarShow carShow) {
         boolean rv  = false;
-        if (o instanceof CarShow) {
-            CarShow c = (CarShow)o;
-            if (!carShows.contains(c)) {
-                rv = carShows.add(c);
-            }
+
+        if (!carShows.contains(carShow)) {
+            rv = carShows.add(carShow);
         }
+        
         return rv;
     }
     
     /**
      * Removes CarShow object from ArrayList.
-     * @param o
+     * @param carShow
      * @return Return false if CarShow object does not exist in ArrayList.
      */
     @Override
-    public boolean remove(Object o) {
-        boolean rv = false;
-        if (o instanceof CarShow) {
-            CarShow c = (CarShow)o;
-            rv = carShows.remove(c);
-        } 
-        return rv;
+    public boolean remove(CarShow carShow) {
+        return carShows.remove(carShow);
     }
     
     @Override
@@ -85,16 +78,12 @@ public class CarShowArrayListImpl implements ArrayListImpl {
     
     /**
      * Checks to see if CarShow object exists in ArrayList.
-     * @param o
+     * @param carShow
      * @return Returns true if CarShow object found in ArrayList.
      */
     @Override
-    public boolean isPresent(Object o) {
-        boolean rv = false;
-        if (o instanceof CarShow) {
-            rv = carShows.contains(o);
-        }
-        return rv;
+    public boolean isPresent(CarShow carShow) {
+        return carShows.contains(carShow);
     }
     
     @Override
@@ -106,25 +95,6 @@ public class CarShowArrayListImpl implements ArrayListImpl {
                 break;
             }
         }
-        return rv;
-    }
-    
-    /**
-     * Getter
-     * @return ArrayList.
-     */
-    @Override
-    public List getList() {
-        return carShows;
-    }
-    
-    /**
-     * Iterator getter
-     * @return Iterator
-     */
-    @Override
-    public Iterator getIterator() {
-        Iterator<CarShow> rv = carShows.listIterator();
         return rv;
     }
     
@@ -145,5 +115,10 @@ public class CarShowArrayListImpl implements ArrayListImpl {
         for(CarShow c: carShows) {
             System.out.println(c.toString());
         }
+    }
+    
+    @Override
+    public String getName() {
+        return this.getClass().getName();
     }
 }

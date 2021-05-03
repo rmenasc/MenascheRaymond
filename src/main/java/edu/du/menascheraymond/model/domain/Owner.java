@@ -206,8 +206,7 @@ public class Owner {
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(ownerId, firstName, lastName, phoneNumber, numYears,
-                address);
+        int hash = Objects.hash(ownerId, firstName, lastName);
         return hash;
     }
 
@@ -217,10 +216,7 @@ public class Owner {
         if(obj instanceof Owner) {
             Owner o = (Owner)obj;
             if(o.getOwnerId().equals(ownerId) && o.getFirstName().equals(firstName)
-                    && o.getLastName().equals(lastName)
-                    && o.getPhoneNumber().equals(phoneNumber)
-                    && o.getNumYears() == numYears
-                    && o.getAddress().equals(address)) {
+                    && o.getLastName().equals(lastName)) {
                 rv = true;
             }
         }

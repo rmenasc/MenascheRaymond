@@ -1,32 +1,31 @@
 /*
  * University College, University of Denver student project.
- * Not intended for production or distribution.
+ * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * Author: Raymond G Menasche
- * File: CarShowOwnerArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.carshowownerservice;
 
 import edu.du.menascheraymond.model.domain.CarShowOwner;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for CarShowOwnerArrayListImpl class.
- * @author raymond
+ *
+ * @author raymondmenasche
  */
-public class CarShowOwnerArrayListImplTest {
+public class CarShowOwnerHashSetImplTest {
+    
     CarShowOwner carShowOwner1 = new CarShowOwner("0123", "42258");
     CarShowOwner carShowOwner2 = new CarShowOwner("3252", "42532");
     CarShowOwner carShowOwner3 = new CarShowOwner("0423", "32324");
     CarShowOwner carShowOwner4 = new CarShowOwner("0123", "32324");
     
     /**
-     * Tests add method for CarShowOwnerArrayListImpl class.
+     * Tests add method for CarShowOwnerHashSetImpl class.
      */
     @Test
     public void testAdd() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         boolean expResult = true;
         boolean result = instance.add(carShowOwner1);
         assertEquals(expResult, result);
@@ -44,11 +43,11 @@ public class CarShowOwnerArrayListImplTest {
     }
     
     /**
-     * Test remove method for CarShowOwnerArrayListImpl class.
+     * Test remove method for CarShowOwnerHashSetImpl class.
      */
     @Test
     public void testRemove() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         boolean expResult = false;
         boolean result = instance.remove(carShowOwner1);
         assertEquals(expResult, result);
@@ -70,11 +69,11 @@ public class CarShowOwnerArrayListImplTest {
     }
     
     /**
-     * Test the removeByOwnerId method for CarShowOwnerArrayListImpl class.
+     * Test the removeByOwnerId method for CarShowOwnerHashSetImpl class.
      */
     @Test
     public void testRemoveByOwnerId() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         boolean expResult = false;
         boolean result = instance.removeByOwnerId("42258");
         assertEquals(expResult, result);
@@ -95,7 +94,7 @@ public class CarShowOwnerArrayListImplTest {
     
     @Test
     public void testRemoveByCarShowId() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         boolean expResult = false;
         boolean result = instance.removeByCarShowId("0123");
         assertEquals(expResult, result);
@@ -114,11 +113,11 @@ public class CarShowOwnerArrayListImplTest {
     }
     
     /**
-     * Test find method for CarShowOwnerArrayListImpl class.
+     * Test find method for CarShowOwnerHashSetImpl class.
      */
     @Test
     public void testFind() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         CarShowOwner expResult = null;
         CarShowOwner result = instance.find("42258", "0123");
         assertEquals(expResult, result);
@@ -129,11 +128,11 @@ public class CarShowOwnerArrayListImplTest {
     }
     
     /**
-     * Test isPresent method for CarShowOwnerArrayListImpl class.
+     * Test isPresent method for CarShowOwnerHashSetImpl class.
      */
     @Test
     public void testIsPresent() {
-        CarShowOwnerService instance = new CarShowOwnerArrayListImpl();
+        CarShowOwnerService instance = new CarShowOwnerHashSetImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(carShowOwner1);
         assertEquals(expResult, result);
@@ -146,4 +145,5 @@ public class CarShowOwnerArrayListImplTest {
         result = instance.isPresent("42258", "0123");
         assertEquals(expResult, result);
     }
+    
 }

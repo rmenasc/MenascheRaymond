@@ -1,27 +1,26 @@
 /*
  * University College, University of Denver student project.
- * Not intended for production or distribution.
+ * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * Author: Raymond G Menasche
- * File: CarShowArrayListImplTest.java
  */
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for CarShowArrayListImpl class.
- * @author raymond
+ *
+ * @author raymondmenasche
  */
-public class CarShowArrayListImplTest {
+public class CarShowHashSetImplTest {
+    
     CarShow carShow1;
     CarShow carShow2;
     CarShow carShow3;
     
-    public CarShowArrayListImplTest() {
+    public CarShowHashSetImplTest() {
         carShow1 = new CarShow.Builder("0124", "The Great Show")
                 .withCarShowDate(LocalDate.of(2021, 3, 4)).build();
         carShow2 = new CarShow.Builder("4352", "The Winter Show")
@@ -31,11 +30,11 @@ public class CarShowArrayListImplTest {
     }
 
     /**
-     * Test add method for CarShowArrayListImpl class.
+     * Test add method for CarShowHashSetImpl class.
      */
     @Test
     public void testAdd() {
-        CarShowService instance = new CarShowArrayListImpl();
+        CarShowService instance = new CarShowHashSetImpl();
         boolean expResult = true;
         boolean result = instance.add(carShow1);
         assertEquals(expResult, result);
@@ -53,11 +52,11 @@ public class CarShowArrayListImplTest {
     }
     
     /**
-     * Test remove method for CarShowArrayListImpl class();
+     * Test remove method for CarShowHashSetImpl class.
      */
     @Test
     public void testRemove() {
-        CarShowService instance = new CarShowArrayListImpl();
+        CarShowService instance = new CarShowHashSetImpl();
         boolean expResult = false;
         boolean result = instance.remove(carShow1);
         assertEquals(expResult, result);
@@ -76,11 +75,11 @@ public class CarShowArrayListImplTest {
     }
     
     /**
-     * Test isPresent method for CarShowArrayListImpl class.
+     * Test isPresent method for CarShowHashSetImpl class.
      */
     @Test
     public void testIsPresent() {
-        CarShowService instance = new CarShowArrayListImpl();
+        CarShowService instance = new CarShowHashSetImpl();
         boolean expResult = false;
         boolean result = instance.isPresent(carShow2);
         assertEquals(expResult, result);
@@ -104,11 +103,11 @@ public class CarShowArrayListImplTest {
     }
     
     /**
-     * Test find method for CarShowArrayListImpl class.
+     * Test find method for CarShowHashSetImpl class.
      */
     @Test
     public void testFind() {
-        CarShowService instance = new CarShowArrayListImpl();
+        CarShowService instance = new CarShowHashSetImpl();
         CarShow expResult = null;
         CarShow result = (CarShow)instance.find("0124");
         assertEquals(expResult, result);
@@ -128,4 +127,5 @@ public class CarShowArrayListImplTest {
         result = (CarShow)instance.find("7777");
         assertEquals(expResult, result);
     }
+    
 }

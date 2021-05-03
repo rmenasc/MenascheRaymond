@@ -320,8 +320,8 @@ public class Vehicle {
 
     @Override
     public int hashCode() {
-        int hash = Objects.hash(vehicleId, ownerId, manufacturer, modelYear, model,
-                subModel, vehicleClassification, insured);
+        int hash = Objects.hash(vehicleId, manufacturer, modelYear, model,
+                subModel, vehicleClassification);
         return hash;
     }
 
@@ -331,13 +331,11 @@ public class Vehicle {
         if(obj instanceof Vehicle) {
             Vehicle v = (Vehicle)obj;
             if(v.getVehicleId().equals(vehicleId)
-                    && v.ownerId.equals(ownerId)
                     && v.getManufacturer().equals(manufacturer)
                     && v.getModelYear() == modelYear
                     && v.getModel().equals(model)
                     && v.getSubModel().equals(subModel)
-                    && v.getVehicleClassification().equals(vehicleClassification)
-                    && v.isInsured() == insured) {
+                    && v.getVehicleClassification().equals(vehicleClassification)) {
                 rv = true;
             }
         }

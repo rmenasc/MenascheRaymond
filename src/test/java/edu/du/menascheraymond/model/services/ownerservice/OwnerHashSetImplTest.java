@@ -1,37 +1,37 @@
 /*
  * University College, University of Denver student project.
- * Not intended for production or distribution.
+ * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * Author: Raymond G Menasche
- * File: OwnerArrayListImplTest.java
+ * OwnerHashSetImplTest.java
  */
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Unit Tests for OwnerArrayListImpl class.
- * @author raymond
+ *
+ * @author raymondmenasche
  */
-public class OwnerArrayListImplTest {
+public class OwnerHashSetImplTest {
+    
     private Owner owner1;
     private Owner owner2;
     private Owner owner3;
     
-    public OwnerArrayListImplTest() {
+    public OwnerHashSetImplTest() {
         owner1 = new Owner.Builder("1234", "John", "Smith").build();
         owner2 = new Owner.Builder("1432", "Don", "Ron").build();
         owner3 = new Owner.Builder("5423", "Jack", "Johnson").build();
     }
 
     /**
-     * Tests the Add method for OwnerArrayListImpl class.
+     * Tests the Add method for OwnerHashSetImpl class.
      */
     @Test
     public void testAdd() {
-        OwnerService instance = new OwnerArrayListImpl();
+        OwnerService instance = new OwnerHashSetImpl();
         boolean expResult = true;
         boolean result = instance.add(owner1);
         assertEquals(expResult, result);
@@ -49,11 +49,11 @@ public class OwnerArrayListImplTest {
     }
     
     /**
-     * Tests the Remove method for OwnerArrayListImpl class.
+     * Tests the Remove method for OwnerHashSetImpl class.
      */
     @Test
     public void testRemove() {
-        OwnerService instance = new OwnerArrayListImpl();
+        OwnerService instance = new OwnerHashSetImpl();
         boolean expResult = false;
         boolean result = instance.remove(owner1);
         assertEquals(expResult, result);
@@ -76,11 +76,11 @@ public class OwnerArrayListImplTest {
     }
     
     /**
-     * Test find method for OwnerArrayListImpl class.
+     * Test find method for OwnerHashSetImpl class.
      */
     @Test
     public void testFind() {
-        OwnerService instance = new OwnerArrayListImpl();
+        OwnerService instance = new OwnerHashSetImpl();
         Owner expResult = null;
         Owner result = (Owner)instance.find("1234");
         assertEquals(expResult, result);
@@ -96,11 +96,11 @@ public class OwnerArrayListImplTest {
     }
     
     /**
-     * Test isPresent method for OwnerArrayListImpl class.
+     * Test isPresent method for OwnerHashSetImpl class.
      */
     @Test
     public void testIsPresent() {
-        OwnerService instance = new OwnerArrayListImpl();
+        OwnerService instance = new OwnerHashSetImpl();
         //test with no items in array.
         boolean expResult = false;
         boolean result = instance.isPresent(owner1);
@@ -131,4 +131,5 @@ public class OwnerArrayListImplTest {
         result = instance.isPresent("7777");
         assertEquals(expResult, result);
     }
+    
 }
