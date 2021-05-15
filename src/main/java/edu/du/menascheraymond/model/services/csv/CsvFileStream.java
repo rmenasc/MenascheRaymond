@@ -2,9 +2,10 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * CvsFileStream.java
+ * Author: Raymond G Menasche
+ * File: CvsFileStream.java
  */
-package edu.du.menascheraymond.model.business.command.csv;
+package edu.du.menascheraymond.model.services.csv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +31,7 @@ import java.util.Map;
  * (ex. TYPE=OWNER,ACTION=ADD,key=VALUE,key=VALUE)
  * @author raymondmenasche
  */
-public class CsvFileStream implements CsvCommand {
+public class CsvFileStream implements CsvService {
     private List<Map<String, String>> commands;
     private final String OUTPUTFILE;
     private final String INPUTFILE;
@@ -60,14 +61,31 @@ public class CsvFileStream implements CsvCommand {
             while ((line = br.readLine()) != null) {
                 Map<String,String> command = new LinkedHashMap<>();
                 String[] data = line.split(",");
+                //check to see if data is issue as a key=value or only value.
                 if (data.length >= 3) {
+                    int counter = -1;
                     for (String value: data) {
-                        String[] keyValue = value.split("=");
-                        if (keyValue.length == 2) {
-                            command.put(keyValue[0].strip(), keyValue[1]);
-                        } else {
-                            throw new IllegalArgumentException("Illegal key value pair");
+                        if (value.contains("=")) { // In case key=value
+                            String[] keyValue = value.split("=");
+                            if (keyValue.length == 2) {
+                                command.put(keyValue[0].strip(), keyValue[1]);
+                            } else {
+                                throw new IllegalArgumentException("Illegal key value pair");
+                            }
+                        } else { // In case value only
+                            switch (counter) {
+                                case -1:
+                                    command.put("TYPE", value);
+                                    break;
+                                case 0:
+                                    command.put("ACTION", value);
+                                    break;
+                                default:
+                                    command.put("VALUE" + counter, value);
+                                    break;
+                            }
                         }
+                        counter++;
                     }
                 } else {
                     throw new IllegalArgumentException("Data size mismatch");

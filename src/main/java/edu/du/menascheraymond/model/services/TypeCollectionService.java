@@ -2,15 +2,15 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
- * Service.java
+ * TypeCollectionService.java
  */
 package edu.du.menascheraymond.model.services;
 
 /**
- * Base Service Interface for service classes.
+ * Base TypeCollectionService Interface for collection service classes.
  * @author raymondmenasche
  */
-public interface Service <T> {
+public interface TypeCollectionService <T> extends CollectionService {
     
     /**
      * Adds new object to the collection.
@@ -33,20 +33,4 @@ public interface Service <T> {
      */
     public boolean isPresent(T object);
     
-    /**
-     * Retrieves Fully qualify name of the class.
-     * @return String 
-     */
-    public String getName();
-    
-    /**
-     * Retrieves the number of objects in the collection.
-     * @return integer with number of objects in the collection.
-     */
-    public int size();
-    
-    /**
-     * System print of all objects in the collection.
-     */
-    public void dump();
 }

@@ -6,8 +6,7 @@
  */
 package edu.du.menascheraymond.model.business.command;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import edu.du.menascheraymond.model.business.manager.Manager;
 import java.util.Map;
 
 /**
@@ -23,15 +22,22 @@ public interface Command {
     public String getName();
     
     /**
-     * Retrieves a List of Maps with command type, action, and object data.
-     * @return List of Maps
+     * Retrieves a the type of command.
+     * @return String name of the type of command.
      */
-    public List<Map<String,String>> getCommands();
+    public String getCommandType();
     
     /**
-     * Sends a command in a List of Maps collection to be sent by the API
-     * @param cmns
-     * @return True if successfully sent the request. 
+     * Takes a command as a LinkedHashMap collection to be to be processed
+     * by the implemented class.
+     * @param cmd
+     * @return True if successfully processed the request. 
      */
-    public boolean sendCommands(List<LinkedHashMap<String,String>> cmns);
+    public boolean performCommands(Map<String,String> cmd);
+    
+    /**
+     * Injects the manager object to the Command
+     * @param manager 
+     */
+    public void setManager(Manager manager);
 }

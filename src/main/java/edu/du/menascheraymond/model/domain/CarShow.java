@@ -176,7 +176,7 @@ public class CarShow {
      */
     @Override
     public String toString() {
-        return "CarShow{" + "carShowID=" + carShowId +
+        return "CarShow{" + "carShowId=" + carShowId +
                 ", carShowTitle=" + carShowTitle +
                 ", carShowDate=" + carShowDate +
                 ", isSanctioned=" + sanctioned + '}';

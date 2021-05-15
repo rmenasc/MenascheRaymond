@@ -3,15 +3,16 @@
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
  */
-package edu.du.menascheraymond.model.business.command.properties;
+package edu.du.menascheraymond.model.services.properties;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -38,7 +39,7 @@ public class PropertiesFileStreamTest {
      */
     @Test
     public void testGetCommands() {
-        PropertiesCommand instance = new PropertiesFileStream("target/testfilestream.txt",
+        PropertiesService instance = new PropertiesFileStream("target/testfilestream.txt",
                 "target/testfilestream.txt");
         List<LinkedHashMap<String, String>> expResultList = new LinkedList<>();
         expResultList.add(data);
@@ -72,7 +73,7 @@ public class PropertiesFileStreamTest {
     public void testSendCommands() {
         List<LinkedHashMap<String, String>> cmns = new LinkedList<>();
         cmns.add(data);
-        PropertiesCommand instance = new PropertiesFileStream("target/testfilestream.txt",
+        PropertiesService instance = new PropertiesFileStream("target/testfilestream.txt",
                 "target/testfilestream.txt");
         boolean expResult = true;
         boolean result = instance.sendCommands(cmns);
@@ -92,7 +93,7 @@ public class PropertiesFileStreamTest {
      */
     @Test
     public void testSendProperties() {
-        PropertiesCommand instance = new PropertiesFileStream
+        PropertiesService instance = new PropertiesFileStream
                 ("target/textfilestream.txt", "target/textfilestream.txt");
         boolean expResult = true;
         boolean result = instance.sendProperties(properties);

@@ -6,15 +6,16 @@
  */
 package edu.du.menascheraymond.model.business.manager;
 
-import edu.du.menascheraymond.model.business.command.Command;
-import edu.du.menascheraymond.model.business.factory.CommandFactory;
+import edu.du.menascheraymond.model.business.factory.CommandFactoryImpl;
 import edu.du.menascheraymond.model.business.factory.ServiceFactory;
+import edu.du.menascheraymond.model.services.PersistenceService;
 import edu.du.menascheraymond.model.services.carshowownerservice.CarShowOwnerService;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowService;
 import edu.du.menascheraymond.model.services.ownerservice.OwnerService;
 import edu.du.menascheraymond.model.services.vehicleservice.VehicleService;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Properties;
 
 /**
@@ -23,14 +24,14 @@ import java.util.Properties;
  */
 public class Manager {
     private ServiceFactory serviceFactory = new ServiceFactory();
-    private CommandFactory commandFactory = new CommandFactory();
+    private CommandFactoryImpl commandFactory = new CommandFactoryImpl();
     private Properties serviceConfiguration;
-    private Properties commandConfiguration;
+    private Properties persistenceConfiguration;
     private OwnerService ownerCollection;
     private VehicleService vehicleCollection;
     private CarShowService carShowCollection;
     private CarShowOwnerService carShowOwnerCollection;
-    private Command command;
+    private PersistenceService persistenceService;
     
     public Manager() {
         try (FileReader reader = new FileReader("target/serviceproperties.txt"))
@@ -56,12 +57,25 @@ public class Manager {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        try (FileReader reader = new FileReader("target/commandproperties.txt"))
+        
+        try (FileReader reader = new FileReader("target/persistenceproperties.txt"))
         {
-            commandConfiguration = new Properties();
-            commandConfiguration.load(reader);
-            command = commandFactory.getCommand(commandConfiguration.getProperty
-                ("command"));
+            persistenceConfiguration = new Properties();
+            persistenceConfiguration.load(reader);
+            String className = persistenceConfiguration.getProperty("persistence");
+            if (className != null) {
+                try {
+                    Class<PersistenceService> claz = 
+                            (Class<PersistenceService>)Class.forName(className);
+                    if (claz != null) {
+                        Constructor<PersistenceService> constructor = 
+                                claz.getConstructor(new Class[0]);
+                        persistenceService = constructor.newInstance();
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                }
+            }
         } catch (IOException e) {
             System.out.println("I/O Error: " + e);
         } catch (Exception e) {
@@ -85,7 +99,7 @@ public class Manager {
         return carShowOwnerCollection;
     }
     
-    public Command getCommand() {
-        return command;
+    public PersistenceService getPersistenceService() {
+        return persistenceService;
     }
 }

@@ -308,8 +308,8 @@ public class Vehicle {
      */
     @Override
     public String toString() {
-        return "Vehicle{" + "vehicleID=" + vehicleId +
-                ", ownerID=" + ownerId +
+        return "Vehicle{" + "vehicleId=" + vehicleId +
+                ", ownerId=" + ownerId +
                 ", manufacturer=" + manufacturer +
                 ", modelYear=" + modelYear +
                 ", model=" + model +

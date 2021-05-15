@@ -6,13 +6,13 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
-import edu.du.menascheraymond.model.services.Service;
+import edu.du.menascheraymond.model.services.TypeCollectionService;
 
 /**
  *
  * @author raymondmenasche
  */
-public interface OwnerService extends Service<Owner> {
+public interface OwnerService extends TypeCollectionService<Owner> {
     /**
      * Adds a Owner object to the Collection.
      * @param owner

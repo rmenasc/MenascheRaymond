@@ -4,7 +4,7 @@
  * Java Programming ICT4361-1.
  * PropertiesFileStream.java
  */
-package edu.du.menascheraymond.model.business.command.properties;
+package edu.du.menascheraymond.model.services.properties;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,7 +19,7 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * Implementation of the Command interface that handles a Properties.txt file
+ * Implementation of the Properties Service interface that handles a Properties.txt file
  * input and output.
  * Default output: target/propertiesinput.txt
  * Default input: target/propertiesoutput.txt
@@ -28,7 +28,7 @@ import java.util.Set;
  * one Map command. 
  * @author raymondmenasche
  */
-public class PropertiesFileStream implements PropertiesCommand {
+public class PropertiesFileStream implements PropertiesService {
     private List<Map<String,String>> commands;
     private Properties data;
     private final String INPUTFILE;

@@ -196,7 +196,7 @@ public class Owner {
     @Override
     public String toString() {
         return "Owner{" 
-                + "ownerID=" + ownerId 
+                + "ownerId=" + ownerId 
                 + ", firstName=" + firstName 
                 + ", lastName=" + lastName 
                 + ", phoneNumber=" + phoneNumber 

@@ -6,8 +6,8 @@
  */
 package edu.du.menascheraymond.model.business.factory;
 
-import edu.du.menascheraymond.model.services.Service;
 import java.lang.reflect.Constructor;
+import edu.du.menascheraymond.model.services.TypeCollectionService;
 
 /**
  *
@@ -15,11 +15,11 @@ import java.lang.reflect.Constructor;
  */
 public class ServiceFactory {
     
-    public Service getService(String serviceClass) throws Exception {
-        Class<Service> claz = (Class<Service>)Class.forName(serviceClass);
+    public TypeCollectionService getService(String serviceClass) throws Exception {
+        Class<TypeCollectionService> claz = (Class<TypeCollectionService>)Class.forName(serviceClass);
         if (claz != null) {
-            Constructor<Service> constructor = claz.getConstructor(new Class[0]);
-            Service service = constructor.newInstance();
+            Constructor<TypeCollectionService> constructor = claz.getConstructor(new Class[0]);
+            TypeCollectionService service = constructor.newInstance();
             return service;
         }
         return null;

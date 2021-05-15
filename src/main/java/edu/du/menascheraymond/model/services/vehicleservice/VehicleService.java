@@ -6,13 +6,13 @@
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
-import edu.du.menascheraymond.model.services.Service;
+import edu.du.menascheraymond.model.services.TypeCollectionService;
 
 /**
  *
  * @author raymondmenasche
  */
-public interface VehicleService extends Service<Vehicle> {
+public interface VehicleService extends TypeCollectionService<Vehicle> {
     /**
      * Adds a Vehicle object to the Collection.
      * @param vehicle

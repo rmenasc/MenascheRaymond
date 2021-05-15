@@ -6,13 +6,13 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
-import edu.du.menascheraymond.model.services.Service;
+import edu.du.menascheraymond.model.services.TypeCollectionService;
 
 /**
  *
  * @author raymondmenasche
  */
-public interface CarShowService extends Service<CarShow> {
+public interface CarShowService extends TypeCollectionService<CarShow> {
     /**
      * Adds a CarShowOwner object to the Collection.
      * @param carShow

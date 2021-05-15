@@ -2,18 +2,22 @@
  * University College, University of Denver student project.
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
+ * Author: Raymond Menasche
+ * File: CsvFileStreamTest.java
  */
-package edu.du.menascheraymond.model.business.command.csv;
+package edu.du.menascheraymond.model.services.csv;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- *
+ * Unit tests for the CsvFileStream class.
  * @author raymondmenasche
  */
 public class CsvFileStreamTest {
@@ -46,7 +50,7 @@ public class CsvFileStreamTest {
     @Test
     public void testGetCommands() {
         try {
-            CsvCommand instance = new CsvFileStream("target/testfilestream.txt",
+            CsvService instance = new CsvFileStream("target/testfilestream.txt",
                     "target/testfilestream.txt");
             Map<String, String> data = new LinkedHashMap<>();
             data.put("TYPE", "OWNER");
@@ -84,7 +88,7 @@ public class CsvFileStreamTest {
         data.put("ownerId", "O123");
         List<LinkedHashMap<String,String>> cmds = new LinkedList<>();
         cmds.add(data);
-        CsvCommand instance = new CsvFileStream("target/testfilestream.txt",
+        CsvService instance = new CsvFileStream("target/testfilestream.txt",
                 "target/testfilestream.txt");
         boolean expResult = true;
         boolean result = instance.sendCommands(cmds);
