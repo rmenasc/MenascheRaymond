@@ -7,6 +7,7 @@ package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.services.TypeCollectionService;
+import java.util.List;
 
 /**
  *
@@ -62,4 +63,9 @@ public interface VehicleService extends TypeCollectionService<Vehicle> {
      */
     public boolean isPresent(String vehicleId);
     
+    /**
+     * Retrieves a List of all the Vehicle object's ids.
+     * @return ArrayList of Strings. 
+     */
+    public List<String> getIds();
 }

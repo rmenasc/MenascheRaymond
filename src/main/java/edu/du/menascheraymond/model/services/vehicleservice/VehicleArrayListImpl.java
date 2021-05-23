@@ -138,4 +138,13 @@ public class VehicleArrayListImpl implements VehicleService {
     public String getName() {
         return this.getClass().getName();
     }
+    
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (Vehicle v: vehicles) {
+            rv.add(v.getVehicleId());
+        }
+        return rv;
+    }
 }

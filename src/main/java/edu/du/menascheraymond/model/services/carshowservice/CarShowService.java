@@ -7,6 +7,7 @@ package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
 import edu.du.menascheraymond.model.services.TypeCollectionService;
+import java.util.List;
 
 /**
  *
@@ -58,4 +59,9 @@ public interface CarShowService extends TypeCollectionService<CarShow> {
      */
     public boolean isPresent(String carShowId);
     
+    /**
+     * Gets a list of all the CarShow object's ids.
+     * @return List of strings.
+     */
+    public List<String> getIds();
 }

@@ -6,8 +6,10 @@
 package edu.du.menascheraymond.model.services.carshowservice;
 
 import edu.du.menascheraymond.model.domain.CarShow;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -85,6 +87,15 @@ public class CarShowHashSetImpl implements CarShowService {
         for (CarShow c: carShows) {
             System.out.println(c.toString());
         }
+    }
+
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (CarShow cs: carShows) {
+            rv.add(cs.getCarShowId());
+        }
+        return rv;
     }
     
 }

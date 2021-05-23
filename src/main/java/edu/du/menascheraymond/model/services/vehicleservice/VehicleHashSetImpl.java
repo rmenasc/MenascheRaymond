@@ -6,8 +6,10 @@
 package edu.du.menascheraymond.model.services.vehicleservice;
 
 import edu.du.menascheraymond.model.domain.Vehicle;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -101,4 +103,12 @@ public class VehicleHashSetImpl implements VehicleService {
         }
     }
     
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (Vehicle v: vehicles) {
+            rv.add(v.getVehicleId());
+        }
+        return rv;
+    }
 }

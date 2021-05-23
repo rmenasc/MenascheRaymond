@@ -7,6 +7,7 @@ package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.services.TypeCollectionService;
+import java.util.List;
 
 /**
  *
@@ -54,5 +55,11 @@ public interface OwnerService extends TypeCollectionService<Owner> {
      * @return True if object is present in collection.
      */
     public boolean isPresent(String ownerId);
+    
+    /**
+     * Retrieves a list of all the Owner object's ids.
+     * @return ArrayLIst of stings. 
+     */
+    public List<String> getIds();
     
 }

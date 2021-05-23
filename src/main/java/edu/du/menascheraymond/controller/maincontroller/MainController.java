@@ -6,11 +6,16 @@
  */
 package edu.du.menascheraymond.controller.maincontroller;
 
+import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.domain.Owner;
+import edu.du.menascheraymond.model.services.carshowservice.CarShowService;
+import edu.du.menascheraymond.model.services.ownerservice.OwnerService;
 import edu.du.menascheraymond.view.MainMenuFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -33,7 +38,8 @@ public class MainController implements ActionListener, WindowListener {
         mainMenuFrame.getCarShowMenuItem().addActionListener(this);
         mainMenuFrame.getOwnerMenuItem().addActionListener(this);
         mainMenuFrame.getVehicleMenuItem().addActionListener(this);
-        //mainMenuFrame.g
+        mainMenuFrame.getOwnerSearchButton().addActionListener(this);
+        mainMenuFrame.getCarShowSearchButton().addActionListener(this);
     }
 
     @Override
@@ -41,6 +47,10 @@ public class MainController implements ActionListener, WindowListener {
         try {
             if (ae.getSource().equals(mainMenuFrame.getExitItem())) {
                 exitItem_actionPerformed(ae);
+            } else if (ae.getSource().equals(mainMenuFrame.getOwnerSearchButton())) {
+                searchOwner_actionPerformed(ae);
+            } else if (ae.getSource().equals(mainMenuFrame.getCarShowSearchButton())) {
+                searchCarShow_actionPerformed(ae);
             }
         } catch(Exception e) {
             
@@ -51,6 +61,38 @@ public class MainController implements ActionListener, WindowListener {
         //TODO: Code here
         
         System.exit(0);
+    }
+    
+    private void searchOwner_actionPerformed(ActionEvent event) {
+        OwnerService owners = mainMenuFrame.getManager().getOwnerCollection();
+        String searchText = mainMenuFrame.getOwnerSearchField().getText();
+        if (owners.isPresent(searchText)) {
+            Owner owner = owners.find(mainMenuFrame.getOwnerSearchField().getText());
+            mainMenuFrame.getOwnerSearchResultLabel().setText
+                    (owner.getFirstName() + " " + owner.getLastName());
+            CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
+            DefaultListModel<String> modelList = new DefaultListModel<>();
+            for (String id: css.getIds()) {
+                if (mainMenuFrame.getManager().getCarShowOwnerCollection()
+                        .isPresent(owner.getOwnerId(), id)) {
+                    modelList.addElement(css.find(id).getCarShowTitle());
+                    mainMenuFrame.getCarShowOwnerList().setModel(modelList);
+                }
+            }
+        } else {
+            mainMenuFrame.getOwnerSearchResultLabel().setText("No Results");
+        }
+    }
+    
+    private void searchCarShow_actionPerformed(ActionEvent event) {
+        String searchId = mainMenuFrame.getCarShowSearchField().getText();
+        if (mainMenuFrame.getManager().getCarShowCollection().isPresent(searchId)) {
+            CarShow cs = mainMenuFrame.getManager().getCarShowCollection()
+                    .find(mainMenuFrame.getCarShowSearchField().getText());
+            mainMenuFrame.getCarShowSearchResultLabel().setText(cs.getCarShowTitle());
+        } else {
+            mainMenuFrame.getCarShowSearchResultLabel().setText("No Result");
+        }
     }
 
     @Override

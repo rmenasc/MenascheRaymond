@@ -118,4 +118,13 @@ public class OwnerArrayListImpl implements OwnerService {
     public String getName() {
         return this.getClass().getName();
     }
+    
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (Owner o: owners) {
+            rv.add(o.getOwnerId());
+        }
+        return rv;
+    }
 }

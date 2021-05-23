@@ -6,7 +6,9 @@
 package edu.du.menascheraymond.model.services.ownerservice;
 
 import edu.du.menascheraymond.model.domain.Owner;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -84,4 +86,12 @@ public class OwnerHashSetImpl implements OwnerService {
         }
     }
     
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (Owner o: owners) {
+            rv.add(o.getOwnerId());
+        }
+        return rv;
+    }
 }

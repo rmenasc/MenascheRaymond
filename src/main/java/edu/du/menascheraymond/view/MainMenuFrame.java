@@ -49,8 +49,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 command.performCommands(cmd);
             }
         }
-        
-        ownerSearchResultLabel.setText("hello World");
     }
 
     /**
@@ -92,11 +90,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         ownerSearchResultLabel.setText("Display Owner Resutl");
 
-        carShowOwnerList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(carShowOwnerList);
 
         CarShowOwnerListLabel.setText("Owner's Car Shows");
@@ -299,6 +292,10 @@ public class MainMenuFrame extends javax.swing.JFrame {
     public JTextField getCarShowSearchField() {
         return carShowSearchField;
     }
+    
+    public JLabel getCarShowSearchResultLabel() {
+        return carShowSearchResultLabel;
+    }
 
     public JMenu getEditMenu() {
         return editMenu;
@@ -348,7 +345,9 @@ public class MainMenuFrame extends javax.swing.JFrame {
         return vehicleMenuItem;
     }
     
-    
+    public Manager getManager() {
+        return manager;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CarShowOwnerListLabel;

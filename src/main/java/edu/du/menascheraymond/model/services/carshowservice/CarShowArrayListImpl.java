@@ -121,4 +121,13 @@ public class CarShowArrayListImpl implements CarShowService {
     public String getName() {
         return this.getClass().getName();
     }
+    
+    @Override
+    public List<String> getIds() {
+        List<String> rv = new ArrayList<>();
+        for (CarShow cs: carShows) {
+            rv.add(cs.getCarShowId());
+        }
+        return rv;
+    }
 }
