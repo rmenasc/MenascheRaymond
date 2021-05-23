@@ -71,8 +71,12 @@ public class MainMenuFrame extends javax.swing.JFrame {
         carShowSearchButton = new javax.swing.JButton();
         carShowSearchResultLabel = new javax.swing.JLabel();
         addCarShowOwnerButton = new javax.swing.JButton();
+        eOwnerId = new javax.swing.JLabel();
+        eCarShowId = new javax.swing.JLabel();
         carShowMainMenu = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        saveItem = new javax.swing.JMenuItem();
+        printItem = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         undoResetMenuItem = new javax.swing.JMenuItem();
@@ -84,8 +88,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Car Show Admin");
 
-        ownerSearchField.setText("Enter Owner ID");
-
         ownerSearchButton.setText("Search");
 
         ownerSearchResultLabel.setText("Display Owner Resutl");
@@ -96,15 +98,23 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         removeCarShowOwnerButton.setText("Remove");
 
-        carShowSearchField.setText("Enter Car Show ID");
-
         carShowSearchButton.setText("Search");
 
         carShowSearchResultLabel.setText("Display Car Show Result");
 
         addCarShowOwnerButton.setText("Add");
 
+        eOwnerId.setText("Enter Owner ID");
+
+        eCarShowId.setText("Enter Car Show ID");
+
         fileMenu.setText("File");
+
+        saveItem.setText("Save");
+        fileMenu.add(saveItem);
+
+        printItem.setText("Print");
+        fileMenu.add(printItem);
 
         exitItem.setText("Exit");
         fileMenu.add(exitItem);
@@ -160,17 +170,19 @@ public class MainMenuFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addCarShowOwnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(eCarShowId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ownerSearchResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ownerSearchField)
                             .addComponent(carShowSearchField)
-                            .addComponent(carShowSearchResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                            .addComponent(carShowSearchResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                            .addComponent(eOwnerId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ownerSearchButton)
-                            .addComponent(carShowSearchButton)))
-                    .addComponent(addCarShowOwnerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(carShowSearchButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(removeCarShowOwnerButton)
@@ -181,30 +193,39 @@ public class MainMenuFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(ownerSearchButton)
-                        .addComponent(ownerSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(CarShowOwnerListLabel))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addComponent(CarShowOwnerListLabel)
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(eOwnerId)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ownerSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ownerSearchButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ownerSearchResultLabel)
-                        .addGap(53, 53, 53)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(eCarShowId)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(carShowSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(carShowSearchButton))
-                        .addGap(26, 26, 26)
-                        .addComponent(carShowSearchResultLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(addCarShowOwnerButton))
+                        .addComponent(carShowSearchResultLabel)
+                        .addGap(10, 10, 10)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(removeCarShowOwnerButton)
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(removeCarShowOwnerButton)
+                        .addContainerGap(61, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addCarShowOwnerButton)
+                        .addGap(71, 71, 71))))
         );
 
         pack();
@@ -267,6 +288,14 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 }
             }
         });
+    }
+    
+    public JMenuItem getSaveItem() {
+        return saveItem;
+    }
+    
+    public JMenuItem getPringItem() {
+        return printItem;
     }
 
     public JButton getAddCarShowOwnerButton() {
@@ -358,6 +387,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton carShowSearchButton;
     private javax.swing.JTextField carShowSearchField;
     private javax.swing.JLabel carShowSearchResultLabel;
+    private javax.swing.JLabel eCarShowId;
+    private javax.swing.JLabel eOwnerId;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenu fileMenu;
@@ -367,7 +398,9 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton ownerSearchButton;
     private javax.swing.JTextField ownerSearchField;
     private javax.swing.JLabel ownerSearchResultLabel;
+    private javax.swing.JMenuItem printItem;
     private javax.swing.JButton removeCarShowOwnerButton;
+    private javax.swing.JMenuItem saveItem;
     private javax.swing.JMenuItem undoResetMenuItem;
     private javax.swing.JMenuItem vehicleMenuItem;
     // End of variables declaration//GEN-END:variables
