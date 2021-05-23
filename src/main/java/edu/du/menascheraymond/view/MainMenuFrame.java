@@ -6,17 +6,51 @@
  */
 package edu.du.menascheraymond.view;
 
+import edu.du.menascheraymond.controller.maincontroller.MainController;
+import edu.du.menascheraymond.model.business.command.Command;
+import edu.du.menascheraymond.model.business.factory.CommandFactory;
+import edu.du.menascheraymond.model.business.factory.CommandFactoryImpl;
+import edu.du.menascheraymond.model.business.manager.Manager;
+import edu.du.menascheraymond.model.services.PersistenceService;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+
 /**
  *
  * @author raymond
  */
 public class MainMenuFrame extends javax.swing.JFrame {
 
+    private Manager manager = new Manager();
+    
     /**
      * Creates new form CarShowFrame
      */
     public MainMenuFrame() {
         initComponents();
+        MainController mainController = new MainController(this);
+        PersistenceService ps = manager.getPersistenceService();
+        List<Map<String,String>> commands = ps.getCommands();
+        for (Map<String,String> cmd: commands) {
+            
+            CommandFactory cf = new CommandFactoryImpl();
+            Command command = cf.getCommand(cmd.get("TYPE"));
+            if (command != null) {
+                command.setManager(manager);
+                command.performCommands(cmd);
+            }
+        }
+        
+        ownerSearchResultLabel.setText("hello World");
     }
 
     /**
@@ -80,11 +114,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         exitItem.setText("Exit");
-        exitItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitItem);
 
         carShowMainMenu.add(fileMenu);
@@ -203,10 +232,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
         carShowFrame.setVisible(true);
     }//GEN-LAST:event_carShowMenuItemActionPerformed
 
-    private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_exitItemActionPerformed
-
     private void undoResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoResetMenuItemActionPerformed
         // TODO add your handling code here: Reload data from persistance
     }//GEN-LAST:event_undoResetMenuItemActionPerformed
@@ -214,7 +239,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void runApplication() throws Exception {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -242,10 +267,88 @@ public class MainMenuFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenuFrame().setVisible(true);
+                try {
+                    new MainMenuFrame().setVisible(true);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         });
     }
+
+    public JButton getAddCarShowOwnerButton() {
+        return addCarShowOwnerButton;
+    }
+
+    public JMenuBar getCarShowMainMenu() {
+        return carShowMainMenu;
+    }
+
+    public JMenuItem getCarShowMenuItem() {
+        return carShowMenuItem;
+    }
+
+    public JList<String> getCarShowOwnerList() {
+        return carShowOwnerList;
+    }
+
+    public JButton getCarShowSearchButton() {
+        return carShowSearchButton;
+    }
+
+    public JTextField getCarShowSearchField() {
+        return carShowSearchField;
+    }
+
+    public JMenu getEditMenu() {
+        return editMenu;
+    }
+
+    public JMenuItem getExitItem() {
+        return exitItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public JMenu getObjectsMenu() {
+        return objectsMenu;
+    }
+
+    public JMenuItem getOwnerMenuItem() {
+        return ownerMenuItem;
+    }
+
+    public JButton getOwnerSearchButton() {
+        return ownerSearchButton;
+    }
+
+    public JTextField getOwnerSearchField() {
+        return ownerSearchField;
+    }
+
+    public JLabel getOwnerSearchResultLabel() {
+        return ownerSearchResultLabel;
+    }
+
+    public JButton getRemoveCarShowOwnerButton() {
+        return removeCarShowOwnerButton;
+    }
+
+    public JMenuItem getUndoResetMenuItem() {
+        return undoResetMenuItem;
+    }
+
+    public JMenuItem getVehicleMenuItem() {
+        return vehicleMenuItem;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CarShowOwnerListLabel;
@@ -269,4 +372,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem undoResetMenuItem;
     private javax.swing.JMenuItem vehicleMenuItem;
     // End of variables declaration//GEN-END:variables
+    
+
 }

@@ -15,6 +15,7 @@ import edu.du.menascheraymond.model.domain.CarShow;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.services.PersistenceService;
+import edu.du.menascheraymond.view.MainMenuFrame;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,81 +38,29 @@ public class MainMethod {
     public static void main(String[] args) {
         //Store all the lines from CarShowData.txt and stores them in fileReaderLines
         //ArrayList.
-        readData();
-        
-        //TODO: Change this.
-        manager.getOwnerCollection().dump();
-        manager.getVehicleCollection().dump();
-        manager.getCarShowCollection().dump();
-        manager.getCarShowOwnerCollection().dump();
-        
-        
-        setFileWriterLines();
-        writeToFile();
+//        readData();
+//        
+//        //TODO: Change this.
+//        manager.getOwnerCollection().dump();
+//        manager.getVehicleCollection().dump();
+//        manager.getCarShowCollection().dump();
+//        manager.getCarShowOwnerCollection().dump();
+//        
+//        
+//        setFileWriterLines();
+//        writeToFile();
+        try {
+            MainMenuFrame.runApplication();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
     public static void readData() {
         PersistenceService ps = manager.getPersistenceService();
         List<Map<String,String>> commands = ps.getCommands();
         for (Map<String,String> cmd: commands) {
-            switch (cmd.get("TYPE").toUpperCase().strip()) {
-                case "OWNER":
-                    if (cmd.containsKey("ownerId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("ownerId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("VALUE1"));
-                    }
-                    if (cmd.containsKey("ownerId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("ownerId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("VALUE1"));
-                    }
-                    break;
-                case "VEHICLE":
-                    if (cmd.containsKey("vehicleId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("vehicleId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("VALUE1"));
-                    }
-                    if (cmd.containsKey("vehicleId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("vehicleId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("VALUE1"));
-                    }
-                    break;
-                case "CARSHOW":
-                    if (cmd.containsKey("carShowId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("carShowId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("ADD")) {
-                        owners.add(cmd.get("VALUE1"));
-                    }
-                    if (cmd.containsKey("carShowId") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("carShowId"));
-                    }
-                    if (cmd.containsKey("VALUE1") && cmd.get("ACTION")
-                            .equalsIgnoreCase("REM")) {
-                        owners.remove(cmd.get("VALUE1"));
-                    }
-                    break;
-                default:
-                    break;
-            }
+            
             CommandFactory cf = new CommandFactoryImpl();
             Command command = cf.getCommand(cmd.get("TYPE"));
             if (command != null) {
