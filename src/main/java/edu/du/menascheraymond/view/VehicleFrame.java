@@ -6,6 +6,17 @@
  */
 package edu.du.menascheraymond.view;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author raymond
@@ -82,7 +93,7 @@ public class VehicleFrame extends javax.swing.JFrame {
         insuredLabel.setText("Insured");
 
         classificationCombo.setMaximumRowCount(3);
-        classificationCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Antique", "Classic", "Antique" }));
+        classificationCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ANTIQUE", "CLASSIC", "MODERN" }));
 
         addVehicleButton.setText("Add");
 
@@ -95,11 +106,6 @@ public class VehicleFrame extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitMenuItem);
 
         vehicleMenuBar.add(fileMenu);
@@ -107,11 +113,6 @@ public class VehicleFrame extends javax.swing.JFrame {
         editMenu.setText("Edit");
 
         undoResetMenuItem.setText("Undo/Reset");
-        undoResetMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                undoResetMenuItemActionPerformed(evt);
-            }
-        });
         editMenu.add(undoResetMenuItem);
 
         vehicleMenuBar.add(editMenu);
@@ -215,49 +216,41 @@ public class VehicleFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void undoResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoResetMenuItemActionPerformed
-        // TODO add your handling code here: reload persistance with selected Owner Id
-    }//GEN-LAST:event_undoResetMenuItemActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VehicleFrame().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(VehicleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new VehicleFrame().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addVehicleButton;
@@ -287,4 +280,110 @@ public class VehicleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar vehicleMenuBar;
     private javax.swing.JList<String> vehiclesList;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getAddVehicleButton() {
+        return addVehicleButton;
+    }
+
+    public JComboBox<String> getClassificationCombo() {
+        return classificationCombo;
+    }
+
+    public JLabel getClassificationLabel() {
+        return classificationLabel;
+    }
+
+    public JMenu getEditMenu() {
+        return editMenu;
+    }
+
+    public JMenuItem getExitMenuItem() {
+        return exitMenuItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JCheckBox getInsuredCheckBox() {
+        return insuredCheckBox;
+    }
+
+    public JLabel getInsuredLabel() {
+        return insuredLabel;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public JTextField getManufacturerField() {
+        return manufacturerField;
+    }
+
+    public JLabel getManufacturerLabel() {
+        return manufacturerLabel;
+    }
+
+    public JTextField getModelField() {
+        return modelField;
+    }
+
+    public JLabel getModelLabel() {
+        return modelLabel;
+    }
+
+    public JTextField getModelYearField() {
+        return modelYearField;
+    }
+
+    public JLabel getModelYearLabel() {
+        return modelYearLabel;
+    }
+
+    public JLabel getOwnerLabel() {
+        return ownerLabel;
+    }
+
+    public JLabel getOwnerResultLabel() {
+        return ownerResultLabel;
+    }
+
+    public JButton getOwnerSearchButton() {
+        return ownerSearchButton;
+    }
+
+    public JLabel getOwnersVehiclesLabel() {
+        return ownersVehiclesLabel;
+    }
+
+    public JButton getRemoveVehicleButton() {
+        return removeVehicleButton;
+    }
+
+    public JTextField getSearchOwnerIdField() {
+        return searchOwnerIdField;
+    }
+
+    public JTextField getSubModelField() {
+        return subModelField;
+    }
+
+    public JLabel getSubModelLabel() {
+        return subModelLabel;
+    }
+
+    public JMenuItem getUndoResetMenuItem() {
+        return undoResetMenuItem;
+    }
+
+    public JMenuBar getVehicleMenuBar() {
+        return vehicleMenuBar;
+    }
+
+    public JList<String> getVehiclesList() {
+        return vehiclesList;
+    }
+
+
 }

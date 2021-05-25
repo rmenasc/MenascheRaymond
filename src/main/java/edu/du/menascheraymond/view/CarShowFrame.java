@@ -6,6 +6,17 @@
  */
 package edu.du.menascheraymond.view;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author raymond
@@ -42,7 +53,7 @@ public class CarShowFrame extends javax.swing.JFrame {
         removeCarShowButton = new javax.swing.JButton();
         monthCombo = new javax.swing.JComboBox<>();
         dayCombo = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        yearCombo = new javax.swing.JComboBox<>();
         carShowMainMenu = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -79,19 +90,14 @@ public class CarShowFrame extends javax.swing.JFrame {
         monthCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         dayCombo.setMaximumRowCount(31);
-        dayCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        dayCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
 
-        jComboBox3.setMaximumRowCount(5);
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2021", "2022", "2023", "2024", "2025" }));
+        yearCombo.setMaximumRowCount(5);
+        yearCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2021", "2022", "2023", "2024", "2025" }));
 
         fileMenu.setText("File");
 
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitMenuItem);
 
         carShowMainMenu.add(fileMenu);
@@ -99,11 +105,6 @@ public class CarShowFrame extends javax.swing.JFrame {
         editMenu.setText("Edit");
 
         undoResetMenuItem.setText("Undo/Reset");
-        undoResetMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                undoResetMenuItemActionPerformed(evt);
-            }
-        });
         editMenu.add(undoResetMenuItem);
 
         carShowMainMenu.add(editMenu);
@@ -134,7 +135,7 @@ public class CarShowFrame extends javax.swing.JFrame {
                                         .addComponent(titleField)
                                         .addGap(21, 21, 21)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(removeCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                                    .addComponent(removeCarShowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, Short.MAX_VALUE)
                                     .addComponent(updateCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(addCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
@@ -142,7 +143,7 @@ public class CarShowFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(110, 110, 110)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
@@ -173,7 +174,7 @@ public class CarShowFrame extends javax.swing.JFrame {
                                     .addComponent(dateLabel)
                                     .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(updateCarShowButton)))
@@ -189,48 +190,40 @@ public class CarShowFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void undoResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoResetMenuItemActionPerformed
-        // TODO add your handling code here: Reload persistence data
-    }//GEN-LAST:event_undoResetMenuItemActionPerformed
-
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CarShowFrame().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(CarShowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new CarShowFrame().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCarShowButton;
@@ -242,7 +235,6 @@ public class CarShowFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JButton removeCarShowButton;
@@ -253,5 +245,88 @@ public class CarShowFrame extends javax.swing.JFrame {
     private javax.swing.JLabel titleLabel;
     private javax.swing.JMenuItem undoResetMenuItem;
     private javax.swing.JButton updateCarShowButton;
+    private javax.swing.JComboBox<String> yearCombo;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getAddCarShowButton() {
+        return addCarShowButton;
+    }
+
+    public JMenuBar getCarShowMainMenu() {
+        return carShowMainMenu;
+    }
+
+    public JList<String> getCarShowsList() {
+        return carShowsList;
+    }
+
+    public JLabel getCarShowsListLabel() {
+        return carShowsListLabel;
+    }
+
+    public JLabel getDateLabel() {
+        return dateLabel;
+    }
+
+    public JComboBox<String> getDayCombo() {
+        return dayCombo;
+    }
+
+    public JMenu getEditMenu() {
+        return editMenu;
+    }
+
+    public JMenuItem getExitMenuItem() {
+        return exitMenuItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JComboBox<String> getYearCombo() {
+        return yearCombo;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public JComboBox<String> getMonthCombo() {
+        return monthCombo;
+    }
+
+    public JButton getRemoveCarShowButton() {
+        return removeCarShowButton;
+    }
+
+    public JCheckBox getSanctionedCheckBox() {
+        return sanctionedCheckBox;
+    }
+
+    public JLabel getSanctionedLabel() {
+        return sanctionedLabel;
+    }
+
+    public JLabel getSelectedCarShowLabel() {
+        return selectedCarShowLabel;
+    }
+
+    public JTextField getTitleField() {
+        return titleField;
+    }
+
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    public JMenuItem getUndoResetMenuItem() {
+        return undoResetMenuItem;
+    }
+
+    public JButton getUpdateCarShowButton() {
+        return updateCarShowButton;
+    }
+
+
 }

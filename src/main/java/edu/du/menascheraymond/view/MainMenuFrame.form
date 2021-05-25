@@ -35,9 +35,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Undo/Reset"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="undoResetMenuItemActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -50,25 +47,16 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Owner"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ownerMenuItemActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="vehicleMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vehicle"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="vehicleMenuItemActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="carShowMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Car Show"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="carShowMenuItemActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -122,7 +110,7 @@
               <EmptySpace pref="61" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="removeCarShowOwnerButton" min="-2" max="-2" attributes="0"/>
-                  <Component id="CarShowOwnerListLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="carShowOwnerListLabel" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="299" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -135,7 +123,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="CarShowOwnerListLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="carShowOwnerListLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="241" max="-2" attributes="0"/>
                   </Group>
@@ -163,12 +151,10 @@
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="removeCarShowOwnerButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="61" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="addCarShowOwnerButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                   </Group>
@@ -186,9 +172,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="ownerSearchResultLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Display Owner Resutl"/>
-      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -209,7 +192,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="CarShowOwnerListLabel">
+    <Component class="javax.swing.JLabel" name="carShowOwnerListLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Owner&apos;s Car Shows"/>
       </Properties>
@@ -227,9 +210,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="carShowSearchResultLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Display Car Show Result"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="addCarShowOwnerButton">
       <Properties>

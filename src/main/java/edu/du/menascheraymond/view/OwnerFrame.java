@@ -6,6 +6,16 @@
  */
 package edu.du.menascheraymond.view;
 
+import edu.du.menascheraymond.controller.ownercontroller.OwnerController;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author raymond
@@ -17,6 +27,7 @@ public class OwnerFrame extends javax.swing.JFrame {
      */
     public OwnerFrame() {
         initComponents();
+        
     }
 
     /**
@@ -103,11 +114,6 @@ public class OwnerFrame extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitMenuItem);
 
         ownerMenuBar.add(fileMenu);
@@ -115,11 +121,6 @@ public class OwnerFrame extends javax.swing.JFrame {
         editMenu.setText("Edit");
 
         undoResetMenuItem.setText("Undo/Reset");
-        undoResetMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                undoResetMenuItemActionPerformed(evt);
-            }
-        });
         editMenu.add(undoResetMenuItem);
 
         ownerMenuBar.add(editMenu);
@@ -251,48 +252,40 @@ public class OwnerFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void undoResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoResetMenuItemActionPerformed
-        // TODO add your handling code here: Will reload data from persistance
-    }//GEN-LAST:event_undoResetMenuItemActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new OwnerFrame().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(OwnerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new OwnerFrame().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addOwnerButton;
@@ -327,4 +320,130 @@ public class OwnerFrame extends javax.swing.JFrame {
     private javax.swing.JTextField zipCodeField;
     private javax.swing.JLabel zipCodeLabel;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getAddOwnerButton() {
+        return addOwnerButton;
+    }
+
+    public JTextField getCityField() {
+        return cityField;
+    }
+
+    public JLabel getCityLabel() {
+        return cityLabel;
+    }
+
+    public JMenu getEditMenu() {
+        return editMenu;
+    }
+
+    public JMenuItem getExitMenuItem() {
+        return exitMenuItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JTextField getFirstNameField() {
+        return firstNameField;
+    }
+
+    public JLabel getFirstNameLabel() {
+        return firstNameLabel;
+    }
+
+    public JTextField getLastNameField() {
+        return lastNameField;
+    }
+
+    public JLabel getLastNameLabel() {
+        return lastNameLabel;
+    }
+
+    public JTextField getNumYearsField() {
+        return numYearsField;
+    }
+
+    public JLabel getNumYearsLabel() {
+        return numYearsLabel;
+    }
+
+    public JMenuBar getOwnerMenuBar() {
+        return ownerMenuBar;
+    }
+
+    public JList<String> getOwnersList() {
+        return ownersList;
+    }
+
+    public JScrollPane getOwnersListPane() {
+        return ownersListPane;
+    }
+
+    public JTextField getPhoneField() {
+        return phoneField;
+    }
+
+    public JLabel getPhoneLabel() {
+        return phoneLabel;
+    }
+
+    public JButton getRemoveOwnerButton() {
+        return removeOwnerButton;
+    }
+
+    public JButton getSearchOwnerButton() {
+        return searchOwnerButton;
+    }
+
+    public JTextField getSearchOwnerField() {
+        return searchOwnerField;
+    }
+
+    public JLabel getSelectedOwnerLabel() {
+        return selectedOwnerLabel;
+    }
+
+    public JTextField getStateField() {
+        return stateField;
+    }
+
+    public JLabel getStateLabel() {
+        return stateLabel;
+    }
+
+    public JTextField getStreet1Field() {
+        return street1Field;
+    }
+
+    public JLabel getStreet1Label() {
+        return street1Label;
+    }
+
+    public JTextField getStreet2Field() {
+        return street2Field;
+    }
+
+    public JLabel getStreet2Label() {
+        return street2Label;
+    }
+
+    public JMenuItem getUndoResetMenuItem() {
+        return undoResetMenuItem;
+    }
+
+    public JButton getUpdateOwnerButton() {
+        return updateOwnerButton;
+    }
+
+    public JTextField getZipCodeField() {
+        return zipCodeField;
+    }
+
+    public JLabel getZipCodeLabel() {
+        return zipCodeLabel;
+    }
+
+
 }

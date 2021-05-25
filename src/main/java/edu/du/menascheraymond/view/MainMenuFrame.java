@@ -65,7 +65,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         ownerSearchResultLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         carShowOwnerList = new javax.swing.JList<>();
-        CarShowOwnerListLabel = new javax.swing.JLabel();
+        carShowOwnerListLabel = new javax.swing.JLabel();
         removeCarShowOwnerButton = new javax.swing.JButton();
         carShowSearchField = new javax.swing.JTextField();
         carShowSearchButton = new javax.swing.JButton();
@@ -90,17 +90,13 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         ownerSearchButton.setText("Search");
 
-        ownerSearchResultLabel.setText("Display Owner Resutl");
-
         jScrollPane1.setViewportView(carShowOwnerList);
 
-        CarShowOwnerListLabel.setText("Owner's Car Shows");
+        carShowOwnerListLabel.setText("Owner's Car Shows");
 
         removeCarShowOwnerButton.setText("Remove");
 
         carShowSearchButton.setText("Search");
-
-        carShowSearchResultLabel.setText("Display Car Show Result");
 
         addCarShowOwnerButton.setText("Add");
 
@@ -124,11 +120,6 @@ public class MainMenuFrame extends javax.swing.JFrame {
         editMenu.setText("Edit");
 
         undoResetMenuItem.setText("Undo/Reset");
-        undoResetMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                undoResetMenuItemActionPerformed(evt);
-            }
-        });
         editMenu.add(undoResetMenuItem);
 
         carShowMainMenu.add(editMenu);
@@ -136,27 +127,12 @@ public class MainMenuFrame extends javax.swing.JFrame {
         objectsMenu.setText("Objects");
 
         ownerMenuItem.setText("Owner");
-        ownerMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ownerMenuItemActionPerformed(evt);
-            }
-        });
         objectsMenu.add(ownerMenuItem);
 
         vehicleMenuItem.setText("Vehicle");
-        vehicleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vehicleMenuItemActionPerformed(evt);
-            }
-        });
         objectsMenu.add(vehicleMenuItem);
 
         carShowMenuItem.setText("Car Show");
-        carShowMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                carShowMenuItemActionPerformed(evt);
-            }
-        });
         objectsMenu.add(carShowMenuItem);
 
         carShowMainMenu.add(objectsMenu);
@@ -186,7 +162,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(removeCarShowOwnerButton)
-                    .addComponent(CarShowOwnerListLabel)
+                    .addComponent(carShowOwnerListLabel)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -196,7 +172,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(CarShowOwnerListLabel)
+                        .addComponent(carShowOwnerListLabel)
                         .addGap(21, 21, 21)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -219,36 +195,15 @@ public class MainMenuFrame extends javax.swing.JFrame {
                         .addGap(10, 10, 10)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(removeCarShowOwnerButton)
-                        .addContainerGap(61, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addCarShowOwnerButton)
                         .addGap(71, 71, 71))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ownerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ownerMenuItemActionPerformed
-        OwnerFrame ownerFrame = new OwnerFrame();
-        ownerFrame.setVisible(true);
-    }//GEN-LAST:event_ownerMenuItemActionPerformed
-
-    private void vehicleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehicleMenuItemActionPerformed
-        VehicleFrame vehicleFrame = new VehicleFrame();
-        vehicleFrame.setVisible(true);
-    }//GEN-LAST:event_vehicleMenuItemActionPerformed
-
-    private void carShowMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carShowMenuItemActionPerformed
-        CarShowFrame carShowFrame = new CarShowFrame();
-        carShowFrame.setVisible(true);
-    }//GEN-LAST:event_carShowMenuItemActionPerformed
-
-    private void undoResetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoResetMenuItemActionPerformed
-        // TODO add your handling code here: Reload data from persistance
-    }//GEN-LAST:event_undoResetMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,6 +265,10 @@ public class MainMenuFrame extends javax.swing.JFrame {
         return carShowMenuItem;
     }
 
+    public JLabel getCarShowOwnerListLabel() {
+        return carShowOwnerListLabel;
+    }
+    
     public JList<String> getCarShowOwnerList() {
         return carShowOwnerList;
     }
@@ -379,11 +338,11 @@ public class MainMenuFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel CarShowOwnerListLabel;
     private javax.swing.JButton addCarShowOwnerButton;
     private javax.swing.JMenuBar carShowMainMenu;
     private javax.swing.JMenuItem carShowMenuItem;
     private javax.swing.JList<String> carShowOwnerList;
+    private javax.swing.JLabel carShowOwnerListLabel;
     private javax.swing.JButton carShowSearchButton;
     private javax.swing.JTextField carShowSearchField;
     private javax.swing.JLabel carShowSearchResultLabel;
