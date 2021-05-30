@@ -11,6 +11,8 @@ import edu.du.menascheraymond.model.business.command.Command;
 import edu.du.menascheraymond.model.business.factory.CommandFactory;
 import edu.du.menascheraymond.model.business.factory.CommandFactoryImpl;
 import edu.du.menascheraymond.model.business.manager.Manager;
+import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.services.PersistenceService;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +33,17 @@ import javax.swing.JTextField;
 public class MainMenuFrame extends javax.swing.JFrame {
 
     private Manager manager = new Manager();
+    private Owner selectedOwner = null;
+    private CarShow selectedCarShow = null;
     
     /**
      * Creates new form CarShowFrame
      */
     public MainMenuFrame() {
+        setLocation (0, 0);
+        
         initComponents();
+        
         MainController mainController = new MainController(this);
         PersistenceService ps = manager.getPersistenceService();
         List<Map<String,String>> commands = ps.getCommands();
@@ -88,7 +95,11 @@ public class MainMenuFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Car Show Admin");
 
+        ownerSearchField.setFocusCycleRoot(true);
+        ownerSearchField.setNextFocusableComponent(ownerSearchButton);
+
         ownerSearchButton.setText("Search");
+        ownerSearchButton.setNextFocusableComponent(carShowSearchField);
 
         jScrollPane1.setViewportView(carShowOwnerList);
 
@@ -96,7 +107,10 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         removeCarShowOwnerButton.setText("Remove");
 
+        carShowSearchField.setNextFocusableComponent(carShowSearchButton);
+
         carShowSearchButton.setText("Search");
+        carShowSearchButton.setNextFocusableComponent(addCarShowOwnerButton);
 
         addCarShowOwnerButton.setText("Add");
 
@@ -337,6 +351,22 @@ public class MainMenuFrame extends javax.swing.JFrame {
         return manager;
     }
 
+    public Owner getSelectedOwner() {
+        return selectedOwner;
+    }
+    
+    public CarShow getSelectedCarShow() {
+        return selectedCarShow;
+    }
+    
+    public void setSelectedOwner(Owner o) {
+        selectedOwner = o;
+    }
+    
+    public void setSelectedCarShow(CarShow c) {
+        selectedCarShow = c;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCarShowOwnerButton;
     private javax.swing.JMenuBar carShowMainMenu;

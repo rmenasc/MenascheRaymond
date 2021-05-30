@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -39,12 +38,14 @@ public class VehicleController implements ActionListener, WindowListener {
     public VehicleController(MainMenuFrame mainMenuFrame, VehicleFrame vehicleFrame) {
         this.mainMenuFrame = mainMenuFrame;
         this.vehicleFrame = vehicleFrame;
+        this.selectedOwner = mainMenuFrame.getSelectedOwner();
         
         vehicleFrame.getExitMenuItem().addActionListener(this);
         vehicleFrame.getUndoResetMenuItem().addActionListener(this);
         vehicleFrame.getAddVehicleButton().addActionListener(this);
         vehicleFrame.getRemoveVehicleButton().addActionListener(this);
         vehicleFrame.getOwnerSearchButton().addActionListener(this);
+        vehicleFrame.getClearButton().addActionListener(this);
         vehicleFrame.getVehiclesList().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
                 vehicleListValueChanged(evt);
@@ -67,6 +68,8 @@ public class VehicleController implements ActionListener, WindowListener {
                 removeVehicle_actionPerformed(event);
             } else if (event.getSource().equals(vehicleFrame.getOwnerSearchButton())) {
                 searchOwner_actionPerformed(event);
+            } else if (event.getSource().equals(vehicleFrame.getClearButton())) {
+                clearFields_actionPerformed(event);
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -92,8 +95,12 @@ public class VehicleController implements ActionListener, WindowListener {
             String classification = vehicleFrame.getClassificationCombo()
                     .getSelectedItem().toString();
             boolean insured = vehicleFrame.getInsuredCheckBox().isSelected();
-            Random num = new Random();
-            String vehicleId = "V" + num.nextInt();
+            int nextId = 1;
+            String vehicleId = "V" + nextId;
+            while (mainMenuFrame.getManager().getVehicleCollection().isPresent(vehicleId)) {
+                nextId++;
+                vehicleId = "V" + nextId;
+            }
             Vehicle vehicle = new Vehicle.Builder(vehicleId, selectedOwner.getOwnerId())
                     .withManufacturer(manufacturer)
                     .withModelYear(year)
@@ -147,6 +154,10 @@ public class VehicleController implements ActionListener, WindowListener {
         }
     }
     
+    private void clearFields_actionPerformed(ActionEvent event) {
+        loadVehicleList();
+    }
+    
     private void loadVehicleList() {
         //reset fields
         vehicleFrame.getRemoveVehicleButton().setEnabled(false);
@@ -165,7 +176,10 @@ public class VehicleController implements ActionListener, WindowListener {
             vehicleFrame.getVehiclesList().setModel(listModel);
         } else {
             vehicleFrame.getAddVehicleButton().setEnabled(true);
-            vehicleFrame.getOwnerResultLabel().setText(selectedOwner.getOwnerId());
+            vehicleFrame.getOwnerResultLabel()
+                    .setText(selectedOwner.getOwnerId() +
+                            ": " + selectedOwner.getFirstName() +
+                            " " + selectedOwner.getLastName());
             VehicleService vs = mainMenuFrame.getManager().getVehicleCollection();
             DefaultListModel<String> listModel = new DefaultListModel<>();
             for (String id: vs.getIds()) {
@@ -200,7 +214,7 @@ public class VehicleController implements ActionListener, WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: add code
     }
 
     @Override
@@ -212,27 +226,27 @@ public class VehicleController implements ActionListener, WindowListener {
 
     @Override
     public void windowClosed(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

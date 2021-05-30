@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 /**
  * Implementation of the XMLService interface. 
  * Default input file: target/XML4361.xml
- * Default output file: target/XMLout.xml
+ * Default output file: target/XML4361.xml
  * This implementation turns data from an XML file into a List of maps following
  * the same convention as the other persistence implementations. 
  * Each Map object will have an Action key and a Type key. If the XML file
@@ -44,7 +44,7 @@ public class XMLFileStream implements XMLService {
     
     public XMLFileStream() {
         INPUTFILE = "target/XML4361.xml";
-        OUTPUTFILE = "target/XMLout.xml";
+        OUTPUTFILE = "target/XML4361.xml";
     }
     
     public XMLFileStream(String inputFile, String outputFile) {
@@ -123,10 +123,28 @@ public class XMLFileStream implements XMLService {
                 Element childElement = document.createElement(command.get("TYPE"));
                 command.remove("TYPE");
                 rootElement.appendChild(childElement);
+                Element addressElement = document.createElement("Address"); //in case of address
+                boolean isPresent = false;
                 for (String key: command.keySet()) {
+                    //Check for address elementst so they can be put into their own elelment
+                    String[] addressKeys = {"street1", "street2", "city", "state", "zipCode"};
                     Element innerElement = document.createElement(key);
                     innerElement.appendChild(document.createTextNode(command.get(key)));
-                    childElement.appendChild(innerElement);
+                    for (String k: addressKeys) {
+                        if (k.equalsIgnoreCase(key)) {
+                            isPresent = true;
+                            break;
+                        } 
+                    }
+                    
+                    if (isPresent) { //checks if address elements are present
+                        addressElement.appendChild(innerElement);
+                    } else {
+                        childElement.appendChild(innerElement);
+                    }
+                }
+                if (isPresent) {
+                    childElement.appendChild(addressElement);
                 }
             }
 

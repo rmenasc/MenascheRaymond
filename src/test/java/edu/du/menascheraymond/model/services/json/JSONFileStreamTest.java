@@ -41,17 +41,8 @@ public class JSONFileStreamTest {
      */
     @Test
     public void testGetCommands() {
-        JSONService instance = new JSONFileStream(INPUTFILE, OUTPUTFILE);
+        JSONService instance = new JSONFileStream();
         List<Map<String, String>> result = instance.getCommands();
-        for (Map<String, String> cmd: result) {
-            CommandFactory cf = new CommandFactoryImpl();
-            Command command = cf.getCommand(cmd.get("TYPE").toUpperCase());
-            if (command != null) {
-                command.setManager(manager);
-                command.performCommands(cmd);
-            }
-        }
-        //TODO: had to run twice because Map is out of order and vehicle depends on owner. Fix this.
         for (Map<String, String> cmd: result) {
             CommandFactory cf = new CommandFactoryImpl();
             Command command = cf.getCommand(cmd.get("TYPE").toUpperCase());
@@ -83,8 +74,13 @@ public class JSONFileStreamTest {
         map.put("ownerId", "O123");
         map.put("firstName", "Jack");
         map.put("lastName", "Johnson");
-        map.put("phone", "555-555-5555");
-        map.put("years", "10");
+        map.put("phoneNumber", "555-555-5555");
+        map.put("numYears", "10");
+        map.put("street1", "111 There st");
+        map.put("street2", "Suite 343");
+        map.put("city", "Miami");
+        map.put("state", "FL");
+        map.put("zipCode", "33131");
         cmns.add(map);
         LinkedHashMap<String,String> map2 = new LinkedHashMap<>();
         map2.put("TYPE", "VEHICLE");
@@ -102,8 +98,12 @@ public class JSONFileStreamTest {
         map3.put("ownerId", "O124");
         map3.put("firstName", "Mike");
         map3.put("lastName", "Tyson");
-        map3.put("phone", "555-555-5555");
-        map3.put("years", "10");
+        map3.put("phoneNumber", "555-555-5555");
+        map3.put("numYears", "10");
+        map3.put("street1", "123 Somewhere rd");
+        map3.put("city", "Denver");
+        map3.put("state", "CO");
+        map3.put("zipCode", "89999");
         cmns.add(map3);
         JSONFileStream instance = new JSONFileStream();
         boolean expResult = true;

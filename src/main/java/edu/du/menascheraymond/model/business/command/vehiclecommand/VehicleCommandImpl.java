@@ -55,13 +55,8 @@ public class VehicleCommandImpl implements VehicleCommand {
                     .withSubModel(subModel)
                     .withVehicleClassification(classification).build();
             vehicle.setInsured(insured);
-            if (manager.getOwnerCollection().isPresent(ownerId)) {
-                if (manager.getVehicleCollection().add(vehicle)) {
-                    rv = vehicle;
-                }
-            } else {
-                System.out.println("Could not add: " + vehicle.toString()
-                        + ". Missing dependencies.");
+            if (manager.getVehicleCollection().add(vehicle)) {
+                rv = vehicle;
             }
         } else if (command.size() == 10 && command.containsKey("VALUE1")) {
             //for non key=value data
@@ -95,13 +90,8 @@ public class VehicleCommandImpl implements VehicleCommand {
                     .withSubModel(subModel)
                     .withVehicleClassification(classification).build();
             vehicle.setInsured(insured);
-            if (manager.getOwnerCollection().isPresent(ownerId)) {
-                if (manager.getVehicleCollection().add(vehicle)) {
-                    rv = vehicle;
-                }
-            } else {
-                System.out.println("Could not add: " + vehicle.toString()
-                        + ". Missing dependencies.");
+            if (manager.getVehicleCollection().add(vehicle)) {
+                rv = vehicle;
             }
         } else {
             throw new NullPointerException("Error creating array. Size mismatch");

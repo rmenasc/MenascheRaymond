@@ -6,6 +6,8 @@
  */
 package edu.du.menascheraymond.view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -27,6 +29,10 @@ public class CarShowFrame extends javax.swing.JFrame {
      * Creates new form CarShowFrame
      */
     public CarShowFrame() {
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation (0, (screenSize.height/2));
+        
         initComponents();
     }
 
@@ -54,6 +60,7 @@ public class CarShowFrame extends javax.swing.JFrame {
         monthCombo = new javax.swing.JComboBox<>();
         dayCombo = new javax.swing.JComboBox<>();
         yearCombo = new javax.swing.JComboBox<>();
+        clearButton = new javax.swing.JButton();
         carShowMainMenu = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -80,6 +87,9 @@ public class CarShowFrame extends javax.swing.JFrame {
 
         sanctionedLabel.setText("Sanctioned");
 
+        titleField.setFocusCycleRoot(true);
+        titleField.setNextFocusableComponent(monthCombo);
+
         addCarShowButton.setText("Add");
 
         updateCarShowButton.setText("Update");
@@ -88,12 +98,17 @@ public class CarShowFrame extends javax.swing.JFrame {
 
         monthCombo.setMaximumRowCount(12);
         monthCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        monthCombo.setNextFocusableComponent(dayCombo);
 
         dayCombo.setMaximumRowCount(31);
         dayCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        dayCombo.setNextFocusableComponent(yearCombo);
 
         yearCombo.setMaximumRowCount(5);
         yearCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2021", "2022", "2023", "2024", "2025" }));
+        yearCombo.setNextFocusableComponent(sanctionedCheckBox);
+
+        clearButton.setText("Clear");
 
         fileMenu.setText("File");
 
@@ -118,7 +133,9 @@ public class CarShowFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(selectedCarShowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(selectedCarShowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(titleLabel)
@@ -131,11 +148,13 @@ public class CarShowFrame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(sanctionedCheckBox)
                                         .addGap(188, 188, 188))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(titleField)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(clearButton)
+                                            .addComponent(titleField))
                                         .addGap(21, 21, 21)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(removeCarShowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, Short.MAX_VALUE)
+                                    .addComponent(removeCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                                     .addComponent(updateCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(addCarShowButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
@@ -155,10 +174,11 @@ public class CarShowFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(carShowsListLabel)
-                    .addComponent(selectedCarShowLabel))
+                    .addComponent(selectedCarShowLabel)
+                    .addComponent(clearButton))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
@@ -230,6 +250,7 @@ public class CarShowFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar carShowMainMenu;
     private javax.swing.JList<String> carShowsList;
     private javax.swing.JLabel carShowsListLabel;
+    private javax.swing.JButton clearButton;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JComboBox<String> dayCombo;
     private javax.swing.JMenu editMenu;
@@ -258,6 +279,10 @@ public class CarShowFrame extends javax.swing.JFrame {
 
     public JList<String> getCarShowsList() {
         return carShowsList;
+    }
+    
+    public JButton getClearButton() {
+        return clearButton;
     }
 
     public JLabel getCarShowsListLabel() {

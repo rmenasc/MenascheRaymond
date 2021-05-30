@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
-import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -43,6 +42,7 @@ public class CarShowController implements ActionListener, WindowListener {
         carShowFrame.getAddCarShowButton().addActionListener(this);
         carShowFrame.getUpdateCarShowButton().addActionListener(this);
         carShowFrame.getRemoveCarShowButton().addActionListener(this);
+        carShowFrame.getClearButton().addActionListener(this);
         carShowFrame.getCarShowsList().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
                 carShowsListValueChanged(evt);
@@ -64,6 +64,8 @@ public class CarShowController implements ActionListener, WindowListener {
                 updateCarShow_actionPerformed(event);
             } else if (event.getSource().equals(carShowFrame.getRemoveCarShowButton())) {
                 removeCarShow_actionPerformed(event);
+            } else if (event.getSource().equals(carShowFrame.getClearButton())) {
+                clearFields_actionPerformed(event);
             }
         } catch (Exception e) {
             
@@ -87,8 +89,12 @@ public class CarShowController implements ActionListener, WindowListener {
         int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
         LocalDate date = LocalDate.of(year, month, day);
         boolean sanctioned = carShowFrame.getSanctionedCheckBox().isSelected();
-        Random num = new Random();
-        String carShowId = "CS" + num.nextInt();
+        int nextId = 1;
+        String carShowId = "CS" + nextId;
+        while (mainMenuFrame.getManager().getCarShowCollection().isPresent(carShowId)) {
+            nextId++;
+            carShowId = "CS" + nextId;
+        }
         if (!carShowFrame.getSelectedCarShowLabel().getText().equals("")
                 && !carShowFrame.getSelectedCarShowLabel().getText()
                         .equals("No Car Show selected")
@@ -105,22 +111,34 @@ public class CarShowController implements ActionListener, WindowListener {
     }
     
     private void updateCarShow_actionPerformed(ActionEvent event) {
-        mainMenuFrame.getManager().getCarShowCollection()
-                .remove(carShowFrame.getSelectedCarShowLabel().getText());
-        addCarShow_actionPerformed(event);
+        CarShow c = mainMenuFrame.getManager().getCarShowCollection()
+                .find(mainMenuFrame.getSelectedCarShow().getCarShowId());
+        c.setCarShowTitle(carShowFrame.getTitleField().getText());
+        int month = Integer.parseInt(carShowFrame.getMonthCombo().getSelectedItem().toString());
+        int day = Integer.parseInt(carShowFrame.getDayCombo().getSelectedItem().toString());
+        int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
+        LocalDate date = LocalDate.of(year, month, day);
+        c.setCarShowDate(date);
+        c.setSanctioned(carShowFrame.getSanctionedCheckBox().isSelected());
     }
     
     private void removeCarShow_actionPerformed(ActionEvent event) {
         if (mainMenuFrame.getManager().getCarShowCollection()
-                .remove(carShowFrame.getSelectedCarShowLabel().getText())) {
+                .remove(mainMenuFrame.getSelectedCarShow())) {
             mainMenuFrame.getManager().getCarShowOwnerCollection()
-                    .removeByCarShowId(carShowFrame.getSelectedCarShowLabel().getText());
+                    .removeByCarShowId(mainMenuFrame.getSelectedCarShow().getCarShowId());
         }
+        loadCarShowList();
+    }
+    
+    private void clearFields_actionPerformed(ActionEvent event) {
         loadCarShowList();
     }
     
     private void loadCarShowList() {
         //resets fields
+        mainMenuFrame.setSelectedCarShow(null);
+        mainMenuFrame.getCarShowSearchResultLabel().setText("");
         carShowFrame.getAddCarShowButton().setEnabled(true);
         carShowFrame.getUpdateCarShowButton().setEnabled(false);
         carShowFrame.getRemoveCarShowButton().setEnabled(false);
@@ -135,7 +153,8 @@ public class CarShowController implements ActionListener, WindowListener {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
         for (String id: css.getIds()) {
-            listModel.addElement(id);
+            CarShow c = css.find(id);
+            listModel.addElement(id + ": " + c.getCarShowTitle());
         }
         carShowFrame.getCarShowsList().setModel(listModel);
     }
@@ -147,10 +166,11 @@ public class CarShowController implements ActionListener, WindowListener {
             carShowFrame.getAddCarShowButton().setEnabled(false);
             carShowFrame.getUpdateCarShowButton().setEnabled(true);
             carShowFrame.getRemoveCarShowButton().setEnabled(true);
+            String[] sa = carShowFrame.getCarShowsList().getSelectedValue().split(":");
+            String id = sa[0];
             carShowFrame.getSelectedCarShowLabel()
                     .setText(carShowFrame.getCarShowsList().getSelectedValue());
-            CarShow cs = mainMenuFrame.getManager().getCarShowCollection()
-                    .find(carShowFrame.getSelectedCarShowLabel().getText());
+            CarShow cs = mainMenuFrame.getManager().getCarShowCollection().find(id);
             carShowFrame.getTitleField().setText(cs.getCarShowTitle());
             LocalDate date = cs.getCarShowDate();
             Integer day = date.getDayOfMonth();
@@ -160,12 +180,15 @@ public class CarShowController implements ActionListener, WindowListener {
             carShowFrame.getMonthCombo().setSelectedItem(month.toString());
             carShowFrame.getYearCombo().setSelectedItem(year.toString());
             carShowFrame.getSanctionedCheckBox().setSelected(cs.isSanctioned());
+            mainMenuFrame.setSelectedCarShow(cs);
+            mainMenuFrame.getCarShowSearchResultLabel()
+                    .setText(cs.getCarShowId() + ": " + cs.getCarShowTitle());
         }
     }
     
     @Override
     public void windowOpened(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -175,27 +198,27 @@ public class CarShowController implements ActionListener, WindowListener {
 
     @Override
     public void windowClosed(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

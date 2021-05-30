@@ -87,15 +87,16 @@
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="ownerResultLabel" min="-2" pref="167" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="addVehicleButton" max="32767" attributes="0"/>
                           <Component id="removeVehicleButton" max="32767" attributes="0"/>
+                          <Component id="clearButton" max="32767" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="ownerResultLabel" min="-2" pref="167" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -120,7 +121,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="ownerLabel" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -140,7 +141,14 @@
                                   <Component id="modelYearField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="addVehicleButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="removeVehicleButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="modelLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="modelField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -158,8 +166,8 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="removeVehicleButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
+                              <Component id="clearButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -168,7 +176,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace pref="39" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -240,12 +248,32 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="manufacturerField">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="modelYearField"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="modelYearField">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="modelField"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="modelField">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="subModelField"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="subModelField">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="classificationCombo"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="insuredCheckBox">
     </Component>
@@ -258,6 +286,9 @@
             <StringItem index="1" value="CLASSIC"/>
             <StringItem index="2" value="MODERN"/>
           </StringArray>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="addVehicleButton"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -275,15 +306,29 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="searchOwnerIdField">
+      <Properties>
+        <Property name="focusCycleRoot" type="boolean" value="true"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ownerSearchButton"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="ownerSearchButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="manufacturerField"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="ownerResultLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Owner Result Display"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="clearButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -23,7 +23,7 @@ import org.json.JSONObject;
 /**
  * Implementation of the JSONService interface.
  * Default input file: target/JSON4361.json
- * Default output file: target/JSONout.json
+ * Default output file: target/JSON4361.json
  * This implementation converts data from a JSON file into a list of maps.
  * This class follows the same conventions as the other persistent implementations.
  * If the JSON file does not provide an ACTION key a default ADD is added to 
@@ -36,7 +36,7 @@ public class JSONFileStream implements JSONService {
     
     public JSONFileStream() {
         INPUTFILE = "target/JSON4361.json";
-        OUTPUTFILE = "target/JSONout.json";
+        OUTPUTFILE = "target/JSON4361.json";
     }
     
     public JSONFileStream(String inputFile, String outputFile) {
@@ -128,7 +128,24 @@ public class JSONFileStream implements JSONService {
                 }
                 String type = cmd.get("TYPE");
                 cmd.remove("TYPE");
+                //Check for address keys and store them in their own map:
+                String[] addressKeys = {"street1", "street2", "city", "state", "zipCode"};
+                LinkedHashMap<String,String> address = new LinkedHashMap<>();
+                boolean isPresent = false;
+                for (String k: addressKeys) {
+                    if (cmd.containsKey(k)) {
+                        address.put(k, cmd.get(k));
+                        cmd.remove(k);
+                        isPresent = true;
+                    }
+                }
                 JSONObject obj = new JSONObject(cmd);
+                if (isPresent) { //checks to see if address is present
+                    JSONObject addrObj = new JSONObject(address);
+                    JSONArray addressArray = new JSONArray();
+                    addressArray.put(addrObj);
+                    obj.put("Address", addrObj);
+                }
                 //add command to its corresponding type array
                 if (types.size() > 0) {
                     if (types.get(0).equalsIgnoreCase(type)) {

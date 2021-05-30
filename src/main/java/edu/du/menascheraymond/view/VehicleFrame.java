@@ -6,6 +6,8 @@
  */
 package edu.du.menascheraymond.view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -27,6 +29,10 @@ public class VehicleFrame extends javax.swing.JFrame {
      * Creates new form VehicleForm
      */
     public VehicleFrame() {
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation (screenSize.width/2, screenSize.height/2);
+        
         initComponents();
     }
 
@@ -60,6 +66,7 @@ public class VehicleFrame extends javax.swing.JFrame {
         searchOwnerIdField = new javax.swing.JTextField();
         ownerSearchButton = new javax.swing.JButton();
         ownerResultLabel = new javax.swing.JLabel();
+        clearButton = new javax.swing.JButton();
         vehicleMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -92,16 +99,31 @@ public class VehicleFrame extends javax.swing.JFrame {
 
         insuredLabel.setText("Insured");
 
+        manufacturerField.setNextFocusableComponent(modelYearField);
+
+        modelYearField.setNextFocusableComponent(modelField);
+
+        modelField.setNextFocusableComponent(subModelField);
+
+        subModelField.setNextFocusableComponent(classificationCombo);
+
         classificationCombo.setMaximumRowCount(3);
         classificationCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ANTIQUE", "CLASSIC", "MODERN" }));
+        classificationCombo.setNextFocusableComponent(addVehicleButton);
 
         addVehicleButton.setText("Add");
 
         removeVehicleButton.setText("Remove");
 
+        searchOwnerIdField.setFocusCycleRoot(true);
+        searchOwnerIdField.setNextFocusableComponent(ownerSearchButton);
+
         ownerSearchButton.setText("Search");
+        ownerSearchButton.setNextFocusableComponent(manufacturerField);
 
         ownerResultLabel.setText("Owner Result Display");
+
+        clearButton.setText("Clear");
 
         fileMenu.setText("File");
 
@@ -150,13 +172,14 @@ public class VehicleFrame extends javax.swing.JFrame {
                     .addComponent(classificationCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addGap(18, 18, 18)
+                        .addComponent(ownerResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(addVehicleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeVehicleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(ownerResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(removeVehicleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
@@ -190,8 +213,12 @@ public class VehicleFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(modelYearLabel)
                                     .addComponent(modelYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addVehicleButton))
-                                .addGap(18, 18, 18)
+                                    .addComponent(addVehicleButton)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(removeVehicleButton)
+                                .addGap(37, 37, 37)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(modelLabel)
                                     .addComponent(modelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,12 +232,12 @@ public class VehicleFrame extends javax.swing.JFrame {
                                     .addComponent(classificationCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(removeVehicleButton)
-                                .addGap(119, 119, 119)))
+                                .addComponent(clearButton)
+                                .addGap(54, 54, 54)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(insuredLabel)
                             .addComponent(insuredCheckBox))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -256,6 +283,7 @@ public class VehicleFrame extends javax.swing.JFrame {
     private javax.swing.JButton addVehicleButton;
     private javax.swing.JComboBox<String> classificationCombo;
     private javax.swing.JLabel classificationLabel;
+    private javax.swing.JButton clearButton;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -291,6 +319,10 @@ public class VehicleFrame extends javax.swing.JFrame {
 
     public JLabel getClassificationLabel() {
         return classificationLabel;
+    }
+    
+    public JButton getClearButton() {
+        return clearButton;
     }
 
     public JMenu getEditMenu() {
