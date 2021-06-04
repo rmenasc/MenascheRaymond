@@ -9,11 +9,15 @@ package edu.du.menascheraymond.model.business.command.Owner;
 import edu.du.menascheraymond.model.business.command.ownercommand.OwnerCommand;
 import edu.du.menascheraymond.model.business.command.ownercommand.OwnerCommandImpl;
 import edu.du.menascheraymond.model.business.manager.Manager;
+import edu.du.menascheraymond.model.domain.Address;
 import edu.du.menascheraymond.model.domain.Owner;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -170,6 +174,57 @@ public class OwnerCommandImplTest {
         //no key remove
         result = instance.performCommands(command4);
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test createCommand method for OwnerCommandImpl class.
+     */
+    @Test
+    public void testCreateCommand() {
+        OwnerCommand instance = new OwnerCommandImpl();
+        instance.setManager(manager);
+        Owner o = new Owner.Builder("O1", "George", "Washington")
+                .withPhoneNumber("555-555-5555")
+                .withNumYears(10)
+                .withAddress(new Address.Builder()
+                        .withStreet1("111 There st")
+                        .withCity("Miami")
+                        .withState("FL")
+                        .withZip("33131")
+                        .build())
+                .build();
+        manager.getOwnerCollection().add(o);
+        List<LinkedHashMap<String,String>> result = instance.createCommand();
+        for (LinkedHashMap<String,String> cmd: result) {
+            String type = cmd.get("TYPE");
+            assertEquals(type, "OWNER");
+            String ownerId = cmd.get("ownerId");
+            assertEquals(ownerId, o.getOwnerId());
+            assertFalse(ownerId == null);
+            String firstName = cmd.get("firstName");
+            assertEquals(firstName, o.getFirstName());
+            assertFalse(firstName == null);
+            String lastName = cmd.get("lastName");
+            assertEquals(lastName, o.getLastName());
+            assertFalse(lastName == null);
+            String phoneNumber = cmd.get("phoneNumber");
+            assertEquals(phoneNumber, o.getPhoneNumber());
+            assertFalse(phoneNumber == null);
+            int numYears = Integer.parseInt(cmd.get("numYears"));
+            assertEquals(numYears, o.getNumYears());
+            String street1 = cmd.get("street1");
+            assertEquals(street1, o.getAddress().getStreet1());
+            assertFalse(street1 == null);
+            String city = cmd.get("city");
+            assertEquals(city, o.getAddress().getCity());
+            assertFalse(city == null);
+            String state = cmd.get("state");
+            assertEquals(state, o.getAddress().getState());
+            assertFalse(state == null);
+            String zipCode = cmd.get("zipCode");
+            assertEquals(zipCode, o.getAddress().getZipCode());
+            assertFalse(zipCode == null);
+        }
     }
     
 }

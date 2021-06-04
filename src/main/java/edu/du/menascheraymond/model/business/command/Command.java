@@ -7,6 +7,8 @@
 package edu.du.menascheraymond.model.business.command;
 
 import edu.du.menascheraymond.model.business.manager.Manager;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +36,12 @@ public interface Command {
      * @return True if successfully processed the request. 
      */
     public boolean performCommands(Map<String,String> cmd);
+    
+    /**
+     * Creates a List of Maps from data in service collection.
+     * @return List<Map<String,String>>
+     */
+    public List<LinkedHashMap<String,String>> createCommand();
     
     /**
      * Injects the manager object to the Command

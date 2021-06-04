@@ -63,13 +63,26 @@ public class XMLFileStreamTest {
     }
 
     /**
+     * Test of sendCommands method, of class XMLFileStream.
+     */
+    @Test
+    public void testSendCommands() {
+        System.out.println("sendCommands");
+        XMLFileStream instance = new XMLFileStream(INPUTFILE, OUTPUTFILE);
+        boolean expResult = true;
+        boolean result = instance.sendCommands(commands);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
      * Test of getCommands method, of class XMLFileStream.
      */
     @Test
     public void testGetCommands() {
         XMLService instance = new XMLFileStream(INPUTFILE, OUTPUTFILE);
         List<Map<String, String>> result = instance.getCommands();
-        System.out.println(result.size());
+
         for (Map<String, String> cmd: result) {
             CommandFactory cf = new CommandFactoryImpl();
             Command command = cf.getCommand(cmd.get("TYPE"));
@@ -78,7 +91,7 @@ public class XMLFileStreamTest {
                 command.performCommands(cmd);
             }
         }
-        System.out.println(manager.getOwnerCollection().size());
+
         Owner owner = new Owner.Builder("O123", "Jack", "Johnson")
                 .withPhoneNumber("555-555-5555")
                 .withNumYears(10).build();
@@ -90,11 +103,7 @@ public class XMLFileStreamTest {
                 .withZip("83322").build();
         owner.setAddress(address);
         Owner resOwner = manager.getOwnerCollection().find("O123");
-        if (resOwner == null) {
-            System.out.println("Failure");
-        } else {
-            System.out.println(resOwner.toString());
-        }
+
         assertEquals(owner, resOwner);
         Vehicle vehicle = new Vehicle.Builder("V123", "O123")
                 .withManufacturer("Ford")
@@ -103,19 +112,6 @@ public class XMLFileStreamTest {
                 .withSubModel("Cobra")
                 .withVehicleClassification(VehicleClassification.MODERN).build();
         assertEquals(vehicle, manager.getVehicleCollection().find("V123"));
-    }
-
-    /**
-     * Test of sendCommands method, of class XMLFileStream.
-     */
-    @Test
-    public void testSendCommands() {
-        System.out.println("sendCommands");
-        XMLFileStream instance = new XMLFileStream(INPUTFILE, OUTPUTFILE);
-        boolean expResult = true;
-        boolean result = instance.sendCommands(commands);
-        assertEquals(expResult, result);
-
     }
     
 }

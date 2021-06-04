@@ -13,9 +13,12 @@ import edu.du.menascheraymond.model.domain.CarShow;
 import edu.du.menascheraymond.model.domain.CarShowOwner;
 import edu.du.menascheraymond.model.domain.Owner;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -168,6 +171,27 @@ public class CarShowOwnerCommandImplTest {
         //no key remove
         result = instance.performCommands(command4);
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test the createCommand method for CarShowOwnerCommandImpl class.
+     */
+    @Test
+    public void testCreateCommand() {
+        CarShowOwnerCommand instance = new CarShowOwnerCommandImpl();
+        instance.setManager(manager);
+        CarShowOwner cso = new CarShowOwner("CS1", "O2");
+        manager.getCarShowOwnerCollection().add(cso);
+        List<LinkedHashMap<String,String>> result = instance.createCommand();
+        for (LinkedHashMap<String,String> cmd: result) {
+            String type = cmd.get("TYPE");
+            String carShowId = cmd.get("carShowId");
+            String ownerId = cmd.get("ownerId");
+            assertEquals(type, "CSO");
+            assertEquals(carShowId, cso.getCarShowId());
+            assertEquals(ownerId, cso.getOwnerId());
+            assertFalse(type == null);
+        }
     }
     
 }

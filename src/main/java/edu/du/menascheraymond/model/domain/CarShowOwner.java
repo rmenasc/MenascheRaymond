@@ -24,6 +24,15 @@ public class CarShowOwner {
         carShowId = "";
         ownerId = "";
     }
+    
+    /**
+     * Copy Constructor.
+     * @param carShowOwner 
+     */
+    public CarShowOwner(CarShowOwner carShowOwner) {
+        carShowId = carShowOwner.getCarShowId();
+        ownerId = carShowOwner.getOwnerId();
+    }
 
     /**
      * Overloaded Constructor.

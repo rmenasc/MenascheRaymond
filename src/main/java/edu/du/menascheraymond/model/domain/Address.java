@@ -35,6 +35,18 @@ public class Address {
     }
     
     /**
+     * Copy Constructor.
+     * @param address 
+     */
+    public Address(Address address) {
+        street1 = address.getStreet1();
+        street2 = address.getStreet2();
+        city = address.getCity();
+        state = address.getState();
+        zipCode = address.getZipCode();
+    }
+    
+    /**
      * Overloaded Constructor.
      * @param street1
      * @param street2

@@ -13,9 +13,12 @@ import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -75,7 +78,8 @@ public class VehicleCommandImplTest {
                 .withModel("Mustang")
                 .withSubModel("Cobra")
                 .withModelYear(1999)
-                .withVehicleClassification(VehicleClassification.MODERN).build();
+                .withVehicleClassification(VehicleClassification.MODERN)
+                .isInsured(true).build();
     }
 
     /**
@@ -186,4 +190,56 @@ public class VehicleCommandImplTest {
         assertEquals(expResult, result);
     }
     
+    /**
+     * Test createCommand method for VehicleCommandImpl class.
+     */
+    @Test
+    public void testCreateCommand() {
+        VehicleCommand instance = new VehicleCommandImpl();
+        instance.setManager(manager);
+        Vehicle v = new Vehicle.Builder("V1", "O1")
+                .withManufacturer("Ford")
+                .withModelYear(2020)
+                .withModel("Mustang")
+                .withSubModel("Cobra")
+                .withVehicleClassification(VehicleClassification.MODERN)
+                .isInsured(true).build();
+        manager.getVehicleCollection().add(v);
+        manager.getVehicleCollection().add(vehicle);
+        List<LinkedHashMap<String,String>> result = instance.createCommand();
+        for (LinkedHashMap<String,String> cmd: result) {
+            Vehicle resVehicle = manager.getVehicleCollection().find(cmd.get("vehicleId"));
+            assertFalse(resVehicle == null);
+            String type = cmd.get("TYPE");
+            assertEquals(type, "VEHICLE");
+            assertFalse(type == null);
+            String vehicleId = cmd.get("vehicleId");
+            assertEquals(vehicleId, resVehicle.getVehicleId());
+            assertFalse(vehicleId == null);
+            String ownerId = cmd.get("ownerId");
+            assertEquals(ownerId, resVehicle.getOwnerId());
+            assertFalse (ownerId == null);
+            String manufacturer = cmd.get("manufacturer");
+            assertEquals(manufacturer, resVehicle.getManufacturer());
+            assertFalse(manufacturer == null);
+            int modelYear = Integer.parseInt(cmd.get("year"));
+            assertEquals(modelYear, resVehicle.getModelYear());
+            String model = cmd.get("model");
+            assertEquals(model, resVehicle.getModel());
+            assertFalse(model == null);
+            String subModel = cmd.get("subModel");
+            assertEquals(subModel, resVehicle.getSubModel());
+            assertFalse(subModel == null);
+            String classification = cmd.get("classification");
+            assertEquals(classification, resVehicle.getVehicleClassification()
+                    .toString());
+            assertFalse(classification == null);
+            String insured = cmd.get("insured").toLowerCase();
+            if (resVehicle.isInsured()) {
+                assertEquals(insured, "true");
+            } else {
+                assertEquals(insured, "false");
+            }
+        }
+    }
 }

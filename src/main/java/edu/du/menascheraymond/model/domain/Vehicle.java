@@ -37,6 +37,20 @@ public class Vehicle {
     }
     
     /**
+     * Copy Constructor.
+     * @param vehicle 
+     */
+    public Vehicle(Vehicle vehicle) {
+        vehicleId = vehicle.getVehicleId();
+        ownerId = vehicle.getOwnerId();
+        manufacturer = vehicle.getManufacturer();
+        modelYear = vehicle.getModelYear();
+        model = vehicle.getModel();
+        subModel = vehicle.getSubModel();
+        vehicleClassification = vehicle.getVehicleClassification();
+    }
+    
+    /**
      * Overloaded Constructor.
      * @param vehicleId
      * @param ownerId
@@ -272,10 +286,14 @@ public class Vehicle {
     
     public void setInsured(String isInsured) {
         if(isInsured.toUpperCase().equals("Y") ||
-                isInsured.toUpperCase().equals("YES")) {
+                isInsured.toUpperCase().equals("YES") ||
+                isInsured.toUpperCase().equals("TRUE") ||
+                isInsured.toUpperCase().equals("T")) {
             this.insured = true;
         } else if (isInsured.toUpperCase().equals("N") ||
-                isInsured.toUpperCase().equals("NO")) {
+                isInsured.toUpperCase().equals("NO") ||
+                isInsured.toUpperCase().equals("FALSE") ||
+                isInsured.toUpperCase().equals("F")) {  
             this.insured = false;
         } else {
             throw new IllegalArgumentException("Invalid string input");
@@ -283,12 +301,33 @@ public class Vehicle {
     }
     
     public void setInsured(char isInsured) {
-        if(isInsured == 'y' || isInsured == 'Y') {
-            this.insured = true;
-        } else if(isInsured == 'n' || isInsured == 'N') {
-            this.insured = false;
-        } else {
-            throw new IllegalArgumentException("Invalid character input");
+        switch (isInsured) {
+            case 'y':
+                this.insured = true;
+                break;
+            case 'Y':
+                this.insured = true;
+                break;
+            case 'T':
+                this.insured = true;
+                break;
+            case 't':
+                this.insured = true;
+                break;
+            case 'n':
+                this.insured = false;
+                break;
+            case 'N':
+                this.insured = false;
+                break;
+            case 'F':
+                this.insured = false;
+                break;
+            case 'f':
+                this.insured = false;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid character input");
         }
     }
     

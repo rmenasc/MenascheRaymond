@@ -28,39 +28,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JSONFileStreamTest {
     private final String INPUTFILE;
     private final String OUTPUTFILE;
-    private Manager manager;
+    private final Manager manager;
     
     public JSONFileStreamTest() {
         INPUTFILE = "target/JSONtest.json";
-        OUTPUTFILE = "target/JSONOutTest.json";
+        OUTPUTFILE = "target/JSONtest.json";
         manager = new Manager();
-    }
-
-    /**
-     * Test of getCommands method, of class JSONFileStream.
-     */
-    @Test
-    public void testGetCommands() {
-        JSONService instance = new JSONFileStream();
-        List<Map<String, String>> result = instance.getCommands();
-        for (Map<String, String> cmd: result) {
-            CommandFactory cf = new CommandFactoryImpl();
-            Command command = cf.getCommand(cmd.get("TYPE").toUpperCase());
-            if (command != null) {
-                command.setManager(manager);
-                command.performCommands(cmd);
-            }
-        }
-        Owner owner = new Owner.Builder("GW", "George", "Washington").build();
-        assertEquals(owner, manager.getOwnerCollection().find("GW"));
-        Vehicle vehicle = new Vehicle.Builder("V123", "GW")
-                .withManufacturer("Ford")
-                .withModelYear(1999)
-                .withModel("Mustang")
-                .withSubModel("Cobra")
-                .withVehicleClassification(VehicleClassification.MODERN)
-                .build();
-        assertEquals(vehicle, manager.getVehicleCollection().find("V123"));
     }
 
     /**
@@ -91,7 +64,7 @@ public class JSONFileStreamTest {
         map2.put("model", "Mustang");
         map2.put("subModel", "Cobra");
         map2.put("classification", "MODERN");
-        map2.put("insudred", "true");
+        map2.put("insured", "true");
         cmns.add(map2);
         LinkedHashMap<String,String> map3 = new LinkedHashMap<>();
         map3.put("TYPE", "OWNER");
@@ -105,10 +78,37 @@ public class JSONFileStreamTest {
         map3.put("state", "CO");
         map3.put("zipCode", "89999");
         cmns.add(map3);
-        JSONFileStream instance = new JSONFileStream();
+        JSONFileStream instance = new JSONFileStream(INPUTFILE, OUTPUTFILE);
         boolean expResult = true;
         boolean result = instance.sendCommands(cmns);
         assertEquals(expResult, result);
+    }
+    
+     /**
+     * Test of getCommands method, of class JSONFileStream.
+     */
+    @Test
+    public void testGetCommands() {
+        JSONService instance = new JSONFileStream(INPUTFILE, OUTPUTFILE);
+        List<Map<String, String>> result = instance.getCommands();
+        for (Map<String, String> cmd: result) {
+            CommandFactory cf = new CommandFactoryImpl();
+            Command command = cf.getCommand(cmd.get("TYPE").toUpperCase());
+            if (command != null) {
+                command.setManager(manager);
+                command.performCommands(cmd);
+            }
+        }
+        Owner owner = new Owner.Builder("O123", "Jack", "Johnson").build();
+        assertEquals(owner, manager.getOwnerCollection().find("O123"));
+        Vehicle vehicle = new Vehicle.Builder("V321", "O123")
+                .withManufacturer("Ford")
+                .withModelYear(1999)
+                .withModel("Mustang")
+                .withSubModel("Cobra")
+                .withVehicleClassification(VehicleClassification.MODERN)
+                .build();
+        assertEquals(vehicle, manager.getVehicleCollection().find("V321"));
     }
     
 }

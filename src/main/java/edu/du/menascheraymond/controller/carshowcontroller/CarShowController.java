@@ -8,6 +8,8 @@
 package edu.du.menascheraymond.controller.carshowcontroller;
 
 import edu.du.menascheraymond.model.domain.CarShow;
+import edu.du.menascheraymond.model.regularexpressions.RegEx;
+import edu.du.menascheraymond.model.services.carshowservice.CarShowArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowService;
 import edu.du.menascheraymond.view.CarShowFrame;
 import edu.du.menascheraymond.view.MainMenuFrame;
@@ -17,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -28,6 +31,7 @@ public class CarShowController implements ActionListener, WindowListener {
     
     private MainMenuFrame mainMenuFrame = null;
     private CarShowFrame carShowFrame = null;
+    private CarShowService carShowBackUpCollection = new CarShowArrayListImpl();
     
     public CarShowController() {
         
@@ -36,6 +40,10 @@ public class CarShowController implements ActionListener, WindowListener {
     public CarShowController(MainMenuFrame mainMenuFrame, CarShowFrame carShowFrame) {
         this.mainMenuFrame = mainMenuFrame;
         this.carShowFrame = carShowFrame;
+        for (String id: mainMenuFrame.getManager().getCarShowCollection().getIds()) {
+            carShowBackUpCollection.add(new CarShow(mainMenuFrame.getManager().
+                    getCarShowCollection().find(id)));
+        }
         
         carShowFrame.getExitMenuItem().addActionListener(this);
         carShowFrame.getUndoResetMenuItem().addActionListener(this);
@@ -79,47 +87,71 @@ public class CarShowController implements ActionListener, WindowListener {
     }
     
     private void undoResetCarShow_actionPerformed(ActionEvent event) {
-        //TODO: undo code here.
+        int selection = JOptionPane.showConfirmDialog(carShowFrame,
+                "Are you sure you want to undo all the changes to Car Shows?",
+                "Undo Changes", JOptionPane.YES_NO_OPTION);
+        if (selection == JOptionPane.YES_OPTION) {
+            CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
+            //Replaces all initial objects back into the main collection.
+            for (String id: carShowBackUpCollection.getIds()) {
+                CarShow cs = new CarShow(carShowBackUpCollection.find(id));
+                css.remove(id);
+                css.add(cs);
+            }
+            //Removes new objects from main collection.
+            for (String id: css.getIds()) {
+                if (!carShowBackUpCollection.isPresent(id)) {
+                    css.remove(id);
+                }
+            }
+            loadCarShowList();
+        }
     }
     
     private void addCarShow_actionPerformed(ActionEvent event) {
-        String title = carShowFrame.getTitleField().getText();
-        int month = Integer.parseInt(carShowFrame.getMonthCombo().getSelectedItem().toString());
-        int day = Integer.parseInt(carShowFrame.getDayCombo().getSelectedItem().toString());
-        int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
-        LocalDate date = LocalDate.of(year, month, day);
-        boolean sanctioned = carShowFrame.getSanctionedCheckBox().isSelected();
-        int nextId = 1;
-        String carShowId = "CS" + nextId;
-        while (mainMenuFrame.getManager().getCarShowCollection().isPresent(carShowId)) {
-            nextId++;
-            carShowId = "CS" + nextId;
+        if (checkInputs()) {
+            String title = carShowFrame.getTitleField().getText();
+            int month = Integer.parseInt(carShowFrame.getMonthCombo().getSelectedItem().toString());
+            int day = Integer.parseInt(carShowFrame.getDayCombo().getSelectedItem().toString());
+            int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
+            LocalDate date = LocalDate.of(year, month, day);
+            boolean sanctioned = carShowFrame.getSanctionedCheckBox().isSelected();
+            int nextId = 1;
+            String carShowId = "CS" + nextId;
+            while (mainMenuFrame.getManager().getCarShowCollection().isPresent(carShowId)) {
+                nextId++;
+                carShowId = "CS" + nextId;
+            }
+            if (!carShowFrame.getSelectedCarShowLabel().getText().equals("")
+                    && !carShowFrame.getSelectedCarShowLabel().getText()
+                            .equals("No Car Show selected")
+                    && carShowFrame.getSelectedCarShowLabel().getText() != null) {
+                carShowId = carShowFrame.getSelectedCarShowLabel().getText();
+            }
+            CarShow carShow = new CarShow.Builder(carShowId, title)
+                    .withCarShowDate(date).isSanctioned(sanctioned).build();
+            if (!mainMenuFrame.getManager().getCarShowCollection()
+                    .isPresent(carShowId)) {
+                mainMenuFrame.getManager().getCarShowCollection().add(carShow);
+            }
+            loadCarShowList();
         }
-        if (!carShowFrame.getSelectedCarShowLabel().getText().equals("")
-                && !carShowFrame.getSelectedCarShowLabel().getText()
-                        .equals("No Car Show selected")
-                && carShowFrame.getSelectedCarShowLabel().getText() != null) {
-            carShowId = carShowFrame.getSelectedCarShowLabel().getText();
-        }
-        CarShow carShow = new CarShow.Builder(carShowId, title)
-                .withCarShowDate(date).isSanctioned(sanctioned).build();
-        if (!mainMenuFrame.getManager().getCarShowCollection()
-                .isPresent(carShowId)) {
-            mainMenuFrame.getManager().getCarShowCollection().add(carShow);
-        }
-        loadCarShowList();
     }
     
     private void updateCarShow_actionPerformed(ActionEvent event) {
+        
         CarShow c = mainMenuFrame.getManager().getCarShowCollection()
                 .find(mainMenuFrame.getSelectedCarShow().getCarShowId());
-        c.setCarShowTitle(carShowFrame.getTitleField().getText());
-        int month = Integer.parseInt(carShowFrame.getMonthCombo().getSelectedItem().toString());
-        int day = Integer.parseInt(carShowFrame.getDayCombo().getSelectedItem().toString());
-        int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
-        LocalDate date = LocalDate.of(year, month, day);
-        c.setCarShowDate(date);
-        c.setSanctioned(carShowFrame.getSanctionedCheckBox().isSelected());
+        if (checkInputs()) {
+            c.setCarShowTitle(carShowFrame.getTitleField().getText());
+            int month = Integer.parseInt(carShowFrame.getMonthCombo().getSelectedItem().toString());
+            int day = Integer.parseInt(carShowFrame.getDayCombo().getSelectedItem().toString());
+            int year = Integer.parseInt(carShowFrame.getYearCombo().getSelectedItem().toString());
+            LocalDate date = LocalDate.of(year, month, day);
+            c.setCarShowDate(date);
+            c.setSanctioned(carShowFrame.getSanctionedCheckBox().isSelected());
+        }
+        loadCarShowList();
     }
     
     private void removeCarShow_actionPerformed(ActionEvent event) {
@@ -184,6 +216,16 @@ public class CarShowController implements ActionListener, WindowListener {
             mainMenuFrame.getCarShowSearchResultLabel()
                     .setText(cs.getCarShowId() + ": " + cs.getCarShowTitle());
         }
+    }
+    
+    private boolean checkInputs() {
+        boolean rv = true;
+        RegEx regex = new RegEx();
+        if (carShowFrame.getTitleField().getText().equals("")) {
+            rv = false;
+            JOptionPane.showMessageDialog(carShowFrame, "Please enter Car Show title.");
+        }
+        return rv;
     }
     
     @Override

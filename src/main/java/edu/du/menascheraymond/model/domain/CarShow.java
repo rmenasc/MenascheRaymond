@@ -31,6 +31,17 @@ public class CarShow {
     }
     
     /**
+     * Copy Constructor.
+     * @param carShow 
+     */
+    public CarShow(CarShow carShow) {
+        carShowId = carShow.getCarShowId();
+        carShowTitle = carShow.getCarShowTitle();
+        carShowDate = carShow.getCarShowDate();
+        sanctioned = carShow.isSanctioned();
+    }
+    
+    /**
      * Overloaded Constructor.
      * @param carShowId
      * @param carShowTitle
@@ -140,10 +151,14 @@ public class CarShow {
     
     public void setSanctioned(String isSanctioned) {
         if(isSanctioned.toUpperCase().equals("Y") || 
-                isSanctioned.toUpperCase().equals("YES")) {
+                isSanctioned.toUpperCase().equals("YES") ||
+                isSanctioned.toUpperCase().equals("T") ||
+                isSanctioned.toUpperCase().equals("TRUE")) {
             this.sanctioned = true;
         } else if (isSanctioned.toUpperCase().equals("N") ||
-                isSanctioned.toUpperCase().equals("NO")) {
+                isSanctioned.toUpperCase().equals("NO") ||
+                isSanctioned.toUpperCase().equals("F") ||
+                isSanctioned.toUpperCase().equals("FALSE")) {
             this.sanctioned = false;
         } else {
             throw new IllegalArgumentException("Invalid input string");
@@ -151,12 +166,32 @@ public class CarShow {
     }
     
     public void setSanctioned(char isSanctioned) {
-        if(isSanctioned == 'y' || isSanctioned == 'Y') {
-            this.sanctioned = true;
-        } else if(isSanctioned == 'n' || isSanctioned == 'N') {
-            this.sanctioned = false;
-        } else {
-            throw new IllegalArgumentException("Invalid character input");
+        switch (isSanctioned) {
+            case 'y':
+                this.sanctioned = true;
+                break;
+            case 'Y':
+                this.sanctioned = true;
+                break;
+            case 'T':
+                this.sanctioned = true;
+                break;
+            case 't':
+                this.sanctioned = true;
+            case 'n':
+                this.sanctioned = false;
+                break;
+            case 'N':
+                this.sanctioned = false;
+                break;
+            case 'F':
+                this.sanctioned = false;
+                break;
+            case 'f':
+                this.sanctioned = false;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid character input");
         }
     }
     

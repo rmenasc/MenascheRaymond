@@ -3,13 +3,15 @@
  * Not intended for production or distribution. 
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche.
- * File: 
+ * File: VehicleController.java
  */
 package edu.du.menascheraymond.controller.vehiclecontroller;
 
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
 import edu.du.menascheraymond.model.domain.VehicleClassification;
+import edu.du.menascheraymond.model.regularexpressions.RegEx;
+import edu.du.menascheraymond.model.services.vehicleservice.VehicleArrayListImpl;
 import edu.du.menascheraymond.model.services.vehicleservice.VehicleService;
 import edu.du.menascheraymond.view.MainMenuFrame;
 import edu.du.menascheraymond.view.VehicleFrame;
@@ -18,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -30,6 +33,8 @@ public class VehicleController implements ActionListener, WindowListener {
     private MainMenuFrame mainMenuFrame = null;
     private VehicleFrame vehicleFrame = null;
     private Owner selectedOwner = null;
+    private Vehicle selectedVehicle = null;
+    private VehicleService vehicleBackUpCollection = new VehicleArrayListImpl();
     
     public VehicleController() {
         
@@ -39,6 +44,10 @@ public class VehicleController implements ActionListener, WindowListener {
         this.mainMenuFrame = mainMenuFrame;
         this.vehicleFrame = vehicleFrame;
         this.selectedOwner = mainMenuFrame.getSelectedOwner();
+        for (String id: mainMenuFrame.getManager().getVehicleCollection().getIds()) {
+            vehicleBackUpCollection.add(new Vehicle(mainMenuFrame.getManager()
+                    .getVehicleCollection().find(id)));
+        }
         
         vehicleFrame.getExitMenuItem().addActionListener(this);
         vehicleFrame.getUndoResetMenuItem().addActionListener(this);
@@ -83,11 +92,29 @@ public class VehicleController implements ActionListener, WindowListener {
     }
     
     private void undoResetVehicle_actionPerformed(ActionEvent event) {
-        //TODO: undo code here. 
+        int selection = JOptionPane.showConfirmDialog(vehicleFrame,
+                "Are you sure you want to undo all the changes to Vehicles?",
+                "Undo Changes", JOptionPane.YES_NO_OPTION);
+        if (selection == JOptionPane.YES_OPTION) {
+            VehicleService vs = mainMenuFrame.getManager().getVehicleCollection();
+            //Replace all the initial objects into the main Collection
+            for (String id: vehicleBackUpCollection.getIds()) {
+                Vehicle v = new Vehicle(vehicleBackUpCollection.find(id));
+                vs.remove(id);
+                vs.add(v);
+            }
+            //Removes new objects from main collection
+            for (String id: vs.getIds()) {
+                if (!vehicleBackUpCollection.isPresent(id)) {
+                    vs.remove(id);
+                }
+            }
+            loadVehicleList();
+        }
     }
     
     private void addVehicle_actionPerformed(ActionEvent event) {
-        if (selectedOwner != null) {
+        if (selectedOwner != null && checkInputs()) {
             String manufacturer = vehicleFrame.getManufacturerField().getText();
             int year = Integer.parseInt(vehicleFrame.getModelYearField().getText());
             String model = vehicleFrame.getModelField().getText();
@@ -128,14 +155,12 @@ public class VehicleController implements ActionListener, WindowListener {
                 mainMenuFrame.getManager().getVehicleCollection().add(vehicle);
             }
             loadVehicleList();
-        } else {
-            //TODO: alert dialog here
-        }
+        } 
     }
     
     private void removeVehicle_actionPerformed(ActionEvent event) {
         mainMenuFrame.getManager().getVehicleCollection()
-                .remove(vehicleFrame.getVehiclesList().getSelectedValue());
+                .remove(selectedVehicle);
         loadVehicleList();
     }
     
@@ -160,6 +185,7 @@ public class VehicleController implements ActionListener, WindowListener {
     
     private void loadVehicleList() {
         //reset fields
+        selectedVehicle = null;
         vehicleFrame.getRemoveVehicleButton().setEnabled(false);
         vehicleFrame.getSearchOwnerIdField().setText("");
         vehicleFrame.getManufacturerField().setText("");
@@ -185,7 +211,8 @@ public class VehicleController implements ActionListener, WindowListener {
             for (String id: vs.getIds()) {
                 Vehicle v = vs.find(id);
                 if (v.getOwnerId().equals(selectedOwner.getOwnerId())) {
-                    listModel.addElement(id);
+                    listModel.addElement(id + ": " + v.getModelYear() +
+                            " " + v.getManufacturer() + " " + v.getModel());
                 }
             }
             vehicleFrame.getVehiclesList().setModel(listModel);
@@ -199,8 +226,10 @@ public class VehicleController implements ActionListener, WindowListener {
         } else {
             vehicleFrame.getAddVehicleButton().setEnabled(false);
             vehicleFrame.getRemoveVehicleButton().setEnabled(true);
+            String[] sa = vehicleFrame.getVehiclesList().getSelectedValue().split(":");
+            String vehicleId = sa[0];
             Vehicle sv = mainMenuFrame.getManager().getVehicleCollection()
-                    .find(vehicleFrame.getVehiclesList().getSelectedValue());
+                    .find(vehicleId);
             vehicleFrame.getManufacturerField().setText(sv.getManufacturer());
             Integer year = sv.getModelYear();
             vehicleFrame.getModelYearField().setText(year.toString());
@@ -209,7 +238,24 @@ public class VehicleController implements ActionListener, WindowListener {
             vehicleFrame.getClassificationCombo()
                     .setSelectedItem(sv.getVehicleClassification().toString());
             vehicleFrame.getInsuredCheckBox().setSelected(sv.isInsured());
+            selectedVehicle = sv;
         }
+    }
+    
+    private boolean checkInputs() {
+        boolean rv = true;
+        RegEx regex = new RegEx();
+        if (vehicleFrame.getManufacturerField().getText().equals("")) {
+            rv = false;
+            JOptionPane.showMessageDialog(vehicleFrame, "Please enter the vehicle manufacturer.");
+        } else if (!regex.isYear(vehicleFrame.getModelYearField().getText())) {
+            rv = false;
+            JOptionPane.showMessageDialog(vehicleFrame, "Please enter a valid year.");
+        } else if (vehicleFrame.getModelField().getText().equals("")) {
+            rv = false;
+            JOptionPane.showMessageDialog(vehicleFrame, "Please enter vehicle model");
+        } 
+        return rv;
     }
 
     @Override

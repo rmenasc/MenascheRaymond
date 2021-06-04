@@ -3,39 +3,33 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
+ * File: RegEx.java
  */
 package edu.du.menascheraymond.model.regularexpressions;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
- *
+ * Regular Expressions
  * @author raymond
  */
 public class RegEx {
     
     public boolean isPhoneNumber(String s) {
-        boolean rv = false;
-        Pattern pattern = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
-        Matcher matcher = pattern.matcher(s);
-        rv = matcher.find();
-        return rv;
+        String regex = "\\d{3}-\\d{3}-\\d{4}?";
+        return s.matches(regex);
     }
     
     public boolean isNumber(String s) {
-        boolean rv = false;
-        Pattern pattern = Pattern.compile("\\d");
-        Matcher matcher = pattern.matcher(s);
-        rv = matcher.find();
-        return rv;
+        String regex = "\\d+";
+        return s.matches(regex);
     }
     
     public boolean isZipCode(String s) {
-        boolean rv = false;
-        Pattern pattern = Pattern.compile("\\d{5}");
-        Matcher matcher = pattern.matcher(s);
-        rv = matcher.find();
-        return rv;
+        String regex = "\\d{5}(-\\d{4})?";
+        return s.matches(regex);
+    }
+    
+    public boolean isYear(String s) {
+        String regex = "\\d{4}?";
+        return s.matches(regex);
     }
 }

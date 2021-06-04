@@ -3,51 +3,61 @@
  * Not intended for production or distribution.
  * Java Programming ICT4361-1.
  * Author: Raymond G Menasche
+ * File: MainController.java
  */
 package edu.du.menascheraymond.controller.maincontroller;
 
 import edu.du.menascheraymond.controller.carshowcontroller.CarShowController;
 import edu.du.menascheraymond.controller.ownercontroller.OwnerController;
 import edu.du.menascheraymond.controller.vehiclecontroller.VehicleController;
+import edu.du.menascheraymond.model.business.command.Command;
+import edu.du.menascheraymond.model.business.factory.CommandFactory;
+import edu.du.menascheraymond.model.business.factory.CommandFactoryImpl;
 import edu.du.menascheraymond.model.business.manager.Manager;
 import edu.du.menascheraymond.model.domain.CarShow;
 import edu.du.menascheraymond.model.domain.CarShowOwner;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.domain.Vehicle;
-import edu.du.menascheraymond.model.services.PersistenceService;
+import edu.du.menascheraymond.model.services.carshowownerservice.CarShowOwnerArrayListImpl;
 import edu.du.menascheraymond.model.services.carshowownerservice.CarShowOwnerService;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowService;
 import edu.du.menascheraymond.model.services.ownerservice.OwnerService;
-import edu.du.menascheraymond.model.services.vehicleservice.VehicleService;
 import edu.du.menascheraymond.view.CarShowFrame;
 import edu.du.menascheraymond.view.MainMenuFrame;
 import edu.du.menascheraymond.view.OwnerFrame;
 import edu.du.menascheraymond.view.VehicleFrame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
- *
+ * MainController
  * @author raymond
  */
 public class MainController implements ActionListener, WindowListener {
     
     private MainMenuFrame mainMenuFrame = null;
     private DefaultListModel<String> listModel = new DefaultListModel<>();
+    private CarShowOwnerService carShowOwnerBackUpCollection = 
+            new CarShowOwnerArrayListImpl();
     
     public MainController() {
         
@@ -55,9 +65,20 @@ public class MainController implements ActionListener, WindowListener {
     
     public MainController(MainMenuFrame mainMenuFrame) {
         this.mainMenuFrame = mainMenuFrame;
+        //creates the backup collection
+        for (String oid: mainMenuFrame.getManager().getOwnerCollection().getIds()) {
+            for (String csid: mainMenuFrame.getManager().getCarShowCollection().getIds()) {
+                if (mainMenuFrame.getManager().getCarShowOwnerCollection()
+                        .isPresent(oid, csid)) {
+                    carShowOwnerBackUpCollection.add(new CarShowOwner(csid, oid));
+                }
+            }
+        }
+        carShowOwnerBackUpCollection = mainMenuFrame.getManager().getCarShowOwnerCollection();
         
         mainMenuFrame.addWindowListener(this);
         mainMenuFrame.getExitItem().addActionListener(this);
+        mainMenuFrame.getUndoResetMenuItem().addActionListener(this);
         mainMenuFrame.getOwnerMenuItem().addActionListener(this);
         mainMenuFrame.getCarShowMenuItem().addActionListener(this);
         mainMenuFrame.getOwnerMenuItem().addActionListener(this);
@@ -75,6 +96,8 @@ public class MainController implements ActionListener, WindowListener {
         try {
             if (ae.getSource().equals(mainMenuFrame.getExitItem())) {
                 exitItem_actionPerformed(ae);
+            } else if (ae.getSource().equals(mainMenuFrame.getUndoResetMenuItem())) {
+                undoReset_actionPerformed(ae);
             } else if (ae.getSource().equals(mainMenuFrame.getOwnerSearchButton())) {
                 searchOwner_actionPerformed(ae);
             } else if (ae.getSource().equals(mainMenuFrame.getCarShowSearchButton())) {
@@ -100,9 +123,47 @@ public class MainController implements ActionListener, WindowListener {
     }
     
     private void exitItem_actionPerformed(ActionEvent event) throws Exception {
-        //TODO: Code here
+        saveBeforeCloseDialog();
         
         System.exit(0);
+    }
+    
+    private void undoReset_actionPerformed(ActionEvent event) {
+        int selection = JOptionPane.showConfirmDialog(mainMenuFrame,
+                "Are you sure you want to undo all the changes made to CarShowOwners?",
+                "Undo Reset",
+                JOptionPane.YES_NO_OPTION);
+        if (selection == JOptionPane.YES_OPTION) {
+            OwnerService os = mainMenuFrame.getManager().getOwnerCollection();
+            CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
+            CarShowOwnerService csos = mainMenuFrame.getManager().getCarShowOwnerCollection();
+            //Replace all initial object into main collecion.
+//            for (String oid: os.getIds()) {
+//                for (String csid: css.getIds()) {
+//                    CarShowOwner cso = new CarShowOwner(csid, oid);
+//                    if (carShowOwnerBackUpCollection.isPresent(oid, csid)) {
+//                        csos.add(cso);
+//                    } else {
+//                        csos.remove(cso);
+//                    }
+//                }
+//            }
+            Iterator<String> oi = os.getIds().iterator();
+            Iterator<String> csi = css.getIds().iterator();
+            while (oi.hasNext()) {
+                String oid = csi.next(); 
+                while (csi.hasNext()) {
+                    String csid = csi.next();
+                    CarShowOwner cso = new CarShowOwner(csid, oid);
+                    if (carShowOwnerBackUpCollection.isPresent(cso)) {
+                        csos.add(cso);
+                    } else {
+                        csos.remove(cso);
+                    }
+                }
+            }
+            loadCarShowOwnerList();
+        }
     }
     
     private void searchOwner_actionPerformed(ActionEvent event) {
@@ -117,6 +178,7 @@ public class MainController implements ActionListener, WindowListener {
             loadCarShowOwnerList();
         } else {
             mainMenuFrame.getOwnerSearchResultLabel().setText("No Results");
+            loadCarShowOwnerList();
         }
     }
     
@@ -154,14 +216,10 @@ public class MainController implements ActionListener, WindowListener {
     private void addCarShowOwner_actionPerformed(ActionEvent event) {
         String ownerResult = mainMenuFrame.getOwnerSearchResultLabel().getText();
         String carShowResult = mainMenuFrame.getCarShowSearchResultLabel().getText();
-        if (ownerResult.equals("No Result")
-                || ownerResult == null
-                || ownerResult.equals("")) {
+        if (ownerResult.equals("No Result") || ownerResult.equals("")) {
             JOptionPane.showMessageDialog(mainMenuFrame, "Please selecte an owner frist");
         } else {
-            if (carShowResult.equals("No Result")
-                    || carShowResult == null
-                    || carShowResult.equals("")) {
+            if (carShowResult.equals("No Result") || carShowResult.equals("")) {
                 JOptionPane.showMessageDialog(mainMenuFrame, "Please select a Car Show first");
             } else {
                 CarShowOwner cso = new CarShowOwner(mainMenuFrame
@@ -175,15 +233,16 @@ public class MainController implements ActionListener, WindowListener {
     }
     
     private void removeCarShowOwner_actionPerformed(ActionEvent event) {
-        CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
-        String selected = mainMenuFrame.getCarShowOwnerList().getSelectedValue();
-        for (String id: css.getIds()) {
-            if (css.find(id).getCarShowTitle().equals(selected)) {
-                mainMenuFrame.getManager().getCarShowOwnerCollection()
-                        .remove(mainMenuFrame.getSelectedOwner().getOwnerId(), id);
-                loadCarShowOwnerList();
-            }
-        }
+        //parse string ex. Owner Id: O1, CarShow Id: CS1, Title: The great show
+        String[] sa = mainMenuFrame.getCarShowOwnerList().getSelectedValue().split(",");
+        String[] ownerValues = sa[0].split(":");
+        String[] carShowValues = sa[1].split(":");
+        String ownerId = ownerValues[1].strip();
+        String carShowId = carShowValues[1].strip();
+
+        mainMenuFrame.getManager().getCarShowOwnerCollection()
+                .remove(ownerId, carShowId);
+        loadCarShowOwnerList();
     }
     
     private void printReport_actionPerformed(ActionEvent event) {
@@ -237,78 +296,21 @@ public class MainController implements ActionListener, WindowListener {
     
     private void save_actionPerformed(ActionEvent event) {
         List<LinkedHashMap<String,String>> commands = new LinkedList<>();
-        OwnerService os = mainMenuFrame.getManager().getOwnerCollection();
-        VehicleService vs = mainMenuFrame.getManager().getVehicleCollection();
-        CarShowService css = mainMenuFrame.getManager().getCarShowCollection();
-        CarShowOwnerService csos = mainMenuFrame.getManager().getCarShowOwnerCollection();
-        for (String id: os.getIds()) {
-            Owner o = os.find(id);
-            LinkedHashMap<String,String> cmd = new LinkedHashMap<>();
-            cmd.put("ACTION", "ADD");
-            cmd.put("TYPE", "OWNER");
-            cmd.put("ownerId", id);
-            cmd.put("firstName", o.getFirstName());
-            cmd.put("lastName", o.getLastName());
-            cmd.put("phoneNumber", o.getPhoneNumber());
-            Integer y = o.getNumYears();
-            cmd.put("numYears", y.toString());
-            cmd.put("street1", o.getAddress().getStreet1());
-            cmd.put("street2", o.getAddress().getStreet2());
-            cmd.put("city", o.getAddress().getCity());
-            cmd.put("state", o.getAddress().getState());
-            cmd.put("zipCode", o.getAddress().getZipCode());
-            commands.add(cmd);
-        }
-        for (String id: vs.getIds()) {
-            Vehicle v = vs.find(id);
-            LinkedHashMap<String,String> cmd = new LinkedHashMap<>();
-            cmd.put("ACTION", "ADD");
-            cmd.put("TYPE", "VEHICLE");
-            cmd.put("vehicleId", id);
-            cmd.put("ownerId", v.getOwnerId());
-            cmd.put("manufacturer", v.getManufacturer());
-            Integer y = v.getModelYear();
-            cmd.put("year", y.toString());
-            cmd.put("model", v.getModel());
-            cmd.put("subModel", v.getSubModel());
-            cmd.put("classification", v.getVehicleClassification().toString());
-            if (v.isInsured()) {
-                cmd.put("insured", "Y");
-            } else {
-                cmd.put("insured", "N");
-            }
-            commands.add(cmd);
-        }
-        for (String id: css.getIds()) {
-            CarShow cs = css.find(id);
-            LinkedHashMap<String,String> cmd = new LinkedHashMap<>();
-            cmd.put("ACTION", "ADD");
-            cmd.put("TYPE", "CARSHOW");
-            cmd.put("carShowId", id);
-            cmd.put("title", cs.getCarShowTitle());
-            cmd.put("date", cs.getCarShowDate().toString());
-            if (cs.isSanctioned()) {
-                cmd.put("sanctioned", "Y");
-            } else {
-                cmd.put("sanctioned", "N");
-            }
-            commands.add(cmd);
-        }
-        for (String oid: os.getIds()) {
-            for (String csid: css.getIds()) {
-                CarShowOwner cso = csos.find(oid, csid);
-                if (cso != null) {
-                    LinkedHashMap<String,String> cmd = new LinkedHashMap<>();
-                    cmd.put("ACTION", "ADD");
-                    cmd.put("TYPE", "CSO");
-                    cmd.put("carShowId", csid);
-                    cmd.put("ownerId", oid);
-                    commands.add(cmd);
-                }
+        
+        String[] types = {"OWNER", "VEHICLE", "CARSHOW", "CSO"};
+        for (String type: types) {
+            CommandFactory cf = new CommandFactoryImpl();
+            Command c = cf.getCommand(type);
+            if (c != null) {
+                c.setManager(mainMenuFrame.getManager());
+                commands.addAll(c.createCommand());
             }
         }
-        PersistenceService ps = mainMenuFrame.getManager().getPersistenceService();
-        ps.sendCommands(commands);
+        if (mainMenuFrame.getManager().getPersistenceService().sendCommands(commands)) {
+            System.out.println("Save Successful");
+        } else {
+            System.out.println("Could not save data");
+        }
     }
     
     private void loadCarShowOwnerList() {
@@ -317,50 +319,105 @@ public class MainController implements ActionListener, WindowListener {
         for (String id: css.getIds()) {
             if (mainMenuFrame.getManager().getCarShowOwnerCollection()
                     .isPresent(mainMenuFrame.getSelectedOwner().getOwnerId(), id)) {
-                listModel.addElement(css.find(id).getCarShowTitle());
-                mainMenuFrame.getCarShowOwnerList().setModel(listModel);
-                mainMenuFrame.getCarShowOwnerListLabel()
-                        .setText(mainMenuFrame.getSelectedOwner().getFirstName() +
-                                "'s Car Shows:");
+                listModel.addElement("Owner id: " + 
+                        mainMenuFrame.getSelectedOwner().getOwnerId() +
+                        ", Car Show id: " + id + ", Title: " +
+                        css.find(id).getCarShowTitle());
             }
         }
+        mainMenuFrame.getCarShowOwnerList().setModel(listModel);
+        mainMenuFrame.getCarShowOwnerListLabel()
+                .setText(mainMenuFrame.getSelectedOwner().getFirstName() +
+                        "'s Car Shows:");
+    }
+    
+    private void saveBeforeCloseDialog() {
+        int selection = JOptionPane.showConfirmDialog(mainMenuFrame,
+                "Do you want to save before exit?", "Wait",
+                JOptionPane.YES_NO_OPTION);
+        if (selection == JOptionPane.YES_OPTION) {
+            save_actionPerformed(null);
+        } 
+    }
+    
+    private void logInPanel() {
+        int counter = 0;
+        boolean locked = true;
+        while (counter < 3 && locked) {
+            JPanel panel = new JPanel(new GridLayout(5,1));
+            JLabel user = new JLabel("User Name");
+            JTextField userName = new JTextField(10);
+            JLabel pass = new JLabel("Password");
+            JPasswordField password = new JPasswordField(10);
+            panel.add(user);
+            panel.add(userName);
+            panel.add(pass);
+            panel.add(password);
+
+            int result = JOptionPane.showConfirmDialog(mainMenuFrame, panel,
+                    "Log In", JOptionPane.PLAIN_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                if(authenticateUser(userName.getText(), password.getPassword())){
+                    unlockUI();
+                    locked = false;
+                } else {
+                    lockUI();
+                    JOptionPane.showMessageDialog(mainMenuFrame, "Invalid credentials");
+                }
+            }
+            counter++;
+        }
+        if (counter == 3 && locked) {
+            System.exit(0);
+        }
+    }
+    
+    public boolean authenticateUser(String user, char[] password) {
+        boolean rv = false;
+        try (FileReader reader = new FileReader("target/authproperties.txt"))
+        {
+            Properties authProps = new Properties();
+            authProps.load(reader);
+            char[] pass = authProps.getProperty("password").toCharArray();
+            if (authProps.getProperty("user").equals(user) 
+                    && Arrays.equals(pass, password)) {
+                rv = true;
+            }
+        } catch (IOException ioe) {
+            
+        }
+        return rv;
+    }
+    
+    private void lockUI() {
+        mainMenuFrame.getOwnerSearchField().setEnabled(false);
+        mainMenuFrame.getOwnerSearchButton().setEnabled(false);
+        mainMenuFrame.getCarShowSearchField().setEnabled(false);
+        mainMenuFrame.getCarShowSearchButton().setEnabled(false);
+        mainMenuFrame.getOwnerMenuItem().setEnabled(false);
+        mainMenuFrame.getVehicleMenuItem().setEnabled(false);
+        mainMenuFrame.getCarShowMenuItem().setEnabled(false);
+    }
+    
+    private void unlockUI() {
+        mainMenuFrame.getOwnerSearchField().setEnabled(true);
+        mainMenuFrame.getOwnerSearchButton().setEnabled(true);
+        mainMenuFrame.getCarShowSearchField().setEnabled(true);
+        mainMenuFrame.getCarShowSearchButton().setEnabled(true);
+        mainMenuFrame.getOwnerMenuItem().setEnabled(true);
+        mainMenuFrame.getVehicleMenuItem().setEnabled(true);
+        mainMenuFrame.getCarShowMenuItem().setEnabled(true);
     }
 
     @Override
-    public void windowOpened(WindowEvent we) {
-        
+    public void windowOpened(WindowEvent we) { 
+        lockUI();
+        logInPanel();
     }
 
     @Override
     public void windowClosing(WindowEvent we) {
-        JOptionPane optionPane = new JOptionPane(
-                "Would you like to save before exiting?",
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-        JDialog dialog = new JDialog(mainMenuFrame, "", true);
-        dialog.setContentPane(optionPane);
-        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        dialog.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                //setLabel("Thwarted user attept to close window.");
-            }
-        });
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                String prop = e.getPropertyName();
-                if (dialog.isVisible()
-                        && (e.getSource() == optionPane)
-                        && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
-                    dialog.setVisible(false);
-                }
-            }
-        });
-        dialog.pack();
-        dialog.setVisible(true);
-        int value = ((Integer)optionPane.getValue()).intValue();
-        if (value == JOptionPane.YES_OPTION) {
-           save_actionPerformed(null);
-        }
+        saveBeforeCloseDialog();
         mainMenuFrame.dispose();
     }
 

@@ -11,7 +11,10 @@ import edu.du.menascheraymond.model.business.command.carshowcommand.CarShowComma
 import edu.du.menascheraymond.model.business.manager.Manager;
 import edu.du.menascheraymond.model.domain.CarShow;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -174,6 +177,38 @@ public class CarShowCommandImplTest {
         //no key remove
         result = instance.performCommands(command4);
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test CreateCommand method for CarShowCommandImpl class.
+     */
+    @Test
+    public void testCreateCommand() {
+        CarShowCommand instance = new CarShowCommandImpl();
+        instance.setManager(manager);
+        LocalDate date = LocalDate.of(2020, 12, 12);
+        CarShow cs = new CarShow.Builder("CS1", "The Great Show")
+                .withCarShowDate(date)
+                .isSanctioned(true).build();
+        manager.getCarShowCollection().add(cs);
+        List<LinkedHashMap<String,String>> result = instance.createCommand();
+        for (LinkedHashMap<String,String> cmd: result) {
+            String type = cmd.get("TYPE");
+            String carShowId = cmd.get("carShowId");
+            String title = cmd.get("title");
+            String strDate = cmd.get("date").strip();                  //String date ex. 12/12/2020 or 2020-12-12
+            LocalDate d = null;
+            if (strDate.contains("-")) {
+                d = LocalDate.parse(strDate);
+            } else if (strDate.contains("/")) {
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                d = LocalDate.parse(strDate, format);
+            }
+            assertEquals(type, "CARSHOW");
+            assertEquals(carShowId, cs.getCarShowId());
+            assertEquals(title, cs.getCarShowTitle());
+            assertEquals(d, cs.getCarShowDate());
+        }
     }
     
 }

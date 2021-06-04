@@ -38,7 +38,13 @@ public class RegExTest {
         RegEx instance = new RegEx();
         String s = "3";
         assertTrue(instance.isNumber(s));
+        s = "33";
+        assertTrue(instance.isNumber(s));
         s = "a";
+        assertFalse(instance.isNumber(s));
+        s = "aaakd";
+        assertFalse(instance.isNumber(s));
+        s = "akd 5'adk";
         assertFalse(instance.isNumber(s));
     }
     
@@ -51,5 +57,20 @@ public class RegExTest {
         assertFalse(instance.isZipCode(s));
         s = "aaaaa";
         assertFalse(instance.isZipCode(s));
+    }
+    
+    @Test
+    public void testIsYear() {
+        RegEx instance = new RegEx();
+        String s = "2020";
+        assertTrue(instance.isYear(s));
+        s = "adbdk";
+        assertFalse(instance.isYear(s));
+        s = "345";
+        assertFalse(instance.isYear(s));
+        s = "20201";
+        assertFalse(instance.isYear(s));
+        s = "";
+        assertFalse(instance.isYear(s));
     }
 }

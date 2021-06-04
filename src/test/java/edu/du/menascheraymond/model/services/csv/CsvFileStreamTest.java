@@ -31,6 +31,12 @@ public class CsvFileStreamTest {
         command1.put("ownerId", "O123");
         command1.put("firstName", "John");
         command1.put("lastName", "Jackson");
+        command1.put("phoneNumber", "555-555-5555");
+        command1.put("numYears", "10");
+        command1.put("street1", "111 There st");
+        command1.put("city", "Miami");
+        command1.put("state", "FL");
+        command1.put("zipCode", "33131");
         LinkedHashMap<String, String> command2 = new LinkedHashMap<>();
         command2.put("TYPE", "VEHICLE");
         command2.put("ACTION", "REM");
@@ -58,6 +64,12 @@ public class CsvFileStreamTest {
             data.put("ownerId", "O123");
             data.put("firstName", "John");
             data.put("lastName", "Jackson");
+            data.put("phoneNumber", "555-555-5555");
+            data.put("numYears", "10");
+            data.put("street1", "111 There st");
+            data.put("city", "Miami");
+            data.put("state", "FL");
+            data.put("zipCode", "33131");
             instance.sendCommands(commands);
             List<Map<String, String>> resultList = instance.getCommands();
             boolean result = false;
@@ -66,7 +78,13 @@ public class CsvFileStreamTest {
                         && c.get("ACTION").equals(data.get("ACTION"))
                         && c.get("ownerId").equals(data.get("ownerId"))
                         && c.get("firstName").equals(data.get("firstName"))
-                        && c.get("lastName").equals(data.get("lastName"))) {
+                        && c.get("lastName").equals(data.get("lastName"))
+                        && c.get("phoneNumber").equals(data.get("phoneNumber"))
+                        && c.get("numYears").equals(data.get("numYears"))
+                        && c.get("street1").equals(data.get("street1"))
+                        && c.get("city").equals(data.get("city"))
+                        && c.get("state").equals(data.get("state"))
+                        && c.get("zipCode").equals(data.get("zipCode"))) {
                     result = true;
                     break;
                 }

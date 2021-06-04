@@ -9,6 +9,7 @@ package edu.du.menascheraymond.model.services;
 /**
  * Base TypeCollectionService Interface for collection service classes.
  * @author raymondmenasche
+ * @param <T>
  */
 public interface TypeCollectionService <T> extends CollectionService {
     

@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Implementation of Command interface to handle CSV File input and output.
  * Default: Reads from target/CarShowData.txt
- * Default: Writes to targe/CarShowDataOutput.txt
+ * Default: Writes to targe/CarShowData.txt
  * The commands are presented in the form of a List of maps where each map
  * includes a key and value. Each map contains at least a key including the
  * type of object (ex. Owner, CarShow, etc) and one key with an action
@@ -38,7 +38,7 @@ public class CsvFileStream implements CsvService {
     
     public CsvFileStream() {
         commands = new LinkedList<>();
-        OUTPUTFILE = "target/CarShowDataOutput.txt";
+        OUTPUTFILE = "target/CarShowData.txt";
         INPUTFILE = "target/CarShowData.txt";
     }
     
@@ -103,14 +103,21 @@ public class CsvFileStream implements CsvService {
         boolean rv = false;
         String line = "";
         for (LinkedHashMap<String,String> command: cmds) {
-            int counter = 0;
+            boolean first = true;
             for (String key: command.keySet()) {
-                if (counter == 0) {
-                    line += key + "=" + command.get(key);
-                } else {
-                    line += "," + key + "=" + command.get(key);
+                String value = " ";
+                if (!command.get(key).equals("") &&
+                        command.get(key) != null) {
+                    value = command.get(key);
                 }
-                counter++;
+                
+                if (first) {
+                    line += key + "=" + value;
+                } else {
+                    line += "," + key + "=" + value;
+                }
+
+                first = false;
             }
             line += "\n";
         }

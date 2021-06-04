@@ -34,6 +34,19 @@ public class Owner {
     }
     
     /**
+     * Copy Constructor.
+     * @param owner 
+     */
+    public Owner(Owner owner) {
+        ownerId = owner.getOwnerId();
+        firstName = owner.getFirstName();
+        lastName = owner.getLastName();
+        phoneNumber = owner.getPhoneNumber();
+        numYears = owner.getNumYears();
+        address = new Address(owner.getAddress());
+    }
+    
+    /**
      * Overloaded Constructor.
      * @param ownerId
      * @param firstName

@@ -11,6 +11,7 @@ import edu.du.menascheraymond.model.domain.Address;
 import edu.du.menascheraymond.model.domain.Owner;
 import edu.du.menascheraymond.model.regularexpressions.RegEx;
 import edu.du.menascheraymond.model.services.carshowservice.CarShowService;
+import edu.du.menascheraymond.model.services.ownerservice.OwnerArrayListImpl;
 import edu.du.menascheraymond.model.services.ownerservice.OwnerService;
 import edu.du.menascheraymond.view.MainMenuFrame;
 import edu.du.menascheraymond.view.OwnerFrame;
@@ -30,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 public class OwnerController implements ActionListener, WindowListener {
     private OwnerFrame ownerFrame = null;
     private MainMenuFrame mainMenuFrame = null;
+    private OwnerService ownerBackUpCollection = new OwnerArrayListImpl();
     
     public OwnerController() {
         
@@ -38,6 +40,10 @@ public class OwnerController implements ActionListener, WindowListener {
     public OwnerController(OwnerFrame ownerFrame, MainMenuFrame mainMenuFrame) {
         this.ownerFrame = ownerFrame;
         this.mainMenuFrame = mainMenuFrame;
+        for (String id: mainMenuFrame.getManager().getOwnerCollection().getIds()) {
+            ownerBackUpCollection.add(new Owner(mainMenuFrame.getManager()
+                    .getOwnerCollection().find(id)));
+        }
         
         ownerFrame.getExitMenuItem().addActionListener(this);
         ownerFrame.getUndoResetMenuItem().addActionListener(this);
@@ -85,7 +91,25 @@ public class OwnerController implements ActionListener, WindowListener {
     }
     
     private void undoReset_actionPerformed(ActionEvent event) {
-        //TODO: undo code
+        int selection = JOptionPane.showConfirmDialog(ownerFrame,
+                "Are you sure you want to undo all the changes to Owners?",
+                "Undo Changes", JOptionPane.YES_NO_OPTION);
+        if (selection == JOptionPane.YES_OPTION) {
+            OwnerService os = mainMenuFrame.getManager().getOwnerCollection();
+            //Replace all inital objects back in to the main collection.
+            for (String id: ownerBackUpCollection.getIds()) {
+                Owner o = new Owner(ownerBackUpCollection.find(id));
+                os.remove(id);
+                os.add(o);
+            }
+            //Remove all new items from main collection.
+            for (String id: os.getIds()) {
+                if (!ownerBackUpCollection.isPresent(id)) {
+                    os.remove(id);
+                }
+            }
+            loadOwnerList();
+        }
     }
     
     private void addOwner_actionPerformed(ActionEvent event) {
@@ -239,13 +263,15 @@ public class OwnerController implements ActionListener, WindowListener {
             for (String csid: css.getIds()) {
                 if (mainMenuFrame.getManager().getCarShowOwnerCollection()
                         .isPresent(mainMenuFrame.getSelectedOwner().getOwnerId(), csid)) {
-                    listModel.addElement(css.find(csid).getCarShowTitle());
-                    mainMenuFrame.getCarShowOwnerList().setModel(listModel);
-                    mainMenuFrame.getCarShowOwnerListLabel()
-                            .setText(mainMenuFrame.getSelectedOwner().getFirstName() +
-                                    "'s Car Shows:");
+                    listModel.addElement("Owner ID: " +
+                            o.getOwnerId() + ", Car Show ID: " +
+                            csid + ", Title: " + css.find(csid).getCarShowTitle());
                 }
             }
+            mainMenuFrame.getCarShowOwnerList().setModel(listModel);
+            mainMenuFrame.getCarShowOwnerListLabel()
+                    .setText(mainMenuFrame.getSelectedOwner().getFirstName() +
+                            "'s Car Shows:");
         }
     }
     
@@ -266,8 +292,7 @@ public class OwnerController implements ActionListener, WindowListener {
         } else if (!regex.isNumber(ownerFrame.getNumYearsField().getText())) {
             rv = false;
             JOptionPane.showMessageDialog(ownerFrame, "Please enter a number of years");
-        } else if (regex.isZipCode(ownerFrame.getZipCodeField().getText())
-                && !ownerFrame.getZipCodeField().getText().equals("")) {
+        } else if (!regex.isZipCode(ownerFrame.getZipCodeField().getText())) {
             rv = false;
             JOptionPane.showMessageDialog(ownerFrame, "Please Enter valid zip code: Ex 21122");
         }

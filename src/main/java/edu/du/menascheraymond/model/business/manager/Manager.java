@@ -58,6 +58,7 @@ public class Manager {
             System.out.println("Error: " + e);
         }
         
+        //sets the persistance configuration
         try (FileReader reader = new FileReader("target/persistenceproperties.txt"))
         {
             persistenceConfiguration = new Properties();

@@ -68,7 +68,7 @@
                           <Component id="classificationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="insuredLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -219,17 +219,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="manufacturerLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Manufacturer"/>
+        <Property name="text" type="java.lang.String" value="Manufacturer *"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="modelYearLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Model Year"/>
+        <Property name="text" type="java.lang.String" value="Model Year *"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="modelLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Model"/>
+        <Property name="text" type="java.lang.String" value="Model *"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="subModelLabel">
